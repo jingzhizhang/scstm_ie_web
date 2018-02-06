@@ -362,6 +362,7 @@
                 width: 140px;
                 img {
                   width: 100%;
+                  height: 100%;
                   animation: swinging 30s linear 0s infinite;
                 }
               }
@@ -373,6 +374,7 @@
                 img {
                   text-align: center;
                   width: 100%;
+                  height: 100%;
                 }
               }
               .cont {
@@ -507,6 +509,7 @@
         left: 60px;
         img {
           width: 100%;
+          height: 100%;
         }
       }
     }
@@ -549,6 +552,24 @@
   }
 
   @-webkit-keyframes swinging {
+    0% {
+      -webkit-transform: scale(1);
+    }
+    10%, 20% {
+      -webkit-transform: scale(0.9) rotate(-20deg);
+    }
+    30%, 50%, 70%, 90% {
+      -webkit-transform: scale(1.2) rotate(20deg);
+    }
+    40%, 60%, 80% {
+      -webkit-transform: scale(1.2) rotate(-20deg);
+    }
+    100% {
+      -webkit-transform: scale(1) rotate(0);
+    }
+  }
+
+  @-ms-keyframes swinging {
     0% {
       -webkit-transform: scale(1);
     }

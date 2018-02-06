@@ -8,13 +8,15 @@ import store from './store'
 import iView from 'iview'
 import VueLazyLoad from 'vue-lazyload'
 import VueCookie from 'vue-cookie'
-import 'es6-promise/auto'
+import promise from 'es6-promise'
+import 'babel-polyfill'
 
 
 import 'iview/dist/styles/iview.css';
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
+promise.polyfill()
 
 Vue.use(VueLazyLoad, {
   loading: require('../static/images/loading.png'),

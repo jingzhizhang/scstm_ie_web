@@ -100,7 +100,7 @@
         line-height: 100px;
         img {
           width: 220px;
-          height: 79px;
+          height: 100%;
         }
       }
       ul {

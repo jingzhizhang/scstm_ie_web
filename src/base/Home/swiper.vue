@@ -13,7 +13,8 @@
            四川科技馆全新启幕</p>-->
       </swiper-slide>
 
-      <div class="swiper-pagination swiper-pagination-bullets" slot="pagination"></div>
+      <div class="swiper-pagination swiper-pagination-bullets" slot="pagination"
+           :style="isIE ? {bottom:'62px !important'} : ''"></div>
 
       <Icon type="ios-arrow-right" class="swiper-icon swiper-next" slot="button-next"></Icon>
       <Icon type="ios-arrow-left" class="swiper-icon swiper-prev" slot="button-prev"></Icon>
@@ -79,7 +80,20 @@
     },
 
     mounted() {
-      //console.log(this.banners)
+    },
+
+    computed: {
+      isIE() {
+        var userAgent = navigator.userAgent;
+        if (!!window.ActiveXObject || "ActiveXObject" in window)
+          return true;
+        else if (userAgent.indexOf("Edge") > -1) {
+          return true
+        }
+        else {
+          return false;
+        }
+      }
     }
   }
 </script>
@@ -150,6 +164,9 @@
   .swiper-pagination {
     bottom: 24px !important;
     z-index: 100 !important;
+    &.is_ie {
+      bottom: 62px !important;
+    }
     &:after {
       content: '';
       position: absolute;

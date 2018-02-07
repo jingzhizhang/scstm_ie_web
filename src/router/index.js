@@ -33,6 +33,7 @@ const SuccinctDetail = r => require.ensure([], () => r(require('@/components/exh
 const Exhibit = () => import('@/components/Exhibit')
 const Survey = () => import('@/components/exhibit/survey')
 const Guide = () => import('@/components/exhibit/guide')
+const GuideDetail = () => import('@/components/exhibit/guide_detail')
 const Round = () => import('@/components/exhibit/round')
 const Theater = () => import('@/components/exhibit/theater')
 const TheaterDetail = () => import('@/components/exhibit/theater_detail')
@@ -105,7 +106,7 @@ const My_book = () => import('@/components/user_center/my_book')
 const Manage = () => import('@/components/user_center/manage')
 
 export default new Router({
-  mode:"history",
+  mode: "history",
   routes: [
     {
       path: '/',
@@ -153,6 +154,12 @@ export default new Router({
           name: '楼层导览',
           component: Guide,
           meta: ['常设展览', '楼层导览'],
+        },
+        {
+          path: 'guide-detail',
+          name: '导览详情',
+          component: GuideDetail,
+          meta: ['常设展览', '楼层导览']
         },
         {
           path: 'round',

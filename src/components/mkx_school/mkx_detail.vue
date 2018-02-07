@@ -212,6 +212,7 @@
         padding: 30px 20px;
         color: #596781;
         text-indent: 2em;
+        background: #fff;
       }
     }
   }

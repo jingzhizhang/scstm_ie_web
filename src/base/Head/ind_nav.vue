@@ -104,7 +104,7 @@
         }
         img {
           width: 220px;
-          height: 100%;
+          height: 79px;
         }
       }
       ul {

@@ -12,7 +12,7 @@
           <type-list :type_list="activities" title="精选学院" :isCheckBox="true" @toggle="handleAct"></type-list>
         </div>
         <div class="lists">
-          <mkx-item v-if="courseList"
+          <mkx-item v-if="courseList.data"
                       v-for="(item,index) in courseList.data"
                       :key="index"
                       :data="item">
@@ -23,7 +23,7 @@
                     :page="page"
                     @handleChange="handlePage">
         </Pagination>
-        <no-data v-if="!courseList.length"></no-data>
+        <no-data v-if="!courseList.data"></no-data>
       </div>
     </bg>
   </div>

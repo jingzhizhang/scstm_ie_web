@@ -16,13 +16,13 @@
       <div class="item">
         <p class="title">游客服务</p>
         <router-link to="/visit_serve/notice">新闻公告</router-link>
-        <router-link to="/" style="cursor: not-allowed">反馈建议</router-link>
+        <a href="http://www.scstm.com/help/complan" target="_blank">反馈建议</a>
       </div>
       <div class="item" style="width: 250px">
         <p class="title" style="margin-bottom: 15px;">相关链接</p>
         <Select filterable placeholder="四川省自然科学博物馆">
           <Option v-for="(item,index) in options" :value="item.value" :key="index">
-            <a href="/index" target="_blank">{{ item.label }}</a>
+            <a :href="item.href" target="_blank">{{ item.label }}</a>
           </Option>
         </Select>
       </div>
@@ -174,17 +174,17 @@
         &:last-child {
           margin-right: 0;
         }
-        .ivu-select-dropdown{
-          max-height:126px;
-          .ivu-select-dropdown-list{
-            .ivu-select-item-selected{
-              a{
+        .ivu-select-dropdown {
+          max-height: 126px;
+          .ivu-select-dropdown-list {
+            .ivu-select-item-selected {
+              a {
                 color: #fff;
               }
             }
-            .ivu-select-item{
+            .ivu-select-item {
               padding: 0;
-              a{
+              a {
                 padding: 7px;
               }
             }

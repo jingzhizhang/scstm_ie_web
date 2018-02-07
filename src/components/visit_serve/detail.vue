@@ -22,7 +22,7 @@
             <h2 class="news-title">{{$route.query.typeId === 1 ? '热门新闻' : '热门公告'}}</h2>
             <router-link to="/visit_serve/notice" class="more">更多</router-link>
           </div>
-          <ul class="lists-con clearfix">
+          <ul class="lists-con clearfix" v-if="hotList.data">
             <li v-for="(item,index) in hotList.data">
               <router-link :to="{path:'/visit_serve/detail',query:{id:item.id,typeId:$route.query.typeId}}"
                            class="n-title">
@@ -31,6 +31,7 @@
               <span class="n-time">{{item.addtime}}</span>
             </li>
           </ul>
+          <no-data v-if="!hotList.data"></no-data>
         </div>
       </div>
     </bg>
@@ -41,12 +42,14 @@
   import {getBannerMixin} from '@/public/js/mixin'
   import {getAjax} from '@/public/js/config'
   import Bg from '@/base/bg'
+  import NoData from '@/base/no-data'
 
   export default {
     mixins: [getBannerMixin],
     components: {
       Banner,
-      Bg
+      Bg,
+      NoData
     },
     data() {
       return {

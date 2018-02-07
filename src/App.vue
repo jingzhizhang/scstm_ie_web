@@ -80,7 +80,6 @@
         const url = 'api/thetail'
         getAjax(url, {},
           (res) => {
-            //console.log(res)
             this.foot = res
           }, (err) => {
             console.log(err)

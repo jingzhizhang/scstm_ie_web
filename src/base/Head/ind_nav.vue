@@ -98,6 +98,10 @@
     .nav-con {
       .logo {
         line-height: 100px;
+        a{
+          display: block;
+          height:100%;
+        }
         img {
           width: 220px;
           height: 100%;

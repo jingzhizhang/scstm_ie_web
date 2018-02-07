@@ -42,7 +42,7 @@
         navBar: [
           {title: '参观路线', id: 1},
           {title: '交通信息', id: 2},
-          {title: '购票', id: 3, href: ''},
+          {title: '购票', id: 3, href: 'http://ticket.scstm.com/Book/OrderInfo.aspx'},
         ],
         navs: [
           {

@@ -60,7 +60,7 @@
           </div>
         </div>
         <div class="wrap-right">
-          <div class="r-top wow fadeInUp"  data-wow-duration="3s" data-wow-delay=".2s">
+          <div class="r-top wow fadeInUp" data-wow-duration="3s" data-wow-delay=".2s">
             <ul class="clearfix">
               <li v-for="(item,index) in gudies" :key="index" :style="{background:'url('+item.bg+')'}">
                 <router-link :to="item.href">
@@ -123,8 +123,8 @@
             </div>
           </div>
         </div>
-        <div class="mask-img wow fadeInUp"  data-wow-duration="3s" data-wow-delay=".8s">
-          <img src="../assets/home_mask.png"/>
+        <div class="mask-img wow fadeInUp" data-wow-duration="3s" data-wow-delay=".8s">
+          <img :src="homeData.latest"/>
         </div>
       </div>
     </bg>

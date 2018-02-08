@@ -370,6 +370,7 @@
           width: 100%;
           height: 300px;
           margin-bottom: 26px;
+          overflow: hidden;
           ul {
             li {
               float: left;
@@ -430,6 +431,7 @@
           padding: 30px 40px 20px 40px;
           background: url("../assets/notice_bg.png") no-repeat;
           background-size: cover;
+          overflow: hidden;
           .t-title {
             font-size: 24px;
             color: #fff;
@@ -529,21 +531,27 @@
             ul {
               margin-top: 5px;
               li {
-                padding: 15px 0;
+                padding: 15px 0 10px 0;
                 border-bottom: 1px dashed rgba(255, 255, 255, .8);
                 color: #fff;
                 span {
                   float: right;
                   font-size: 14px;
+                  line-height: 25px;
+                  display: inline-block;
+                  vertical-align: middle;
                 }
                 a {
                   color: #fff;
                   font-size: 17px;
+                  height: 25px;
+                  line-height: 25px;
                   width: 330px;
                   display: inline-block;
                   overflow: hidden;
                   text-overflow: ellipsis;
                   white-space: nowrap;
+                  vertical-align: middle;
                 }
                 &:last-child {
                   border-bottom: none;

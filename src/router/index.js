@@ -248,20 +248,20 @@ export default new Router({
     },
     {
       path: '/mkx_school',
-      name: '美科星未来学院',
+      name: '美科新未来学院',
       component: Mkx_school,
-      meta: ['美科星未来学院'],
+      meta: ['美科新未来学院'],
       children: [
         {
           path: 'school_course',
           component: School_course,
-          meta: ['美科星未来学院', '学院课程']
+          meta: ['美科新未来学院', '学院课程']
         },
         {
           path: 'mkx_detail',
           component: Mkx_detail,
           name: '美科星详情',
-          meta: ['美科星未来学院', '学院课程']
+          meta: ['美科新未来学院', '学院课程']
         }
       ]
     },

@@ -76,17 +76,31 @@
             </ul>
           </div>
           <div class="r-bottom wow fadeInUp" data-wow-duration="3s" data-wow-delay=".3s">
-            <p class="t-title">开闭馆时间</p>
-            <div class="time-group" v-if="homeData.time">
-              <p class="time-item">
-                <span class="time">{{homeData.time.time_sta}}</span>
-                <span class="txt">开始售票</span>
-              </p>
-              <p class="and">~</p>
-              <p class="time-item">
-                <span class="time">{{homeData.time.time_end}}</span>
-                <span class="txt">闭馆时间</span>
-              </p>
+            <div class="start-time" v-if="homeData.is_acc==1">
+              <p class="t-title">开闭馆时间</p>
+              <div class="time-group" v-if="homeData.time">
+                <p class="time-item">
+                  <span class="time">{{homeData.time.time_sta}}</span>
+                  <span class="txt">开始售票</span>
+                </p>
+                <p class="and">~</p>
+                <p class="time-item">
+                  <span class="time">{{homeData.time.time_end}}</span>
+                  <span class="txt">闭馆时间</span>
+                </p>
+              </div>
+            </div>
+            <div class="new-notice" v-if="homeData.is_acc==2">
+              <p class="t-title">临时公告</p>
+              <div class="notice-info">
+                <vue-seam-less :data="homeData.advert" :class-option="optionLeft" class="seamless-warp2">
+                  <ul class="item">
+                    <li v-for="(item,index) in homeData.advert" :key="index">
+                      {{item}}
+                    </li>
+                  </ul>
+                </vue-seam-less>
+              </div>
             </div>
             <div class="notice">
               <div class="n-title clearfix">
@@ -136,12 +150,14 @@
   import Swiper from '@/base/Home/swiper'
   import {Icon} from 'iview'
   import Bg from '@/base/bg'
+  import vueSeamLess from 'vue-seamless-scroll'
 
   export default {
     components: {
       Swiper,
       Icon,
-      Bg
+      Bg,
+      vueSeamLess
     },
     data() {
       return {
@@ -171,6 +187,14 @@
         ],
         tabs: ['公告', '新闻'],
         current: 0
+      }
+    },
+    computed: {
+      optionLeft() {
+        return {
+          direction: 2,
+          limitMoveNum: 1
+        }
       }
     },
     created() {
@@ -409,9 +433,9 @@
           .t-title {
             font-size: 24px;
             color: #fff;
+            margin-bottom: 25px;
           }
           .time-group {
-            margin-top: 25px;
             .time-item {
               background: rgba(255, 255, 255, .3);
               border: 1px solid #fff;
@@ -438,6 +462,33 @@
               color: #fff;
               font-size: 40px;
               margin: 0 10px;
+            }
+          }
+          .notice-info {
+            background: rgba(255, 255, 255, .3);
+            border: 1px solid #fff;
+            padding: 9px 9px;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            color: #fff;
+            display: inline-block;
+            vertical-align: middle;
+            text-align: center;
+            width: 100%;
+            .seamless-warp2 {
+              overflow: hidden;
+              height: 40px;
+              width: 100%;
+              line-height: 40px;
+              ul.item {
+                width: 580px;
+                li {
+                  float: left;
+                  margin-right: 10px;
+                  font-size: 20px;
+                }
+              }
             }
           }
           .notice {

@@ -71,6 +71,9 @@
         width: 645px;
         .a-title{
           position: relative;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
           .info-title {
             font-size: 22px;
             margin-bottom: 5px;

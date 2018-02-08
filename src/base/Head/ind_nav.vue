@@ -65,7 +65,7 @@
           {
             icon: '../static/images/header/icon_mkx.png',
             href: '/mkx_school/school_course',
-            title: '美科星未来学院',
+            title: '美科新未来学院',
             className: 'mkx'
           },
           {

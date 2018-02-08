@@ -124,7 +124,7 @@
         current: 0,
         navBar: [
           {title: '教育活动', id: 1},
-          {title: '美科星未来学院', id: 2},
+          {title: '美科新未来学院', id: 2},
           {title: '影院剧场', id: 3},
           {title: '临时展览', id: 4},
         ],

@@ -8,7 +8,7 @@
             <img src="../assets/mkx_bg.jpg"/>
             <div class="news mkx-news">
               <div class="title clearfix">
-                <h2>美科星学院</h2>
+                <h2>美科新学院</h2>
                 <router-link to='/mkx_school/school_course'>
                 <span>
                   <Icon type="ios-arrow-right"></Icon>
@@ -22,7 +22,7 @@
                       <span class="day">30</span>
                       <span class="month">2017.10</span>
                     </p>-->
-                    <router-link to="/" class="info">
+                    <router-link :to="{path:'/mkx_school/mkx_detail',query:{id:item.id}}" class="info">
                       <span class="info-title">{{item.title}}</span>
                       <span class="intr">{{item.introduce}}</span>
                     </router-link>

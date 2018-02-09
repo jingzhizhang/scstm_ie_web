@@ -166,6 +166,7 @@
           -webkit-border-radius: 2px;
           -moz-border-radius: 2px;
           border-radius: 2px;
+          height: 100%;
         }
         .ewm-txt {
           font-size: 14px;

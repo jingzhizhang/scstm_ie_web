@@ -9,13 +9,14 @@
       <div class="act-con">
         <div class="type_list">
           <type-list :type_list="crowds" title="面向人群" :isCheckBox="true" @toggle="handleCrowds"></type-list>
+          <type-list :type_list="contentForm" title="内容形式" :isCheckBox="true" @toggle="handleContent"></type-list>
           <type-list :type_list="activities" title="精选学院" :isCheckBox="true" @toggle="handleAct"></type-list>
         </div>
         <div class="lists">
           <mkx-item v-if="courseList.data"
-                      v-for="(item,index) in courseList.data"
-                      :key="index"
-                      :data="item">
+                    v-for="(item,index) in courseList.data"
+                    :key="index"
+                    :data="item">
           </mkx-item>
         </div>
         <Pagination v-if="courseList.total"
@@ -52,8 +53,10 @@
       return {
         crowds: [],
         activities: [],
+        contentForm: [], //内容形式
         crowdId: [],  //面向人群id
         actId: [],    //活动类型id
+        contentFormId: [], //内容形式id
         page: 1,
         courseList: '',
         navs: [
@@ -71,6 +74,7 @@
       this.getCrowdList()
       this.getActList()
       this.getCourseList()
+      this.getContentList()
     },
     methods: {
       /**
@@ -97,6 +101,20 @@
             console.log(err)
           }, this)
       },
+
+      /**
+       * 获取内容形式列表
+       */
+      getContentList() {
+        const url = 'api/listfutureclash'
+        getAjax(url, {},
+          res => {
+            this.contentForm = res.data
+          }, err => {
+            console.log(err)
+          }, this)
+      },
+
       /**
        * 获取学院课程列表
        */
@@ -106,6 +124,7 @@
             page: this.page,
             clas_p: this.crowdId,
             clas_h: this.actId,
+            clas_c: this.contentFormId
           },
           res => {
             this.courseList = res.data
@@ -129,6 +148,15 @@
        */
       handleCrowds(id) {
         this.crowdId = id
+        this.page = 1
+        this.getCourseList()
+      },
+      /**
+       * 获取子组件内容形式id
+       * @param id
+       */
+      handleContent(id) {
+        this.contentFormId = id
         this.page = 1
         this.getCourseList()
       },

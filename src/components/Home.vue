@@ -22,7 +22,7 @@
                       <span class="day">30</span>
                       <span class="month">2017.10</span>
                     </p>-->
-                    <router-link :to="{path:'/mkx_school/mkx_detail',query:{id:item.id}}" class="info">
+                    <router-link target="_blank" :to="{path:'/mkx_school/mkx_detail',query:{id:item.id}}" class="info">
                       <span class="info-title">{{item.title}}</span>
                       <span class="intr">{{item.introduce}}</span>
                     </router-link>
@@ -49,7 +49,7 @@
                       <span class="day">30</span>
                       <span class="month">2017.10</span>
                     </p>-->
-                    <router-link :to="{path:'/edu_activity/course_detail',query:{id:item.id}}" class="info">
+                    <router-link target="_blank" :to="{path:'/edu_activity/course_detail',query:{id:item.id}}" class="info">
                       <span class="info-title">{{item.title}}</span>
                       <span class="intr">{{item.introduce}}</span>
                     </router-link>
@@ -63,7 +63,7 @@
           <div class="r-top wow fadeInUp" data-wow-duration="3s" data-wow-delay=".2s">
             <ul class="clearfix">
               <li v-for="(item,index) in gudies" :key="index" :style="{background:'url('+item.bg+')'}">
-                <router-link :to="item.href">
+                <router-link target="_blank" :to="item.href">
                   <div class="bg">
                     <img :src="item.rotateBg"/>
                   </div>
@@ -120,7 +120,7 @@
               </div>
               <ul class="clearfix" v-if="current===0">
                 <li v-for="(item,index) in homeData.inform" :key="index">
-                  <router-link :to="{path:'/visit_serve/detail',query:{id:item.id,typeId:2}}">
+                  <router-link target="_blank" :to="{path:'/visit_serve/detail',query:{id:item.id,typeId:2}}">
                     {{item.title}}
                   </router-link>
                   <span>{{item.addtime}}</span>

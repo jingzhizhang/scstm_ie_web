@@ -4,7 +4,7 @@
       <span class="day">{{dateStr.slice(-2)}}</span>
       <span class="month">{{dateStr.slice(0, -3)}}</span>
     </p>
-    <router-link :to="{path:'/patch/flow-detail',query:{id:data.id}}" class="info">
+    <router-link target="_blank" :to="{path:'/patch/flow-detail',query:{id:data.id}}" class="info">
       <span class="info-title">{{data.title}}</span>
       <span
         class="intr">{{data.introduce}}</span>

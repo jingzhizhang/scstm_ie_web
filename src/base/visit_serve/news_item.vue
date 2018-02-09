@@ -4,7 +4,7 @@
       <span class="day">{{dateStr.slice(-2)}}</span>
       <span class="month">{{dateStr.slice(0, -3)}}</span>
     </p>
-    <router-link :to="{path:'/visit_serve/detail',query:{id:data.id,typeId:typeId}}" class="info">
+    <router-link target="_blank" :to="{path:'/visit_serve/detail',query:{id:data.id,typeId:typeId}}" class="info">
       <div class="a-title">
         <span class="info-title">{{data.title}}</span>
         <img src="../../assets/top.png" v-if="data.up===1" class="icon-type"/>
@@ -69,7 +69,7 @@
         vertical-align: middle;
         color: #fff;
         width: 645px;
-        .a-title{
+        .a-title {
           position: relative;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -85,7 +85,7 @@
             display: inline-block;
             vertical-align: middle;
           }
-          .icon-type{
+          .icon-type {
             width: 60px;
             display: inline-block;
             vertical-align: middle;

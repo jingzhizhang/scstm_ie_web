@@ -106,7 +106,7 @@
        * 获取内容形式列表
        */
       getContentList() {
-        const url = 'api/listfutureclash'
+        const url = 'api/listfutureclasc'
         getAjax(url, {},
           res => {
             this.contentForm = res.data

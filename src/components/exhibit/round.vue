@@ -7,7 +7,8 @@
       @handleClick="getBanner"/>
     <bg>
       <div class="round">
-        <iframe class="round-map" src="http://720yun.com/t/12a27jOuc1r" frameborder="no"/>
+        <!--<iframe class="round-map" src="http://720yun.com/t/12a27jOuc1r" frameborder="no"/>-->
+        <expect></expect>
       </div>
     </bg>
   </div>
@@ -16,12 +17,14 @@
   import Banner from '@/base/banner'
   import {getBannerMixin} from '@/public/js/mixin'
   import Bg from '@/base/bg'
+  import Expect from '@/base/expect.vue'
 
   export default {
     mixins: [getBannerMixin],
     components: {
       Banner,
-      Bg
+      Bg,
+      Expect
     },
     data() {
       return {

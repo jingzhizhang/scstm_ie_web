@@ -256,7 +256,7 @@
           .grad{
             font-size: 16px;
             color: #333;
-            padding-bottom: 8px;
+            padding-bottom: 4px;
             border-bottom: 3px solid #00c3fa;
             margin-bottom: 40px;
             display: inline-block;

@@ -21,6 +21,9 @@
     data() {
       return {}
     },
+    updated(){
+      window.scrollTo(0,708)
+    },
     methods: {
       handleChange(page) {
         this.$emit('handleChange', page)

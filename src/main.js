@@ -36,6 +36,7 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach(route => {
+  window.scrollTo(0,0);
   store.dispatch('set_loading_state', false)
   iView.LoadingBar.finish();
 });

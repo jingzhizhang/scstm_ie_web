@@ -33,10 +33,11 @@
     data() {
       return {
         navBar: [
-          {title: '个人预约', id: 1},
-          {title: '团队预约', id: 2, href: 'http://ticket.scstm.com/Member/Login.aspx?RedirectUrl=/Book/OrderInfoForGroups.aspx'},
-          {title: '个人预约查询', id: 3, href: 'http://ticket.scstm.com/Book/OrderQueryPersonal.aspx'},
-          {title: '团队预约查询', id: 4, href: 'http://ticket.scstm.com/Member/Login.aspx?RedirectUrl=/Book/OrderInfoForGroups.aspx'},
+          {title: '参观咨询', id: 1},
+          {title: '个人预约', id: 2, href: 'http://ticket.scstm.com/Book/OrderInfo.aspx'},
+          {title: '团队预约', id: 3, href: 'http://ticket.scstm.com/Member/Login.aspx?RedirectUrl=/Book/OrderInfoForGroups.aspx'},
+          {title: '个人预约查询', id: 4, href: 'http://ticket.scstm.com/Book/OrderQueryPersonal.aspx'},
+          {title: '团队预约查询', id: 5, href: 'http://ticket.scstm.com/Member/Login.aspx?RedirectUrl=/Book/OrderInfoForGroups.aspx'},
         ],
         navs: [
           {

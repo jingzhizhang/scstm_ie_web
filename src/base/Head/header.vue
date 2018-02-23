@@ -2,7 +2,7 @@
   <div class="header">
     <div class="layout header-con clearfix">
       <p class="notice">
-        当瞬时在关人数达到5700人时，我馆将采取限流措施，请予理解配合
+        当瞬时在观人数达到5700人时，我馆将采取限流措施，请予理解配合
       </p>
       <ul class="sign" v-if="!token">
         <li>

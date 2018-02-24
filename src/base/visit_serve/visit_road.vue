@@ -57,12 +57,12 @@
         text-align: center;
         display: inline-block;
         vertical-align: middle;
-        max-width: 100px;
+        max-width: 140px;
         cursor: pointer;
         margin-right: 60px;
         position: relative;
         .head-img {
-          width: 100%;
+          width: 117px;
           border-radius: 50%;
         }
         p {

@@ -81,7 +81,7 @@
             phone: _this.phones.phone_team
           },
           {
-            title: '美科星咨询电话',
+            title: '美科新咨询电话',
             phone: _this.phones.phone_consulting
           },
           {

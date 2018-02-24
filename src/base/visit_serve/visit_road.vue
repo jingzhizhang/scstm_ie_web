@@ -64,6 +64,7 @@
         .head-img {
           width: 117px;
           border-radius: 50%;
+          transition: all .3s;
         }
         p {
           font-size: 16px;
@@ -72,7 +73,7 @@
         }
         &.active {
           .head-img {
-            border: 1px solid #00d0fb;
+            box-shadow: 0 0 10px #000;
           }
           p {
             color: #00d0fb;

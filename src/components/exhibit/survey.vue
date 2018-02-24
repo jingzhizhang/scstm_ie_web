@@ -242,7 +242,7 @@
                 font-size: 18px;
                 color: #fff;
                 text-align: center;
-                padding: 8px;
+                padding: 5px;
               }
             }
             &:last-child {

@@ -12,18 +12,42 @@
           <p class="clearfix">
             <span class="con-button">乘地铁</span>
             换乘 / 乘坐
-            <spanc class="orange">1号线</spanc>
+            <span class="orange">1号线</span>
             到天府广场站下
           </p>
           <p class="clearfix">
             <span class="con-button">乘公交</span>
             天府广场公交站：16、45、53、61、64、机场专线2号线&nbsp;&nbsp;&nbsp;&nbsp;西御街公交站：13、30、47、51、64、78&nbsp;&nbsp;&nbsp;&nbsp;东御街公交站：47、51、62、104、334
           </p>
-          <div class="con-tit" style="padding-bottom: 0">机场方向</div>
-          <div class="con-tit" style="padding-bottom: 0">火车站方向</div>
+          <div class="con-tit">机场方向</div>
+          <p class="clearfix">
+            <span class="con-button">乘地铁</span>
+            ［43分钟］地铁
+            <span class="orange">10号线</span>
+            → 地铁
+            <span class="orange">3号线</span>
+            → 地铁
+            <span class="orange">1号线</span>
+            天府广场站（F出口）下车
+          </p>
+          <p class="clearfix">
+            <span class="con-button">乘公交</span>
+            ［1小时7分钟］机场专线 <span class="orange">2号线</span> ,  天府广场站下车
+          </p>
+          <div class="con-tit">火车站方向</div>
+          <div class="con-tit-sm">［火车东站］</div>
+          <p class="clearfix">
+            <span class="con-button">乘地铁</span>
+            ［32分钟］地铁 <span class="orange">2号线</span> , 天府广场站（F出口）下车
+          </p>
+          <div class="con-tit-sm" style="margin-top: 10px">［火车北站］</div>
+          <p class="clearfix">
+            <span class="con-button">乘地铁</span>
+            ［19分钟］ 地铁 <span class="orange">2号线</span> , 天府广场站（F出口）下车
+          </p>
         </div>
       </div>
-      <div class="traffic-item">
+      <!--<div class="traffic-item">
         <p class="title" style="margin-bottom: 30px">停车信息</p>
         <div class="traffic-con">
           <p>四川科技馆停车场位于科技馆2号门出入口外，分设两个区域，总面积约为1280平方米。泊车方便，可停放各类型的车辆</p>
@@ -86,7 +110,7 @@
             </table>
           </div>
         </div>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
@@ -156,6 +180,12 @@
             padding-left: 20px;
             margin-top: 30px;
             padding-bottom: 30px;
+          }
+          .con-tit-sm{
+            font-size: 20px;
+            color: #333;
+            padding-left: 20px;
+            padding-bottom: 20px;
           }
           p{
             text-indent: 0;

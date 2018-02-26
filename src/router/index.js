@@ -105,6 +105,9 @@ const Setting = () => import('@/components/user_center/setting')
 const My_book = () => import('@/components/user_center/my_book')
 const Manage = () => import('@/components/user_center/manage')
 
+const Questions = () => import('@/components/Questions')
+const Question = () => import('@/components/questions/question')
+
 export default new Router({
   mode: "history",
   routes: [
@@ -336,6 +339,19 @@ export default new Router({
           name: '我的预约',
           component: My_book,
           meta: ['个人中心', '我的预约'],
+        }
+      ]
+    },
+    {
+      path: '/questions',
+      name: '咨询问答',
+      component: Questions,
+      children: [
+        {
+          path:'answers',
+          name:'问题回答',
+          component:Question,
+          meta:['咨询问答','问题回答']
         }
       ]
     }

@@ -568,19 +568,21 @@
               border-radius: 50%;
               overflow: hidden;
               display: inline-block;
-              vertical-align: middle;
+              vertical-align: top;
               margin-right: 15px;
+              margin-top: 6px;
               img {
                 width: 100%;
               }
             }
             .txt {
               display: inline-block;
-              vertical-align: middle;
+              vertical-align: top;
               font-size: 15px;
               width: 1000px;
               text-align: justify;
               margin-top: 6px;
+              line-height: 26px;
             }
           }
           .result {

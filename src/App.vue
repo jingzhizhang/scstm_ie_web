@@ -93,13 +93,13 @@
         const url = 'api/out'
         getAjax(url, {},
           (res) => {
-            localStorage.removeItem('login')
-            localStorage.removeItem('token')
+            sessionStorage.removeItem('login')
+            sessionStorage.removeItem('token')
             window.location.href = '/'
           }, (err) => {
             if (err.status === 401) {
-              localStorage.removeItem('login')
-              localStorage.removeItem('token')
+              sessionStorage.removeItem('login')
+              sessionStorage.removeItem('token')
               window.location.href = '/'
             }
           }, this)

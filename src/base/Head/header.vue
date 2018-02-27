@@ -33,10 +33,10 @@
     },
     computed: {
       user_phone() {
-        return localStorage.getItem('login')
+        return sessionStorage.getItem('login')
       },
       token(){
-        return localStorage.getItem('token')
+        return sessionStorage.getItem('token')
       }
     },
     methods: {

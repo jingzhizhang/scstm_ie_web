@@ -134,8 +134,8 @@
           password: this.password.value
         }, (res) => {
           if (res.status === 0) {
-            localStorage.setItem('token', res.data)
-            localStorage.setItem('login', this.phone.value)
+            sessionStorage.setItem('token', res.data)
+            sessionStorage.setItem('login', this.phone.value)
             if (this.$refs.checkbox.checked) {
               this.$cookie.set('phone', this.phone.value, 7)
               this.$cookie.set('password', this.password.value, 7)

@@ -16,9 +16,11 @@ import 'iview/dist/styles/iview.css';
 
 Vue.config.productionTip = false
 //屏蔽所有控制台错误
-Vue.config.errorHandler = (err, vm, info) => {}
+Vue.config.errorHandler = (err, vm, info) => {
+}
 
 Vue.prototype.$http = axios
+Vue.use(iView);
 promise.polyfill()
 
 Vue.use(VueLazyLoad, {
@@ -36,7 +38,7 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach(route => {
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
   store.dispatch('set_loading_state', false)
   iView.LoadingBar.finish();
 });

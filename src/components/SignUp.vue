@@ -236,7 +236,6 @@
           password: this.password.value
         }, (res) => {
           if (res.status === 0) {
-            console.log(res)
             this.$router.push('/signIn')
           } else {
             const obj = res.interpret

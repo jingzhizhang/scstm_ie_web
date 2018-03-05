@@ -105,8 +105,8 @@ const Setting = () => import('@/components/user_center/setting')
 const My_book = () => import('@/components/user_center/my_book')
 const Manage = () => import('@/components/user_center/manage')
 
-const Questions = () => import('@/components/Questions')
-const Question = () => import('@/components/questions/question')
+//const Questions = () => import('@/components/Questions')
+//const Question = () => import('@/components/questions/question')
 
 export default new Router({
   mode: "history",
@@ -342,7 +342,7 @@ export default new Router({
         }
       ]
     },
-    {
+    /*{
       path: '/questions',
       name: '咨询问答',
       component: Questions,
@@ -354,6 +354,6 @@ export default new Router({
           meta:['咨询问答','问题回答']
         }
       ]
-    }
+    }*/
   ]
 })

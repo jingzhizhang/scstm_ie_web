@@ -55,8 +55,11 @@
           .endOf('month')
           .format('YYYY-MM-DD')
 
-
-        this.count = moment(start).format("E")
+        if (moment(start).format("E") >= 7) {
+          this.count = 7 - moment(start).format("E")
+        }else {
+          this.count = moment(start).format("E")
+        }
 
         for (let i = 1; i < parseInt(end.slice(-2)); i++) {
           const date = moment(start).add(i, 'day').format('YYYY-MM-DD')

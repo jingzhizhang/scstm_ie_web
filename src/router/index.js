@@ -238,6 +238,7 @@ export default new Router({
       children: [
         {
           path: 'all_course',
+          name:'全部课程',
           component: All_course,
           meta: ['教育活动', '全部课程']
         },
@@ -257,6 +258,7 @@ export default new Router({
       children: [
         {
           path: 'school_course',
+          name:'学院课程',
           component: School_course,
           meta: ['美科新未来学院', '学院课程']
         },

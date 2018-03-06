@@ -25,7 +25,7 @@
           <nav-bar :navBar="navBar"
                    @handleClick="handleTypeClick">
           </nav-bar>
-          <p class="total">所有活动 （共10个活动）</p>
+          <p class="total">所有活动 （共{{listData.count ? listData.count : 0}}个活动）</p>
           <div class="activity-con" v-if="listData.data">
             <div class="activity_list">
               <edu-item v-if="type===1"

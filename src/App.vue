@@ -108,6 +108,7 @@
     watch: {
       "$route"(to, from) {
         this.pathname = to.meta[0]
+        document.title = to.name + ' - 四川科技馆'
       }
     }
   }

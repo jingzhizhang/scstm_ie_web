@@ -2,7 +2,7 @@
   <div class="sign-bg">
     <div class="logo clearfix">
       <router-link to="/">
-        <img src="../assets/scstm-logo.png"/>
+        <img :src="logo"/>
       </router-link>
     </div>
     <div class="sign-con">
@@ -11,9 +11,30 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
+  import {getAjax} from '@/public/js/config'
   export default {
     data() {
-      return {}
+      return {
+        logo: '',
+      }
+    },
+    created() {
+      this.getLogoData()
+    },
+    methods:{
+      /**
+       * 获取logo
+       */
+      getLogoData() {
+        const url = 'api/logo'
+        getAjax(url, {},
+          (res) => {
+            //console.log(res)
+            this.logo = res.data.logo
+          }, (err) => {
+            console.log(err)
+          }, this)
+      },
     }
   }
 </script>

@@ -210,6 +210,7 @@ export default new Router({
         {
           path: 'patch_info',
           component: Patch_info,
+          name: '临展信息',
           meta: ['临展信息', '临时展览'],
         },
         {
@@ -221,6 +222,7 @@ export default new Router({
         {
           path: 'flow_science',
           component: Flow_science,
+          name: '流动科技馆',
           meta: ['临展信息', '流动科技馆']
         },
         {

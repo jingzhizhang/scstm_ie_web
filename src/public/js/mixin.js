@@ -20,7 +20,9 @@ export const getBannerMixin = {
         (res) => {
           this.banner = res.data.banner
         }, (err) => {
-          console.log(err)
+          if (err.status === 500) {
+            this.banner = '../static/images/mkx_bg.jpg'
+          }
         }, this)
     }
   }

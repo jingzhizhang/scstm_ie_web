@@ -20,6 +20,7 @@ Vue.config.errorHandler = (err, vm, info) => {
 }
 
 Vue.prototype.$http = axios
+
 Vue.use(iView);
 promise.polyfill()
 

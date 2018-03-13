@@ -71,6 +71,9 @@
         font-size: 28px;
         color: #333;
         margin-bottom: 15px;
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
         a {
           color: #333;
           &:hover {

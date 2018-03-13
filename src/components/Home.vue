@@ -63,7 +63,7 @@
           <div class="r-top wow fadeInUp" data-wow-duration="3s" data-wow-delay=".2s">
             <ul class="clearfix">
               <li v-for="(item,index) in gudies" :key="index" :style="{background:'url('+item.bg+')'}">
-                <router-link target="_blank" :to="item.href">
+                <a target="_blank" :href="item.href">
                   <div class="bg">
                     <img :src="item.rotateBg"/>
                   </div>
@@ -71,7 +71,7 @@
                     <h3>{{item.title}}</h3>
                     <p>{{item.intr}}</p>
                   </div>
-                </router-link>
+                </a>
               </li>
             </ul>
           </div>
@@ -166,7 +166,7 @@
           {
             bg: '../static/images/guide_bg1.png',
             rotateBg: '../static/images/guide_item1.png',
-            href: '/',
+            href: 'http://ticket.scstm.com/Book/OrderInfo.aspx',
             title: '在线预约',
             intr: '贴心的票务服务，让您省时省力更省心'
           },

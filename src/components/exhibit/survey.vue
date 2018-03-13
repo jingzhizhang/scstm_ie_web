@@ -202,10 +202,10 @@
         width: 1200px;
         margin: auto;
         .txt {
-          font-size: 14px;
+          font-size: 18px;
           color: #666;
           letter-spacing: 2px;
-          line-height: 25px;
+          line-height: 30px;
           text-indent: 2em;
           text-align: justify;
         }
@@ -286,9 +286,9 @@
               p{
                 padding: 30px 45px;
                 color: #fff;
-                font-size: 15px;
+                font-size: 18px;
                 text-align: justify;
-                line-height: 25px;
+                line-height: 30px;
                 letter-spacing: 4px;
               }
             }

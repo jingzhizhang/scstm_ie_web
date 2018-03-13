@@ -19,7 +19,7 @@
         </div>
         <div class="news-lists">
           <div class="news-head clearfix">
-            <h2 class="news-title">{{$route.query.typeId === 1 ? '热门新闻' : '热门公告'}}</h2>
+            <h2 class="news-title">{{$route.query.typeId == 1 ? '热门新闻' : '热门公告'}}</h2>
             <router-link to="/visit_serve/notice" class="more">更多</router-link>
           </div>
           <ul class="lists-con clearfix" v-if="hotList.data">

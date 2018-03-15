@@ -81,7 +81,7 @@
               <div class="time-group" v-if="homeData.time">
                 <p class="time-item">
                   <span class="time">{{homeData.time.time_sta}}</span>
-                  <span class="txt">开始售票</span>
+                  <span class="txt">开馆时间</span>
                 </p>
                 <p class="and">~</p>
                 <p class="time-item">

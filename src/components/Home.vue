@@ -49,7 +49,8 @@
                       <span class="day">30</span>
                       <span class="month">2017.10</span>
                     </p>-->
-                    <router-link target="_blank" :to="{path:'/edu_activity/course_detail',query:{id:item.id}}" class="info">
+                    <router-link target="_blank" :to="{path:'/edu_activity/course_detail',query:{id:item.id}}"
+                                 class="info">
                       <span class="info-title">{{item.title}}</span>
                       <span class="intr">{{item.introduce}}</span>
                     </router-link>

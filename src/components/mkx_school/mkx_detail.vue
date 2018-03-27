@@ -25,7 +25,7 @@
             </p>
             <p class="m-time">
               <Icon type="ios-timer-outline" class="time"></Icon>
-              {{mkxDetail.data.time}}
+              {{mkxDetail.data.activity_time}}
             </p>
             <p class="intr">
               简介：{{mkxDetail.data.introduce}}

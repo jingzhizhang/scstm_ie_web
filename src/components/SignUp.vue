@@ -49,6 +49,7 @@
                  placeholder="图片验证码"
                  class="captcha"
                  name="captcha"
+                 maxlength="4"
                  @input="verifyImgCode()"
                  v-model="imgCode.value"
                  autocomplete="new-password"/>
@@ -296,7 +297,7 @@
             this.isCount = true
             this.countDown()
           } else {
-            this.imgCode.error = res.interpret
+            this.imgCode.error = res.interpret.code
           }
         }, (err) => {
           console.log(err)

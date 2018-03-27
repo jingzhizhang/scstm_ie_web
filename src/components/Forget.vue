@@ -48,6 +48,7 @@
           <input type="text"
                  placeholder="图片验证码"
                  class="captcha"
+                 maxlength="4"
                  name="captcha"
                  @input="verifyImgCode()"
                  v-model="imgCode.value"

@@ -12,8 +12,10 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link rel="shortcut icon" href="./static/images/fo.ico">
   <title>四川科技馆</title>
-  <script type="text/javascript" src="http://ogeunxnda.bkt.clouddn.com/os/sichuan_kejiguan/plugins/js/swiper.animate.min.js"></script>
-  <script type="text/javascript" src="http://ogeunxnda.bkt.clouddn.com/os/sichuan_kejiguan/plugins/js/wow.min.js"></script>
+  <script type="text/javascript"
+          src="http://ogeunxnda.bkt.clouddn.com/os/sichuan_kejiguan/plugins/js/swiper.animate.min.js"></script>
+  <script type="text/javascript"
+          src="http://ogeunxnda.bkt.clouddn.com/os/sichuan_kejiguan/plugins/js/wow.min.js"></script>
   <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=TouI2EWYfD3E3nGFGqTo0aCQj6KH46PS"></script>
 </head>
 <body>
@@ -23,6 +25,12 @@
 </html>
 <script>
   window.onload = function () {
+
+    const current = /Android|webOS|iPhone|iPad|BlackBerry/i.test(navigator.userAgent)
+    if (current) {
+      window.location.href = 'http://218.6.173.219:8085'
+    }
+
     var b_name = navigator.appName;
     var b_version = navigator.appVersion;
     var version = b_version.split(";");

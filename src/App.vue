@@ -103,7 +103,7 @@
               window.location.href = '/'
             }
           }, this)
-      },
+      }
     },
     watch: {
       "$route"(to, from) {

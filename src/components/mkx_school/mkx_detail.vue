@@ -39,13 +39,14 @@
 
           </div>
         </div>
-        <div class="book-box">
+
+        <div class="book-box" v-if="token && mkxDetail.data.state===1">
           <p class="title">活动预约</p>
           <p class="s-tit">预约活动场次前，请先确保已成功预定科技馆门票</p>
           <div class="book" v-if="!token">
             <no-login title="暂未登录"></no-login>
           </div>
-          <div class="book" v-if="token && mkxDetail.data.stat===1">
+          <div class="book">
             <div class="item-group">
               <label class="lab">日期选择：</label>
               <div class="form-item">
@@ -61,7 +62,8 @@
               <ul class="numbers clearfix">
                 <li
                   :class="{active:current===index}"
-                  @click="toggle(index,item.id)"
+                  :style="{cursor:item.is_stop==1?'pointer':'not-allowed'}"
+                  @click="item.is_stop===1 ? toggle(index,item.id) : ''"
                   v-for="(item,index) in numbers"
                   :key="index">
                   {{item.sess}}（{{item.determine}}/{{item.qualified}}）
@@ -103,6 +105,14 @@
             <p class="notice" style="display: inline-block; vertical-align: middle;margin-left: 20px">
               <span>*</span> 本活动将于活动开始前半小时停止预约
             </p>
+          </div>
+        </div>
+
+        <div class="book-box" v-if="!token">
+          <p class="title">活动预约</p>
+          <p class="s-tit">预约活动场次前，请先确保已成功预定科技馆门票</p>
+          <div class="book">
+            <no-login title="暂未登录"></no-login>
           </div>
         </div>
       </div>
@@ -203,6 +213,7 @@
         getAjax(url, {
           sesstime: this.date
         }, (res) => {
+          console.log(res)
           this.numbers = res.data
         }, (err) => {
           console.log(err)
@@ -472,17 +483,8 @@
           }
           .add {
             padding: 10px 20px;
-            background-image: linear-gradient(90deg,
-            #00b3f7 0%,
-            #00b2f7 0%,
-            #00b1f6 0%,
-            #21bef8 0%,
-            #41cbfa 0%,
-            #38a6f4 100%),
-            linear-gradient(
-              #f5f5f5,
-              #f5f5f5);
-            color: #fff;
+            background: #ececec;
+            color: #999999;
             -webkit-border-radius: 2px;
             -moz-border-radius: 2px;
             border-radius: 2px;

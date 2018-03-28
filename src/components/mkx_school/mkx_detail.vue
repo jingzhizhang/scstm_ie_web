@@ -33,10 +33,76 @@
             <!--<p class="btn-book">立即预定</p>-->
           </div>
         </div>
-        <div class="movie-clips clearfix" v-if="mkxDetail.data.content">
+        <div class="movie-clips clearfix">
           <p class="title">活动内容</p>
           <div class="act-content" v-html="mkxDetail.data.content">
 
+          </div>
+        </div>
+        <div class="book-box">
+          <p class="title">活动预约</p>
+          <p class="s-tit">预约活动场次前，请先确保已成功预定科技馆门票</p>
+          <div class="book" v-if="!token">
+            <no-login title="暂未登录"></no-login>
+          </div>
+          <div class="book" v-if="token && mkxDetail.data.stat===1">
+            <div class="item-group">
+              <label class="lab">日期选择：</label>
+              <div class="form-item">
+                <DatePicker type="date"
+                            placeholder="请选择查询日期"
+                            @on-change="handleDate"
+                            style="width: 200px">
+                </DatePicker>
+              </div>
+            </div>
+            <div class="item-group" style="padding-bottom: 0">
+              <label class="lab">选择场次：</label>
+              <ul class="numbers clearfix">
+                <li
+                  :class="{active:current===index}"
+                  @click="toggle(index,item.id)"
+                  v-for="(item,index) in numbers"
+                  :key="index">
+                  {{item.sess}}（{{item.determine}}/{{item.qualified}}）
+                </li>
+              </ul>
+            </div>
+            <div class="item-group">
+              <div class="group">
+                <label class="lab">添加人数：</label>
+                <ul class="peoples">
+                  <li v-for="(item,index) in number" v-if="item.status">
+                    <div class="form-box clearfix">
+                      <p>
+                        <label class="lab">姓名：</label>
+                        <input type="text" v-model="item.name" class="inp"/>
+                      </p>
+                      <p>
+                        <label class="lab">年龄：</label>
+                        <input type="text" v-model="item.age" class="inp"/>
+                      </p>
+                    </div>
+                    <div class="icon-minus" @click="minusNumbers(index)">
+                      <Icon v-if="index!==0" type="ios-minus"></Icon>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <p class="notice">
+                <span>*</span> 请准确填写预约人年龄信息，并确认与该活动要求年龄是否符合
+              </p>
+              <p class="add" @click="addNumbers()">
+                <Icon type="ios-plus-empty"></Icon>
+                添加人数
+              </p>
+            </div>
+            <p class="book-btn" @click="bookSumbit()" style="display: inline-block; vertical-align: middle">
+              立即预约
+            </p>
+            <p class="notice" style="display: inline-block; vertical-align: middle;margin-left: 20px">
+              <span>*</span> 本活动将于活动开始前半小时停止预约
+            </p>
           </div>
         </div>
       </div>
@@ -44,18 +110,22 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-  import {Icon} from 'iview'
+  import NoLogin from '@/base/no-login'
+  import {Icon, DatePicker} from 'iview'
   import Banner from '@/base/banner'
   import {getBannerMixin} from '@/public/js/mixin'
   import {getAjax} from '@/public/js/config'
   import Bg from '@/base/bg'
+  import moment from 'moment'
 
   export default {
     mixins: [getBannerMixin],
     components: {
       Icon,
       Banner,
-      Bg
+      Bg,
+      DatePicker,
+      NoLogin
     },
     data() {
       return {
@@ -68,11 +138,30 @@
           }
         ],
         title: '美科星未来学院',
+        date: '',
+        numbers: '',   //场次
+        current: -1,
+        reser_id: '',  //场次id
+        number: [
+          {
+            name: '',
+            age: '',
+            status: 1,
+            index: 1
+          }
+        ],
+        listNumber: 1
       }
     },
     created() {
       this.getBanner()
       this.getDetailData()
+      this.getNumbers()
+    },
+    computed: {
+      token() {
+        return sessionStorage.getItem('token')
+      }
     },
     methods: {
       /**
@@ -82,13 +171,85 @@
       getBanner(id = 1) {
         this.getBannerData({id: id, url: 'api/futurebanner'})
       },
-
+      toggle(index, id) {
+        this.current = index
+        this.reser_id = id
+      },
       getDetailData() {
         const url = 'api/futuredeta'
         getAjax(url, {
           id: this.$route.query.id
         }, (res) => {
           this.mkxDetail = res
+        }, (err) => {
+          console.log(err)
+        }, this)
+      },
+      /**
+       * 日期
+       * @param date
+       */
+      handleDate(date) {
+        this.date = parseInt(moment(date).format('X')) + 12 * 60 * 60
+        this.current = -1
+        this.reser_id = ''
+        this.getNumbers()
+      },
+      /**
+       * 获取场次
+       */
+      getNumbers() {
+        const url = 'api/sess'
+        getAjax(url, {
+          sesstime: this.date
+        }, (res) => {
+          this.numbers = res.data
+        }, (err) => {
+          console.log(err)
+        }, this)
+      },
+      /**
+       * 添加人数
+       */
+      addNumbers() {
+        this.listNumber++
+        this.number.push(
+          {
+            name: '',
+            age: '',
+            status: 1,
+            index: 1
+          }
+        )
+      },
+      /**
+       * 删除
+       */
+      minusNumbers(index) {
+        this.number[index].status = 0
+      },
+      /**
+       * 立即预约
+       */
+      bookSumbit() {
+        const details = []
+        for (let k in this.number) {
+          if (this.number[k].status) {
+            details.push(
+              {
+                age: this.number[k].age,
+                name: this.number[k].name
+              }
+            )
+          }
+        }
+
+        const url = 'api/reser'
+        getAjax(url, {
+          reser_id: this.reser_id,
+          details: details
+        }, (res) => {
+          console.log(res)
         }, (err) => {
           console.log(err)
         }, this)
@@ -103,7 +264,7 @@
     padding-top: 50px;
     padding-bottom: 60px;
     .m-info {
-      .de-img{
+      .de-img {
         width: 450px;
         height: 320px;
         float: left;
@@ -201,10 +362,10 @@
       .title {
         font-size: 25px;
         color: #333;
-        margin-bottom: 20px;
+        margin-bottom: 40px;
       }
-      .act-content{
-        border:1px solid #fff;
+      .act-content {
+        border: 1px solid #fff;
         -webkit-border-radius: 4px;
         -moz-border-radius: 4px;
         border-radius: 4px;
@@ -213,6 +374,153 @@
         color: #596781;
         text-indent: 2em;
         background: #fff;
+      }
+    }
+    .book-box {
+      .title {
+        font-size: 25px;
+        margin-bottom: 20px;
+        color: #333;
+      }
+      .s-tit {
+        font-size: 16px;
+        color: #333;
+      }
+      .book {
+        margin-top: 40px;
+        background: #fff;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        border-radius: 2px;
+        padding: 30px;
+        .item-group {
+          margin-bottom: 25px;
+          padding-bottom: 15px;
+          border-bottom: 1px solid #f5f5f5;
+          .lab {
+            font-size: 16px;
+            margin-bottom: 10px;
+            display: block;
+          }
+          .numbers {
+            li {
+              padding: 10px 30px;
+              background: #f5f5f5;
+              border-radius: 2px;
+              margin-right: 20px;
+              font-size: 18px;
+              overflow: hidden;
+              color: #9b9b9b;
+              float: left;
+              cursor: pointer;
+              margin-bottom: 15px;
+              &.active {
+                background-image: linear-gradient(90deg,
+                #00b3f7 0%,
+                #00b2f7 0%,
+                #00b1f6 0%,
+                #21bef8 0%,
+                #41cbfa 0%,
+                #38a6f4 100%),
+                linear-gradient(
+                  #f5f5f5,
+                  #f5f5f5);
+                color: #fff;
+              }
+            }
+          }
+          .peoples {
+            li {
+              margin-bottom: 15px;
+              .form-box {
+                background: #f5f5f5;
+                padding: 10px 30px;
+                -webkit-border-radius: 2px;
+                -moz-border-radius: 2px;
+                border-radius: 2px;
+                display: inline-block;
+                vertical-align: middle;
+                p {
+                  float: left;
+                  color: #9b9b9b;
+                  font-size: 18px;
+                  margin-right: 20px;
+                  .lab {
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin-bottom: 0;
+                  }
+                  .inp {
+                    width: 100px;
+                    height: 30px;
+                    display: inline-block;
+                    vertical-align: middle;
+                    font-size: 16px;
+                    text-align: center;
+                    padding: 0 10px;
+                  }
+                }
+              }
+              .icon-minus {
+                cursor: pointer;
+                font-size: 30px;
+                display: inline-block;
+                vertical-align: middle;
+                margin-left: 20px;
+              }
+            }
+          }
+          .add {
+            padding: 10px 20px;
+            background-image: linear-gradient(90deg,
+            #00b3f7 0%,
+            #00b2f7 0%,
+            #00b1f6 0%,
+            #21bef8 0%,
+            #41cbfa 0%,
+            #38a6f4 100%),
+            linear-gradient(
+              #f5f5f5,
+              #f5f5f5);
+            color: #fff;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            border-radius: 2px;
+            display: inline-block;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 20px;
+          }
+
+        }
+        .book-btn {
+          padding: 10px 20px;
+          background-image: linear-gradient(90deg,
+          #00b3f7 0%,
+          #00b2f7 0%,
+          #00b1f6 0%,
+          #21bef8 0%,
+          #41cbfa 0%,
+          #38a6f4 100%),
+          linear-gradient(
+            #f5f5f5,
+            #f5f5f5);
+          color: #fff;
+          -webkit-border-radius: 2px;
+          -moz-border-radius: 2px;
+          border-radius: 2px;
+          display: inline-block;
+          font-size: 15px;
+          cursor: pointer;
+        }
+        .notice {
+          margin-top: 10px;
+          font-size: 14px;
+          color: #9b9b9b;
+          span {
+            color: #ff1010;
+          }
+        }
       }
     }
   }

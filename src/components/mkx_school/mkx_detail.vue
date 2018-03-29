@@ -269,7 +269,6 @@
           reser_id: this.reser_id,
           details: details
         }, (res) => {
-          console.log(res)
           if (res.status === 0) {
             this.getNumbers()
             this.number = [

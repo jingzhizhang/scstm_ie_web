@@ -33,12 +33,6 @@
             <!--<p class="btn-book">立即预定</p>-->
           </div>
         </div>
-        <div class="movie-clips clearfix">
-          <p class="title">活动内容</p>
-          <div class="act-content" v-html="mkxDetail.data.content">
-
-          </div>
-        </div>
 
         <div class="book-box" v-if="token && mkxDetail.data.state===1">
           <p class="title">活动预约</p>
@@ -113,6 +107,13 @@
           <p class="s-tit">预约活动场次前，请先确保已成功预定科技馆门票</p>
           <div class="book">
             <no-login title="暂未登录"></no-login>
+          </div>
+        </div>
+
+        <div class="movie-clips clearfix">
+          <p class="title">活动内容</p>
+          <div class="act-content" v-html="mkxDetail.data.content">
+
           </div>
         </div>
       </div>
@@ -368,7 +369,7 @@
       }
     }
     .movie-clips {
-      padding-top: 80px;
+      padding-top: 40px;
       padding-bottom: 50px;
       .title {
         font-size: 25px;
@@ -388,6 +389,7 @@
       }
     }
     .book-box {
+      margin-top: 40px;
       .title {
         font-size: 25px;
         margin-bottom: 20px;

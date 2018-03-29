@@ -201,7 +201,6 @@
             font-size: 18px;
             .date {
               font-size: 24px;
-              margin-bottom: 5px;
             }
           }
           .act-name {

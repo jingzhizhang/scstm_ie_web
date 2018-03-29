@@ -185,6 +185,7 @@
         getAjax(url, {
           id: this.$route.query.id
         }, (res) => {
+
           this.mkxDetail = res
         }, (err) => {
           console.log(err)
@@ -245,6 +246,13 @@
        */
       bookSumbit() {
         const details = []
+        if (!this.number[0].age && !this.number[0].name) {
+          this.$Message.error({
+            duration: 4,
+            content: '至少添加一人'
+          });
+          return
+        }
         for (let k in this.number) {
           if (this.number[k].status) {
             details.push(
@@ -261,6 +269,7 @@
           reser_id: this.reser_id,
           details: details
         }, (res) => {
+          console.log(res)
           if (res.status === 0) {
             this.getNumbers()
             this.number = [
@@ -273,6 +282,11 @@
             ]
             this.reser_id = ''
             this.current = -1
+          }else {
+            this.$Message.error({
+              duration: 4,
+              content:res.interpret
+            });
           }
         }, (err) => {
           console.log(err)

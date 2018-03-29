@@ -209,12 +209,13 @@
       getNumbers() {
         const url = 'api/sess'
         getAjax(url, {
+          activity_id: this.$route.query.id,
           sesstime: this.date
         }, (res) => {
           this.numbers = res.data
         }, (err) => {
           console.log(err)
-          if(res.status===401){
+          if (res.status === 401) {
             this.token = ''
           }
         }, this)
@@ -261,6 +262,7 @@
           details: details
         }, (res) => {
           if (res.status === 0) {
+            this.getNumbers()
             this.number = [
               {
                 name: '',

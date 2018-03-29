@@ -8,29 +8,30 @@
       <div class="book-con">
         <nav-bar :navBar="navBar" @handleClick="handleTypeClick"></nav-bar>
         <ul class="book-list clearfix">
-          <li>
+          <li v-for="(item,index) in reserList" :key="index">
             <div class="act-img">
-              <img src="http://www.scstm.com:8081/admin/Public/uploads/imgs/6766733932907.jpeg"/>
-              <div class="mask">
+              <img :src="item.img"/>
+              <div class="mask" v-if="type===1">
                 <div class="mask-con">
                   <p class="mask-txt">
-                    <router-link :to="{path:'/mkx_school/mkx_detail',query:{id:1}}">查看详情</router-link>
+                    <router-link :to="{path:'/mkx_school/mkx_detail',query:{id:item.future_id}}">查看详情</router-link>
                   </p>
                 </div>
               </div>
             </div>
             <div class="act-info">
-              <div class="time">
-                <p class="date">10:00</p>
-                <p>2018.3.31</p>
+              <div class="time" :style="{color:type===2 ? '#666' : '#05afee'}">
+                <p class="date">{{item.sess}}</p>
+                <p>{{item.sesstime}}</p>
               </div>
               <div class="act-name">
-                <p class="act-title">科学自然博物馆</p>
-                <p class="number">人数3人</p>
+                <p class="act-title">{{item.title}}</p>
+                <p class="number">人数{{item.count}}人</p>
               </div>
             </div>
           </li>
         </ul>
+        <no-login title="暂无预约数据" v-if="!reserList.length"></no-login>
       </div>
     </bg>
   </div>
@@ -42,6 +43,7 @@
   import NavBar from '@/base/navBar'
   import NoLogin from '@/base/no-login'
   import {getAjax} from '@/public/js/config'
+  import moment from 'moment'
 
   export default {
     components: {
@@ -89,7 +91,6 @@
         getAjax(url, {
           type: this.type
         }, (res) => {
-          console.log(res)
           this.reserList = res.data
         }, (err) => {
           console.log(err)
@@ -192,7 +193,7 @@
           padding: 10px;
           text-align: center;
           .time {
-            width: 120px;
+            width: 130px;
             height: 100%;
             float: left;
             color: #05afee;
@@ -205,7 +206,7 @@
           }
           .act-name {
             float: left;
-            width: 240px;
+            width: 230px;
             padding-right: 10px;
             .act-title {
               font-size: 20px;

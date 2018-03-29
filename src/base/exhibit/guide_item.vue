@@ -102,7 +102,6 @@
             -webkit-transform: scale(1);
             transform: scale(1);
           }
-
         }
       }
       .txt {

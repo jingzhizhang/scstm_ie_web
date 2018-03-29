@@ -44,6 +44,20 @@
         </label>
       </div>
       <div class="form-group clearfix">
+        <input type="text"
+               v-model="card.value"
+               placeholder="请输入身份证号"
+               class="card"
+               @input="verifyCard()"
+               name="card"
+               autocomplete="new-password"/>
+        <img src="../assets/card.png"/>
+        <label class="error"
+               :class="card.error ? 'is-visible' : ''">
+          {{card.error}}
+        </label>
+      </div>
+      <div class="form-group clearfix">
         <div class="lyz-left">
           <input type="text"
                  placeholder="图片验证码"
@@ -127,6 +141,11 @@
           error: '',
           isVerify: false
         },
+        card: {
+          value: '',
+          error: '',
+          isVerify: false
+        },
         isShowImg: false,
         serveUrl: serveUrl,
         count: 120,
@@ -164,6 +183,22 @@
         } else {
           this.password.error = ''
           this.password.isVerify = true
+        }
+      },
+      /**
+       * 身份证验证
+       */
+      verifyCard() {
+        const reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
+        if (this.card.value === '') {
+          this.card.error = '请输入身份证号'
+          this.card.isVerify = false
+        } else if (!reg.test(this.card.value)) {
+          this.card.error = '请输入有效身份证号'
+          this.card.isVerify = false
+        } else {
+          this.card.error = ''
+          this.card.isVerify = true
         }
       },
       /**
@@ -214,6 +249,7 @@
         this.verifyPasswdCheck()
         this.verifyImgCode()
         this.verifyPhoneCode()
+        this.verifyCard()
       },
       /**
        * 提交表单数据
@@ -234,7 +270,8 @@
         getAjax(url, {
           phone: this.phone.value,
           phone_code: this.phone_code.value,
-          password: this.password.value
+          password: this.password.value,
+          card: this.card.value
         }, (res) => {
           if (res.status === 0) {
             this.$router.push('/signIn')

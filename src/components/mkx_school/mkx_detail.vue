@@ -37,9 +37,6 @@
         <div class="book-box" v-if="token && mkxDetail.data.state===1">
           <p class="title">活动预约</p>
           <p class="s-tit">预约活动场次前，请先确保已成功预定科技馆门票</p>
-          <div class="book" v-if="!token">
-            <no-login title="暂未登录"></no-login>
-          </div>
           <div class="book">
             <div class="item-group">
               <label class="lab">日期选择：</label>
@@ -106,7 +103,7 @@
           <p class="title">活动预约</p>
           <p class="s-tit">预约活动场次前，请先确保已成功预定科技馆门票</p>
           <div class="book">
-            <no-login title="暂未登录"></no-login>
+            <no-login title="请先登录"></no-login>
           </div>
         </div>
 
@@ -161,18 +158,15 @@
             index: 1
           }
         ],
-        listNumber: 1
+        listNumber: 1,
+        token: ''
       }
     },
     created() {
       this.getBanner()
       this.getDetailData()
       this.getNumbers()
-    },
-    computed: {
-      token() {
-        return sessionStorage.getItem('token')
-      }
+      this._token()
     },
     methods: {
       /**
@@ -206,6 +200,9 @@
         this.reser_id = ''
         this.getNumbers()
       },
+      _token() {
+        this.token = sessionStorage.getItem('token')
+      },
       /**
        * 获取场次
        */
@@ -214,10 +211,12 @@
         getAjax(url, {
           sesstime: this.date
         }, (res) => {
-          console.log(res)
           this.numbers = res.data
         }, (err) => {
           console.log(err)
+          if(res.status===401){
+            this.token = ''
+          }
         }, this)
       },
       /**
@@ -261,7 +260,18 @@
           reser_id: this.reser_id,
           details: details
         }, (res) => {
-          console.log(res)
+          if (res.status === 0) {
+            this.number = [
+              {
+                name: '',
+                age: '',
+                status: 1,
+                index: 1
+              }
+            ]
+            this.reser_id = ''
+            this.current = -1
+          }
         }, (err) => {
           console.log(err)
         }, this)

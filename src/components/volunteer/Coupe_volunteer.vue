@@ -77,7 +77,7 @@
        * @constructor
        */
       scienceNotice() {
-        const url = '/api/inst_science'
+        const url = 'api/inst_science'
         getAjax(url, {}, (res) => {
           this.scienceContent = res.data.content
         }, (err) => {
@@ -89,14 +89,14 @@
       },
       StepTwoNext(formData) {
         console.log(formData)
-        const url = '/api/add_science'
+        const url = 'api/add_science'
         getAjax(url,
           formData,
           (res) => {
             console.log(res)
           }, (err) => {
             console.log(err)
-          })
+          }, this)
       }
     }
   }

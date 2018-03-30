@@ -28,7 +28,7 @@
           </RadioGroup>
         </FormItem>
         <FormItem label="出生年月：" prop="born">
-          <DatePicker size="large" format="yyyy年MM月dd日" type="date" placeholder="请选择日期" v-model="formValidate.born"></DatePicker>
+          <DatePicker size="large" type="date" placeholder="请选择日期" v-model="formValidate.born"></DatePicker>
         </FormItem>
         <FormItem label="学历：" prop="degree">
           <Select size="large" v-model="formValidate.degree" placeholder="请选择您的学历">
@@ -195,8 +195,10 @@
       },
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {
-          console.log(moment(this.born).format('X'))
           if (valid) {
+            this.formValidate.born = moment(this.formValidate.born).format('X')
+            this.formValidate.service_sta = moment(this.formValidate.service_sta).format('X')
+            this.formValidate.service_end = moment(this.formValidate.service_end).format('X')
             this.$emit('next', this.formValidate)
           }
         })

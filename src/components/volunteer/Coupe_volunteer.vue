@@ -15,8 +15,8 @@
           </Steps>
         </div>
         <div class="bottom">
-          <notice v-if="Step===0" @next="StepOneNext()"></notice>
-          <vo-form v-if="Step===1" @next="StepTwoNext()"></vo-form>
+          <notice :data="scienceContent" v-if="Step===0" @next="StepOneNext()"></notice>
+          <vo-form v-if="Step===1" @next="StepTwoNext"></vo-form>
           <succ v-if="Step===2"></succ>
         </div>
       </div>
@@ -27,9 +27,10 @@
   import Banner from '@/base/banner'
   import Bg from '@/base/bg'
   import {getBannerMixin} from '@/public/js/mixin'
-  import Notice from '@/base/volunteer/notice'
-  import VoForm from '@/base/volunteer/voForm'
-  import Succ from '@/base/volunteer/succ'
+  import Notice from '@/base/volunteer/coupe/notice'
+  import VoForm from '@/base/volunteer/coupe/voForm'
+  import Succ from '@/base/volunteer/coupe/succ'
+  import {getAjax} from '@/public/js/config'
 
   export default {
     mixins: [getBannerMixin],
@@ -56,10 +57,12 @@
           }
         ],
         Step: 0,
+        scienceContent: ''
       }
     },
     created() {
       this.getBanner()
+      this.scienceNotice()
     },
     methods: {
       /**
@@ -67,13 +70,33 @@
        * @param id  分类id
        */
       getBanner(id = 1) {
-        this.getBannerData({id: id, url: 'api/futurebanner'})
+        this.getBannerData({id: id, url: 'api/science_banner'})
+      },
+      /**
+       * 科普志愿者须知
+       * @constructor
+       */
+      scienceNotice() {
+        const url = '/api/inst_science'
+        getAjax(url, {}, (res) => {
+          this.scienceContent = res.data.content
+        }, (err) => {
+          console.log(err)
+        }, this)
       },
       StepOneNext() {
         this.Step = 1
       },
-      StepTwoNext() {
-        this.Step = 2
+      StepTwoNext(formData) {
+        console.log(formData)
+        const url = '/api/add_science'
+        getAjax(url,
+          formData,
+          (res) => {
+            console.log(res)
+          }, (err) => {
+            console.log(err)
+          })
       }
     }
   }

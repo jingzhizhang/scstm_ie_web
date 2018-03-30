@@ -31,7 +31,7 @@
             icon: '../static/images/bg1.jpg'
           },
           {
-            href: '/',
+            href: '/coupe_volunteer',
             className: 'volunter',
             ch_title: '志愿者招募',
             en_title:'Volunteers Needed',

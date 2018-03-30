@@ -108,6 +108,8 @@ const Manage = () => import('@/components/user_center/manage')
 //const Questions = () => import('@/components/Questions')
 //const Question = () => import('@/components/questions/question')
 
+const CoupeVolunteer = () => import('@/components/volunteer/Coupe_volunteer')
+
 export default new Router({
   mode: "history",
   routes: [
@@ -240,7 +242,7 @@ export default new Router({
       children: [
         {
           path: 'all_course',
-          name:'全部课程',
+          name: '全部课程',
           component: All_course,
           meta: ['教育活动', '全部课程']
         },
@@ -260,7 +262,7 @@ export default new Router({
       children: [
         {
           path: 'school_course',
-          name:'学院课程',
+          name: '学院课程',
           component: School_course,
           meta: ['美科新未来学院', '学院课程']
         },
@@ -346,6 +348,12 @@ export default new Router({
         }
       ]
     },
+    {
+      path:'/coupe_volunteer',
+      name:'科普志愿者',
+      component:CoupeVolunteer,
+      meta:['科普志愿者','科普志愿者']
+    }
     /*{
       path: '/questions',
       name: '咨询问答',

@@ -246,13 +246,13 @@
        */
       bookSumbit() {
         const details = []
-        if (!this.number[0].age && !this.number[0].name) {
+        /*if (!this.number[0].age && !this.number[0].name) {
           this.$Message.error({
             duration: 4,
             content: '至少添加一人'
           });
           return
-        }
+        }*/
         for (let k in this.number) {
           if (this.number[k].status) {
             details.push(

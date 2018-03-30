@@ -16,7 +16,8 @@
         </div>
         <div class="bottom">
           <notice v-if="Step===0" @next="StepOneNext()"></notice>
-          <vo-form v-if="Step===1"></vo-form>
+          <vo-form v-if="Step===1" @next="StepTwoNext()"></vo-form>
+          <succ v-if="Step===2"></succ>
         </div>
       </div>
     </bg>
@@ -28,6 +29,7 @@
   import {getBannerMixin} from '@/public/js/mixin'
   import Notice from '@/base/volunteer/notice'
   import VoForm from '@/base/volunteer/voForm'
+  import Succ from '@/base/volunteer/succ'
 
   export default {
     mixins: [getBannerMixin],
@@ -35,7 +37,8 @@
       Banner,
       Bg,
       Notice,
-      VoForm
+      VoForm,
+      Succ
     },
     data() {
       return {
@@ -68,6 +71,9 @@
       },
       StepOneNext() {
         this.Step = 1
+      },
+      StepTwoNext() {
+        this.Step = 2
       }
     }
   }

@@ -30,6 +30,68 @@
         <FormItem label="出生年月：" prop="date">
           <DatePicker size="large" type="date" placeholder="请选择日期" v-model="formValidate.date"></DatePicker>
         </FormItem>
+        <FormItem label="学历：" prop="study">
+          <Select size="large" v-model="formValidate.study" placeholder="请选择您的学历">
+            <Option value="大专">大专</Option>
+            <Option value="本科">本科</Option>
+            <Option value="硕士">硕士</Option>
+            <Option value="博士">博士</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="专业/特长" prop="speciality">
+          <Input v-model="formValidate.speciality" type="textarea" :autosize="{minRows: 5,maxRows: 10}"
+                 placeholder="请填写内容"></Input>
+        </FormItem>
+        <FormItem prop="card" label="身份证号码：">
+          <Input size="large" v-model="formValidate.card" placeholder="请输入您的身份证号码"></Input>
+        </FormItem>
+        <FormItem prop="phone" label="联系电话：">
+          <Input size="large" v-model="formValidate.phone" placeholder="请输入您的手机号"></Input>
+        </FormItem>
+        <FormItem prop="weChat" label="微信号：">
+          <Input size="large" v-model="formValidate.weChat" placeholder="请输入您的微信号："></Input>
+        </FormItem>
+        <FormItem label="志愿者服务经历：" prop="experience">
+          <Input v-model="formValidate.experience" type="textarea" :autosize="{minRows: 5,maxRows: 10}"
+                 placeholder="请填写经历"></Input>
+        </FormItem>
+        <FormItem label="服务日期：">
+          <div class="start-date">
+            <FormItem prop="start_date">
+              <DatePicker type="date" v-model="formValidate.start_date" size="large"
+                          placeholder="请选择开始时间"></DatePicker>
+            </FormItem>
+          </div>
+          <p class="txt">至</p>
+          <div class="end-date">
+            <FormItem prop="end_date">
+              <DatePicker type="date" v-model="formValidate.end_date" size="large"
+                          placeholder="请选择结束时间"></DatePicker>
+            </FormItem>
+          </div>
+        </FormItem>
+        <FormItem label="服务时间：" prop="time">
+          <RadioGroup v-model="formValidate.time">
+            <Radio size="large" label="上午">上午</Radio>
+            <Radio size="large" label="下午">下午</Radio>
+            <Radio size="large" label="其他">
+              其他
+              <input type="text" v-model="formValidate.timeOther" class="other">
+            </Radio>
+          </RadioGroup>
+        </FormItem>
+        <FormItem label="岗位意向（可多选）" prop="job">
+          <CheckboxGroup v-model="formValidate.job">
+            <Checkbox size="large" label="主持、讲解"></Checkbox>
+            <Checkbox size="large" label="策划"></Checkbox>
+            <Checkbox size="large" label="绘画"></Checkbox>
+            <Checkbox size="large" label="手工"></Checkbox>
+            <Checkbox size="large" label="其他">
+              <span>其他</span>
+              <input type="text" v-model="formValidate.timeOther" class="other">
+            </Checkbox>
+          </CheckboxGroup>
+        </FormItem>
         <p class="sumbitBtn" @click="handleSubmit('formValidate')">提交申请表</p>
       </Form>
     </div>
@@ -51,7 +113,18 @@
         formValidate: {
           name: '',
           gender: '',
-          date: ''
+          date: '',
+          study: '',
+          speciality: '',
+          card: '',
+          phone: '',
+          weChat: '',
+          experience: '',
+          start_date: '',
+          end_date: '',
+          time: '',
+          timeOther: '',
+          job: []
         },
         ruleValidate: {
           name: [
@@ -62,6 +135,42 @@
           ],
           date: [
             {required: true, type: 'date', message: '请选择日期', trigger: 'change'}
+          ],
+          study: [
+            {required: true, message: '请选择您的学历', trigger: 'change'}
+          ],
+          speciality: [
+            {required: true, message: '请填写内容', trigger: 'blur'}
+          ],
+          card: [
+            {required: true, message: '请填写您的身份证号码', trigger: 'blur'},
+            {
+              required: true,
+              pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,
+              message: '请填写有效身份证号'
+            }
+          ],
+          phone: [
+            {required: true, message: '请填写您的手机号', trigger: 'blur'},
+            {required: true, message: '请填写正确手机号', pattern: /^1[0-9]{10}$/}
+          ],
+          weChat: [
+            {required: true, message: '请填写您的微信号', trigger: 'blur'}
+          ],
+          experience: [
+            {required: true, message: '请填写您的经历', trigger: 'blur'}
+          ],
+          start_date: [
+            {required: true, type: 'date', message: '请选择开始日期', trigger: 'change'}
+          ],
+          end_date: [
+            {required: true, type: 'date', message: '请选择结束日期', trigger: 'change'}
+          ],
+          time: [
+            {required: true, message: '请选择服务时间', trigger: 'change'}
+          ],
+          job: [
+            {required: true, type: 'array', min: 1, message: '请选择岗位意向', trigger: 'change'},
           ]
         }
       }
@@ -75,6 +184,7 @@
         this.show = !this.show;
       },
       handleSubmit(name) {
+        this.$emit('next')
         this.$refs[name].validate((valid) => {
           if (valid) {
             this.$Message.success('Success!');
@@ -89,10 +199,10 @@
 <style lang="less">
   .vo-form {
     .form-con {
-      width: 550px;
+      width: 580px;
       margin: auto;
       .lab {
-        width: 100px;
+        width: 140px;
         float: left;
         margin-top: 5px;
         font-size: 16px;
@@ -150,9 +260,8 @@
         width: 100%;
         .ivu-form-item {
           width: 100%;
-          margin-bottom: 30px;
           .ivu-form-item-label {
-            width: 100px;
+            width: 140px;
             float: left;
             margin-top: 8px;
             font-size: 16px;
@@ -163,7 +272,24 @@
           }
           .ivu-form-item-content {
             float: left;
-            width: 420px;
+            width: 400px;
+            .other {
+              border-bottom: 1px solid #999;
+            }
+            .start-date, .end-date {
+              float: left;
+              width: 45%;
+              .ivu-form-item-content {
+                width: 100%;
+              }
+            }
+            .txt {
+              width: 10%;
+              float: left;
+              font-size: 16px;
+              color: #333;
+              text-align: center;
+            }
             .ivu-date-picker {
               width: 100%;
             }

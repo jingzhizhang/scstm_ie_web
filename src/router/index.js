@@ -105,8 +105,8 @@ const Setting = () => import('@/components/user_center/setting')
 const My_book = () => import('@/components/user_center/my_book')
 const Manage = () => import('@/components/user_center/manage')
 
-//const Questions = () => import('@/components/Questions')
-//const Question = () => import('@/components/questions/question')
+const Questions = () => import('@/components/Questions')
+const Question = () => import('@/components/questions/question')
 
 const CoupeVolunteer = () => import('@/components/volunteer/Coupe_volunteer')
 const ExpertVolunteer = () => import('@/components/volunteer/Expert_volunteer')
@@ -360,7 +360,7 @@ export default new Router({
       name: '专家志愿者',
       component: ExpertVolunteer,
       meta: ['专家志愿者', '专家志愿者']
-    }
+    },
     /*{
       path: '/questions',
       name: '咨询问答',

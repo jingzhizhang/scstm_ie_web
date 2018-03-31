@@ -64,6 +64,7 @@
     created() {
       this.getBanner()
       this.scienceNotice()
+      this.getUserInfo()
       this.token()
     },
     methods: {
@@ -88,7 +89,6 @@
       },
       StepOneNext() {
         this.Step = 1
-        this.getUserInfo()
       },
       token() {
         if (sessionStorage.getItem('token')) {

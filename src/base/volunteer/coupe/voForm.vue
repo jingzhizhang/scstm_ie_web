@@ -14,6 +14,7 @@
                      :noCircle="true"
                      :noRotate="false"
                      img-format="png"></my-upload>
+          <p style="display: none;" :class="{err:imgerr}">请上传头像</p>
         </div>
         <p class="notice"><span>*</span> 请上传本人真实照片</p>
       </div>
@@ -118,6 +119,7 @@
         isChoose: false,
         defaultImg: '../static/images/loading.png',
         show: false,
+        imgerr: false,
         formValidate: {
           img: '',
           name: '',
@@ -189,12 +191,17 @@
       cropSuccess(imgDataUrl, field) {
         this.isChoose = true
         this.formValidate.img = imgDataUrl;
+        this.imgerr = false
       },
       toggleShow() {
         this.show = !this.show;
       },
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {
+          if (!this.formValidate.img) {
+            this.imgerr = true
+            return
+          }
           if (valid) {
             this.formValidate.born = moment(this.formValidate.born).format('X')
             this.formValidate.service_sta = moment(this.formValidate.service_sta).format('X')
@@ -236,9 +243,15 @@
           -webkit-border-radius: 4px;
           -moz-border-radius: 4px;
           border-radius: 4px;
-          overflow: hidden;
           line-height: 260px;
           border: 1px solid #dddee1;
+          .err {
+            position: absolute;
+            color: #ed3f14;
+            font-size: 14px;
+            bottom: -144px;
+            display: block !important;
+          }
           img {
             width: 100%;
             display: block;
@@ -254,6 +267,8 @@
             font-size: 15px;
             color: #fff;
             text-align: center;
+            border-bottom-right-radius: 4px;
+            border-bottom-left-radius: 4px;
           }
         }
         .notice {

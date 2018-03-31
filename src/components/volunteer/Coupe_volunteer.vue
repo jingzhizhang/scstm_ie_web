@@ -88,12 +88,13 @@
         this.Step = 1
       },
       StepTwoNext(formData) {
-        console.log(formData)
         const url = 'api/add_science'
         getAjax(url,
           formData,
           (res) => {
-            console.log(res)
+            if (res.status === 0) {
+              this.Step = 2
+            }
           }, (err) => {
             console.log(err)
           }, this)

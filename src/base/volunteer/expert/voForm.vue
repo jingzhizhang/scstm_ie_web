@@ -158,6 +158,7 @@
           if (valid) {
             this.formValidate.born = moment(this.formValidate.born).format('X')
             this.$emit('next', this.formValidate)
+            this.formValidate.born = ''
           }
         })
       },

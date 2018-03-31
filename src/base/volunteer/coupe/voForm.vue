@@ -215,7 +215,14 @@
             this.formValidate.born = moment(this.formValidate.born).format('X')
             this.formValidate.service_sta = moment(this.formValidate.service_sta).format('X')
             this.formValidate.service_end = moment(this.formValidate.service_end).format('X')
-            this.$emit('next', this.formValidate)
+            if (this.formValidate.service_sta < this.formValidate.service_end) {
+              this.$emit('next', this.formValidate)
+            }else {
+              this.$Message.error('服务时间段无效')
+              this.formValidate.service_sta = ''
+              this.formValidate.service_end = ''
+              this.formValidate.born = ''
+            }
           }
         })
       },

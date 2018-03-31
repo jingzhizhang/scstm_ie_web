@@ -27,9 +27,9 @@
   import Banner from '@/base/banner'
   import Bg from '@/base/bg'
   import {getBannerMixin} from '@/public/js/mixin'
-  import Notice from '@/base/volunteer/coupe/notice'
-  import VoForm from '@/base/volunteer/coupe/voForm'
-  import Succ from '@/base/volunteer/coupe/succ'
+  import Notice from '@/base/volunteer/expert/notice'
+  import VoForm from '@/base/volunteer/expert/voForm'
+  import Succ from '@/base/volunteer/expert/succ'
   import {getAjax} from '@/public/js/config'
 
   export default {
@@ -39,7 +39,7 @@
       Bg,
       Notice,
       VoForm,
-      Succ,
+      Succ
     },
     data() {
       return {
@@ -72,14 +72,14 @@
        * @param id  分类id
        */
       getBanner(id = 1) {
-        this.getBannerData({id: id, url: 'api/science_banner'})
+        this.getBannerData({id: id, url: 'api/experts_banner'})
       },
       /**
-       * 科普志愿者须知
+       * 专家志愿者须知
        * @constructor
        */
       scienceNotice() {
-        const url = 'api/inst_science'
+        const url = 'api/inst_experts'
         getAjax(url, {}, (res) => {
           this.scienceContent = res.data.content
         }, (err) => {
@@ -96,7 +96,7 @@
         }
       },
       StepTwoNext(formData) {
-        const url = 'api/add_science'
+        const url = 'api/add_experts'
         getAjax(url,
           formData,
           (res) => {

@@ -109,6 +109,7 @@ const Manage = () => import('@/components/user_center/manage')
 //const Question = () => import('@/components/questions/question')
 
 const CoupeVolunteer = () => import('@/components/volunteer/Coupe_volunteer')
+const ExpertVolunteer = () => import('@/components/volunteer/Expert_volunteer')
 
 export default new Router({
   mode: "history",
@@ -349,10 +350,16 @@ export default new Router({
       ]
     },
     {
-      path:'/coupe_volunteer',
-      name:'科普志愿者',
-      component:CoupeVolunteer,
-      meta:['科普志愿者','科普志愿者']
+      path: '/coupe_volunteer',
+      name: '科普志愿者',
+      component: CoupeVolunteer,
+      meta: ['科普志愿者', '科普志愿者']
+    },
+    {
+      path: '/expert_volunteer',
+      name: '专家志愿者',
+      component: ExpertVolunteer,
+      meta: ['专家志愿者', '专家志愿者']
     }
     /*{
       path: '/questions',

@@ -52,54 +52,12 @@
         <FormItem prop="wx" label="微信号：">
           <Input size="large" v-model="formValidate.wx" placeholder="请输入您的微信号："></Input>
         </FormItem>
+        <FormItem prop="unit" label="工作单位：">
+          <Input size="large" v-model="formValidate.unit" placeholder="请填写工作单位："></Input>
+        </FormItem>
         <FormItem label="志愿者服务经历：" prop="experience">
           <Input v-model="formValidate.experience" type="textarea" :autosize="{minRows: 5,maxRows: 10}"
                  placeholder="请填写经历"></Input>
-        </FormItem>
-        <FormItem label="服务日期：">
-          <div class="start-date">
-            <FormItem prop="service_sta">
-              <DatePicker type="date" v-model="formValidate.service_sta" size="large"
-                          placeholder="请选择开始时间"></DatePicker>
-            </FormItem>
-          </div>
-          <p class="txt">至</p>
-          <div class="end-date">
-            <FormItem prop="service_end">
-              <DatePicker type="date" v-model="formValidate.service_end" size="large"
-                          placeholder="请选择结束时间"></DatePicker>
-            </FormItem>
-          </div>
-        </FormItem>
-        <FormItem label="服务时间：" prop="service">
-          <RadioGroup v-model="formValidate.service">
-            <Radio size="large" label="1">上午</Radio>
-            <Radio size="large" label="2">下午</Radio>
-            <Radio size="large" label="3">
-              其他
-              <input type="text" v-model="formValidate.service_other" class="other">
-            </Radio>
-          </RadioGroup>
-        </FormItem>
-        <FormItem label="岗位意向（可多选）" prop="intention">
-          <CheckboxGroup v-model="formValidate.intention">
-            <Checkbox size="large" label="1">
-              <span>主持、讲解</span>
-            </Checkbox>
-            <Checkbox size="large" label="2">
-              <span>策划</span>
-            </Checkbox>
-            <Checkbox size="large" label="3">
-              <span>绘画</span>
-            </Checkbox>
-            <Checkbox size="large" label="4">
-              <span>手工</span>
-            </Checkbox>
-            <Checkbox size="large" label="5">
-              <span>其他</span>
-              <input type="text" v-model="formValidate.intention_other" class="other">
-            </Checkbox>
-          </CheckboxGroup>
         </FormItem>
         <p class="sumbitBtn" @click="handleSubmit('formValidate')">提交申请表</p>
       </Form>
@@ -140,12 +98,7 @@
           phone: '',
           wx: '',
           experience: '',
-          service_sta: '',
-          service_end: '',
-          service: '',
-          service_other: '',
-          intention: [],
-          intention_other: ''
+          unit: ''
         },
         ruleValidate: {
           name: [
@@ -178,21 +131,12 @@
           wx: [
             {required: true, message: '请填写您的微信号', trigger: 'blur'}
           ],
+          unit: [
+            {required: true, message: '请填写工作单位', trigger: 'blur'}
+          ],
           experience: [
             {required: true, message: '请填写您的经历', trigger: 'blur'}
           ],
-          service_sta: [
-            {required: true, type: 'date', message: '请选择开始日期', trigger: 'change'}
-          ],
-          service_end: [
-            {required: true, type: 'date', message: '请选择结束日期', trigger: 'change'}
-          ],
-          service: [
-            {required: true, message: '请选择服务时间', trigger: 'change'}
-          ],
-          intention: [
-            {required: true, type: 'array', min: 1, message: '请选择岗位意向', trigger: 'change'},
-          ]
         }
       }
     },
@@ -213,8 +157,6 @@
           }
           if (valid) {
             this.formValidate.born = moment(this.formValidate.born).format('X')
-            this.formValidate.service_sta = moment(this.formValidate.service_sta).format('X')
-            this.formValidate.service_end = moment(this.formValidate.service_end).format('X')
             this.$emit('next', this.formValidate)
           }
         })

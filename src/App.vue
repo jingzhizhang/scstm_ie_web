@@ -21,6 +21,7 @@
     </div>
 
     <loading :isloading="loading"></loading>
+    <BackTop></BackTop>
   </div>
 </template>
 

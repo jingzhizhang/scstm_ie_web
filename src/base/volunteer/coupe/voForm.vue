@@ -29,7 +29,8 @@
           </RadioGroup>
         </FormItem>
         <FormItem label="出生年月：" prop="born">
-          <DatePicker size="large" type="date" placeholder="请选择日期" v-model="formValidate.born"></DatePicker>
+          <DatePicker size="large" type="date" @on-change="handleDate" placeholder="请选择日期"
+                      v-model="formValidate.born"></DatePicker>
         </FormItem>
         <FormItem label="学历：" prop="degree">
           <Select size="large" v-model="formValidate.degree" placeholder="请选择您的学历">
@@ -129,6 +130,7 @@
         defaultImg: '../static/images/loading.png',
         show: false,
         imgerr: false,
+        bornDate: '',
         formValidate: {
           img: '',
           name: '',
@@ -196,7 +198,13 @@
         }
       }
     },
+    created() {
+      window.scroll(0, 708)
+    },
     methods: {
+      handleDate(date) {
+        this.bornDate = date
+      },
       cropSuccess(imgDataUrl, field) {
         this.isChoose = true
         this.formValidate.img = imgDataUrl;
@@ -217,11 +225,11 @@
             this.formValidate.service_end = moment(this.formValidate.service_end).format('X')
             if (this.formValidate.service_sta < this.formValidate.service_end) {
               this.$emit('next', this.formValidate)
-            }else {
+            } else {
               this.$Message.error('服务时间段无效')
               this.formValidate.service_sta = ''
               this.formValidate.service_end = ''
-              this.formValidate.born = ''
+              this.formValidate.born = new Date(this.bornDate)
             }
           }
         })

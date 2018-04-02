@@ -140,6 +140,9 @@
         }
       }
     },
+    created() {
+      window.scroll(0, 708)
+    },
     methods: {
       cropSuccess(imgDataUrl, field) {
         this.isChoose = true

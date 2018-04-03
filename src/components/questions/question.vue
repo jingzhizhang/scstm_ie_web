@@ -7,124 +7,6 @@
       @handleClick="getBanner"/>
     <bg>
       <div class="qu-con clearfix">
-        <!--<div class="form clearfix">
-          &lt;!&ndash;提交问题&ndash;&gt;
-          <div class="form-con">
-            <h1 class="txt">您的意见是我们进步的动力</h1>
-            <ul class="screen">
-              <li v-for="(item,index) in typeList"
-                  :key="index"
-                  :class="{active:index===current}"
-                  @click="toggle(index,item.id)">
-                {{item.type}}
-              </li>
-            </ul>
-            <div class="form-list" v-if="isLogin">
-              &lt;!&ndash; <li class="form-group clearfix">
-                 <label class="name">您的姓名：</label>
-                 <div class="form-item">
-                   <input type="text" name="name"/>
-                   <label class="error">
-                     不能为空
-                   </label>
-                 </div>
-               </li>
-               <li class="form-group clearfix">
-                 <label class="name">您的手机：</label>
-                 <div class="form-item">
-                   <input type="text" name="phone"/>
-                   <label class="error">
-                     不能为空
-                   </label>
-                 </div>
-               </li>&ndash;&gt;
-              <li class="form-group clearfix">
-                <label class="name" style="vertical-align: top">填写内容：</label>
-                <div class="form-item">
-                  <textarea v-model="content.value" @input="verifyTextarea()" rows="5" cols="25" name="name"></textarea>
-                  <label class="error"
-                         :class="content.error ? 'is-visible' : ''">
-                    {{content.error}}
-                  </label>
-                </div>
-              </li>
-              <li class="form-group clearfix" style="padding: 5px 15px 5px 25px">
-                <div class="form_item">
-                  <input type="text" v-model="imgCode.value" @input="verifyCode()" name="code" class="code-input"/>
-                  <label class="error"
-                         :class="imgCode.error ? 'is-visible' : ''">
-                    {{imgCode.error}}
-                  </label>
-                </div>
-                <div class="code-img">
-                  <img :src="imgCaptcha" @click="getImgCode()"/>
-                </div>
-              </li>
-              <input type="button" value="提交" class="submit" @click="handleSubmit()"/>
-            </div>
-            <div class="no-login" v-if="!isLogin">
-              <img :src="icon"/>
-              <p class="txt">请先登录！</p>
-            </div>
-          </div>
-          &lt;!&ndash;联系方式&ndash;&gt;
-          <div class="contact-way">
-            <h1 class="txt">联系方式</h1>
-            <ul class="list">
-              <li>
-                <div class="ico">
-                  <img src="../../assets/add-icon.png"/>
-                </div>
-                <p>中国四川省成都市人民中路一段16号</p>
-              </li>
-              <li>
-                <div class="ico">
-                  <img src="../../assets/emial-icon.png"/>
-                </div>
-                <p>邮编：610041</p>
-              </li>
-              <li>
-                <div class="ico">
-                  <img src="../../assets/phone-ico.png"/>
-                </div>
-                <p>服务热线：<br/>028-7822817</p>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="answers clearfix">
-          <div class="search">
-            <input class="search-input" v-model="searchVal" placeholder="搜索关键词">
-            <span class="ico" @click="searchKeyword()">
-              <img src="../../assets/search.png"/>
-            </span>
-          </div>
-          <ul class="answers-list clearfix">
-            <li v-for="(item,index) in langList.data" :key="index">
-              <div class="issue item">
-                <div class="user-img">
-                  <img
-                    :src="item.img"/>
-                </div>
-                <p class="txt">{{item.content}}</p>
-              </div>
-              <div class="result item">
-                <div class="user-img">
-                  <img
-                    src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3652661687,4210497541&fm=27&gp=0.jpg"/>
-                </div>
-                <p class="txt">{{item.reply}}</p>
-              </div>
-            </li>
-          </ul>
-          <no-data v-if="!langList.data"></no-data>
-        </div>
-        <Pagination
-          v-if="langList.total"
-          :total="langList.total*10"
-          :page="page"
-          @handleChange="handlePage">
-        </Pagination>-->
         <div class="answers-box">
           <div class="answers">
             <div class="search clearfix">
@@ -157,7 +39,7 @@
         </div>
         <div class="ques">
           <h2 class="tit">您的意见使我们进步的动力</h2>
-          <div class="form-box">
+          <div class="form-box" v-if="isLogin">
             <Select size="large" v-model="id">
               <Option
                 v-for="(item,index) in typeList"
@@ -167,7 +49,8 @@
               </Option>
             </Select>
             <div class="form-group">
-              <textarea v-model="content.value" placeholder="填写内容：" @input="verifyTextarea()" rows="5" cols="25"></textarea>
+              <textarea v-model="content.value" placeholder="填写内容：" @input="verifyTextarea()" rows="5"
+                        cols="25"></textarea>
               <label class="error"
                      :class="content.error ? 'is-visible' : ''">
                 {{content.error}}
@@ -190,6 +73,7 @@
               <p class="input-btn" @click="handleSubmit()">提交</p>
             </div>
           </div>
+          <no-login v-if="!isLogin" title="请先登录"></no-login>
         </div>
       </div>
     </bg>
@@ -202,6 +86,7 @@
   import {getAjax, serveUrl} from '@/public/js/config'
   import Pagination from '@/base/pagination'
   import NoData from '@/base/no-data'
+  import NoLogin from '@/base/no-login'
   import moment from 'moment'
 
   export default {
@@ -210,7 +95,8 @@
       Banner,
       Bg,
       Pagination,
-      NoData
+      NoData,
+      NoLogin
     },
     data() {
       return {
@@ -332,7 +218,9 @@
             this.imgCode.error = res.interpret.code
           }
         }, (err) => {
-          console.log(err)
+          if (err.status === 401) {
+            this.$router.push('/signIn')
+          }
         }, this)
       },
       /**
@@ -378,7 +266,7 @@
       -webkit-border-radius: 2px;
       -moz-border-radius: 2px;
       border-radius: 2px;
-      .answers{
+      .answers {
         padding: 30px;
         background: #fff;
         box-shadow: 0 3px 36px 0 #EDEDED;
@@ -461,7 +349,7 @@
               line-height: 24px;
             }
           }
-          &:last-child{
+          &:last-child {
             border-bottom: none;
           }
         }
@@ -474,9 +362,10 @@
       float: right;
       padding: 32px 38px;
       box-shadow: 0 3px 36px 0 #EDEDED;
-      .tit{
+      .tit {
         font-size: 22px;
         color: #333;
+        margin-bottom: 30px;
       }
       .form-box {
         margin-top: 30px;

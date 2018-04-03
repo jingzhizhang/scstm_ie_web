@@ -159,13 +159,14 @@
           }
         ],
         listNumber: 1,
-        token: ''
+        token: false
       }
     },
     created() {
       this.getBanner()
       this.getDetailData()
       this.getNumbers()
+      this.getUserInfo()
       this._token()
     },
     methods: {
@@ -203,6 +204,20 @@
       },
       _token() {
         this.token = sessionStorage.getItem('token')
+      },
+      /**
+       * 验证token是否过期
+       */
+      getUserInfo() {
+        const url = 'api/user'
+        getAjax(url, {},
+          (res) => {
+          }, (err) => {
+            console.log(err)
+            if (err.status === 401) {
+              this.token = false
+            }
+          }, this)
       },
       /**
        * 获取场次
@@ -281,10 +296,10 @@
             ]
             this.reser_id = ''
             this.current = -1
-          }else {
+          } else {
             this.$Message.error({
               duration: 4,
-              content:res.interpret
+              content: res.interpret
             });
           }
         }, (err) => {

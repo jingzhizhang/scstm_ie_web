@@ -213,7 +213,6 @@
         getAjax(url, {},
           (res) => {
           }, (err) => {
-            console.log(err)
             if (err.status === 401) {
               this.token = false
             }

@@ -42,7 +42,7 @@
         </div>
         <div class="ques">
           <h2 class="tit">您的意见使我们进步的动力</h2>
-          <div class="form-box" v-if="isLogin">
+          <div class="form-box" v-if="token">
             <Select size="large" v-model="id">
               <Option
                 v-for="(item,index) in typeList"
@@ -76,7 +76,7 @@
               <p class="input-btn" @click="handleSubmit()">提交</p>
             </div>
           </div>
-          <no-login v-if="!isLogin" title="请先登录"></no-login>
+          <no-login v-if="!token" title="请先登录"></no-login>
         </div>
       </div>
     </bg>
@@ -128,18 +128,16 @@
         page: 1, //页码
         searchVal: '',  //搜索内容
         langList: [], //留言列表
-        icon: '../static/images/loading.png'
+        icon: '../static/images/loading.png',
+        token: false
       }
     },
     created() {
       this.getBanner()
       this.getTypeList()
       this.getLangLists()
-    },
-    computed: {
-      isLogin() {
-        return sessionStorage.getItem('login')
-      }
+      this._token()
+      this.getUserInfo()
     },
     methods: {
       /**
@@ -159,6 +157,22 @@
             this.typeList = res.data
           }, (err) => {
             console.log(err)
+          }, this)
+      },
+      _token() {
+        this.token = sessionStorage.getItem('token')
+      },
+      /**
+       * 验证token是否过期
+       */
+      getUserInfo() {
+        const url = 'api/user'
+        getAjax(url, {},
+          (res) => {
+          }, (err) => {
+            if (err.status === 401) {
+              this.token = false
+            }
           }, this)
       },
       toggle(index, id) {

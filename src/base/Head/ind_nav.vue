@@ -74,12 +74,12 @@
             title: '参观服务',
             className: 'visit'
           },
-         /* {
+          {
             icon: '../static/images/header/icon_serve.png',
             href: '/questions/answers',
             title: '咨询问答',
             className: 'visit'
-          },*/
+          },
           /*{
             icon: '../static/images/test/scstm_06.png',
             href: '/friends',

@@ -361,7 +361,7 @@ export default new Router({
       component: ExpertVolunteer,
       meta: ['专家志愿者', '专家志愿者']
     },
-    /*{
+    {
       path: '/questions',
       name: '咨询问答',
       component: Questions,
@@ -373,6 +373,6 @@ export default new Router({
           meta:['咨询问答','问题回答']
         }
       ]
-    }*/
+    }
   ]
 })

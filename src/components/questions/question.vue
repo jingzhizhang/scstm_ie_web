@@ -7,8 +7,8 @@
       @handleClick="getBanner"/>
     <bg>
       <div class="qu-con clearfix">
-        <div class="form clearfix">
-          <!--提交问题-->
+        <!--<div class="form clearfix">
+          &lt;!&ndash;提交问题&ndash;&gt;
           <div class="form-con">
             <h1 class="txt">您的意见是我们进步的动力</h1>
             <ul class="screen">
@@ -20,7 +20,7 @@
               </li>
             </ul>
             <div class="form-list" v-if="isLogin">
-              <!-- <li class="form-group clearfix">
+              &lt;!&ndash; <li class="form-group clearfix">
                  <label class="name">您的姓名：</label>
                  <div class="form-item">
                    <input type="text" name="name"/>
@@ -37,7 +37,7 @@
                      不能为空
                    </label>
                  </div>
-               </li>-->
+               </li>&ndash;&gt;
               <li class="form-group clearfix">
                 <label class="name" style="vertical-align: top">填写内容：</label>
                 <div class="form-item">
@@ -67,7 +67,7 @@
               <p class="txt">请先登录！</p>
             </div>
           </div>
-          <!--联系方式-->
+          &lt;!&ndash;联系方式&ndash;&gt;
           <div class="contact-way">
             <h1 class="txt">联系方式</h1>
             <ul class="list">
@@ -124,7 +124,73 @@
           :total="langList.total*10"
           :page="page"
           @handleChange="handlePage">
-        </Pagination>
+        </Pagination>-->
+        <div class="answers-box">
+          <div class="answers">
+            <div class="search clearfix">
+              <input v-model="searchVal" placeholder="搜索关键词" type="text"/>
+              <span class="ico" @click="searchKeyword()">
+                <Icon type="ios-search-strong"></Icon>
+              </span>
+            </div>
+            <ul class="answers-list clearfix">
+              <li class="clearfix" v-for="(item,index) in langList.data" :key="index">
+                <p class="date">
+                  <span class="day">{{item.addtime.slice(-2)}}</span>
+                  <span class="month">{{item.addtime.slice(0, -3)}}</span>
+                </p>
+                <div class="answers-item">
+                  <p class="q">Q：{{item.content}}？<span>{{item.type}}</span></p>
+                  <p class="a">
+                    A：{{item.reply}}
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <Pagination
+            v-if="langList.total"
+            :total="langList.total*10"
+            :page="page"
+            @handleChange="handlePage">
+          </Pagination>
+        </div>
+        <div class="ques">
+          <h2 class="tit">您的意见使我们进步的动力</h2>
+          <div class="form-box">
+            <Select size="large" v-model="id">
+              <Option
+                v-for="(item,index) in typeList"
+                :key="index"
+                v-model="item.id">
+                {{item.type}}
+              </Option>
+            </Select>
+            <div class="form-group">
+              <textarea v-model="content.value" placeholder="填写内容：" @input="verifyTextarea()" rows="5" cols="25"></textarea>
+              <label class="error"
+                     :class="content.error ? 'is-visible' : ''">
+                {{content.error}}
+              </label>
+            </div>
+            <div class="form-group clearfix">
+              <div class="form_item">
+                <input placeholder="验证码" type="text" v-model="imgCode.value" @input="verifyCode()" name="code"
+                       class="code-input"/>
+                <label class="error"
+                       :class="imgCode.error ? 'is-visible' : ''">
+                  {{imgCode.error}}
+                </label>
+              </div>
+              <div class="code-img">
+                <img :src="imgCaptcha" @click="getImgCode()"/>
+              </div>
+            </div>
+            <div class="form-group" style="margin-top: .4rem">
+              <p class="input-btn" @click="handleSubmit()">提交</p>
+            </div>
+          </div>
+        </div>
       </div>
     </bg>
   </div>
@@ -136,6 +202,7 @@
   import {getAjax, serveUrl} from '@/public/js/config'
   import Pagination from '@/base/pagination'
   import NoData from '@/base/no-data'
+  import moment from 'moment'
 
   export default {
     mixins: [getBannerMixin],
@@ -262,7 +329,7 @@
               duration: 6
             })
           } else {
-            this.imgCode.error = res.interpret
+            this.imgCode.error = res.interpret.code
           }
         }, (err) => {
           console.log(err)
@@ -305,136 +372,173 @@
     margin: 0 auto;
     padding-top: 50px;
     padding-bottom: 60px;
-    .form {
-      width: 100%;
-      position: relative;
-      .form-con {
-        float: left;
-        width: 657px;
-        height: 593px;
-        -webkit-border-radius: 15px;
-        color: #fff;
-        -moz-border-radius: 15px;
-        border-radius: 15px;
-        background: url("../../assets/question_bg.png") no-repeat center;
-        padding-left: 90px;
-        .txt {
-          font-size: 24px;
-          padding-top: 80px;
-          margin-bottom: 34px;
-        }
-        .screen {
-          margin-bottom: 26px;
-          overflow: hidden;
-          li {
-            float: left;
-            width: 97px;
-            padding: 9px 0;
-            border: 1px solid #4aa0d8;
-            border-radius: 8px;
-            color: #82bee6;
-            text-align: center;
-            cursor: pointer;
-            -webkit-transition: all 0.2s;
-            -moz-transition: all 0.2s;
-            transition: all 0.2s;
+    .answers-box {
+      width: 800px;
+      float: left;
+      -webkit-border-radius: 2px;
+      -moz-border-radius: 2px;
+      border-radius: 2px;
+      .answers{
+        padding: 30px;
+        background: #fff;
+        box-shadow: 0 3px 36px 0 #EDEDED;
+        .search {
+          position: relative;
+          width: 300px;
+          float: right;
+          input {
+            border: 1px solid #dddee1;
             font-size: 15px;
-            margin-right: 5px;
-            &:last-child {
-              margin-right: 0;
+            border-radius: 2px;
+            background: #fff;
+            color: #666;
+            width: 100%;
+            padding: 8px 35px 8px 10px;
+            &:focus {
+              border-color: #57a3f3;
+              outline: 0;
+              box-shadow: 0 0 0 2px rgba(45, 140, 240, .2);
+              -webkit-transition: all .3s ease-in-out;
+              transition: all .3s ease-in-out;
             }
-            &.active {
-              color: #fff;
-              border-color: #1b8cdb;
-              background-color: #1b8cdb;
-            }
+          }
+          .ico {
+            position: absolute;
+            right: 10px;
+            font-size: 26px;
+            top: 2px;
+            cursor: pointer;
           }
         }
-        .form-list {
-          width: 411px;
-          .form-group {
-            width: 100%;
-            margin-bottom: 10px;
-            position: relative;
-            border: 1px solid #4aa0d8;
-            border-radius: 8px;
-            list-style: none;
-            font-size: 14px;
-            padding: 10px 15px 10px 25px;
-            .name {
-              color: #82bee6;
-              display: inline-block;
-              vertical-align: middle;
+      }
+      .answers-list {
+        clear: both;
+        li {
+          padding: 30px 0;
+          border-bottom: 1px dashed #d4d4d4;
+          .date {
+            float: left;
+            width: 60px;
+            text-align: center;
+            margin-right: 15px;
+            color: #05afee;
+            .day {
+              font-size: 38px;
+              display: block;
             }
-            .form_item {
-              display: inline-block;
-              vertical-align: middle;
-              width: 250px;
-              position: relative;
+            .month {
+              font-size: 14px;
+              display: block;
             }
-            .code-input {
-              outline: 0;
-              border: 0;
-              background: none;
-              color: inherit;
-              width: 100%;
-              font-size: 16px;
-            }
-            .code-img {
-              display: inline-block;
-              vertical-align: middle;
-              width: 110px;
-              -webkit-border-radius: 5px;
-              -moz-border-radius: 5px;
-              border-radius: 5px;
-              overflow: hidden;
-              img {
-                width: 100%;
-              }
-            }
-            .form-item {
-              display: inline-block;
-              vertical-align: middle;
-              width: 280px;
-              input {
-                display: block;
-                width: 100%;
-                outline: 0;
-                border: 0;
-                background: none;
-                color: inherit;
-                font: 14px/1.5 "Microsoft YaHei", Arial, Tahoma, Helvetica, sans-serif;
-              }
-              textarea {
-                background: none;
-                outline: 0;
-                border: 0;
-                font: 14px/1.5 "Microsoft YaHei", Arial, Tahoma, Helvetica, sans-serif;
-                width: 100%;
+          }
+          .answers-item {
+            float: left;
+            width: 645px;
+            margin-top: 10px;
+            .q {
+              font-size: 24px;
+              color: #333;
+              margin-bottom: 15px;
+              span {
+                font-size: 16px;
+                padding: 3px 10px;
+                background-image: linear-gradient(90deg,
+                #00d1fb 0%,
+                #1dd4e6 0%,
+                #39d7d0 0%,
+                #079fe1 100%),
+                linear-gradient(
+                  #ffffff,
+                  #ffffff);
+                margin-left: 10px;
                 color: #fff;
+                border-radius: 2px;
+              }
+            }
+            .a {
+              font-size: 16px;
+              text-indent: 20px;
+              line-height: 24px;
+            }
+          }
+          &:last-child{
+            border-bottom: none;
+          }
+        }
+      }
+    }
+    .ques {
+      width: 370px;
+      border-radius: 2px;
+      background: #fff;
+      float: right;
+      padding: 32px 38px;
+      box-shadow: 0 3px 36px 0 #EDEDED;
+      .tit{
+        font-size: 22px;
+        color: #333;
+      }
+      .form-box {
+        margin-top: 30px;
+        .form-group {
+          position: relative;
+          width: 100%;
+          margin-top: 20px;
+          textarea {
+            border: 1px solid #dddee1;
+            outline: 0;
+            width: 100%;
+            color: #495060;
+            border-radius: 4px;
+            padding: 5px 8px;
+            font-size: 14px;
+            &:focus {
+              border-color: #57a3f3;
+              outline: 0;
+              box-shadow: 0 0 0 2px rgba(45, 140, 240, .2);
+              -webkit-transition: all .3s ease-in-out;
+              transition: all .3s ease-in-out;
+            }
+          }
+          .form_item {
+            float: left;
+            width: 60%;
+            position: relative;
+            input {
+              -webkit-transition: all .3s ease-in-out;
+              transition: all .3s ease-in-out;
+              background: #fff;
+              box-shadow: none;
+              color: #495060;
+              font-size: 14px;
+              width: 100%;
+              padding: 5px 8px;
+              border: 1px solid #dddee1;
+              border-radius: 4px;
+              height: 38px;
+              &:focus {
+                border-color: #57a3f3;
+                outline: 0;
+                box-shadow: 0 0 0 2px rgba(45, 140, 240, .2);
+                -webkit-transition: all .3s ease-in-out;
+                transition: all .3s ease-in-out;
               }
             }
           }
-          label.error {
-            position: absolute;
-            top: 4px;
-            right: -70px;
-            padding: 0 8px;
-            color: #f00;
-            cursor: text;
-            background: 0 0;
-            opacity: 0;
-            -webkit-transform: translate(20px, 0);
-            -ms-transform: translate(20px, 0);
-            transform: translate(20px, 0);
-            -webkit-transition: .25s ease-out;
-            transition: .25s ease-out;
-            font-size: 14px;
+          .code-img {
+            float: right;
+            height: 38px;
+            border-radius: 4px;
+            overflow: hidden;
+            img {
+              height: 100%;
+            }
           }
+
           label.error.is-visible {
             visibility: visible;
             opacity: 1;
-            right: 22px;
+            right: 0;
             -ms-filter: "alpha(Opacity=100)";
             -webkit-transform: translate(0, 0);
             -ms-transform: translate(0, 0);
@@ -442,155 +546,32 @@
             -webkit-transition: .3s ease-out;
             transition: .3s ease-out;
           }
-          .submit {
-            height: 42px;
-            width: 142px;
-            border-radius: 20px;
-            background: #59c3e1;
-            color: #fff;
-            font-size: 16px;
-            margin: 20px 0 0 0;
+          label.error {
+            position: absolute;
+            top: 11px;
+            right: -60px;
+            padding: 0 8px;
+            opacity: 0;
+            color: #c33;
+            cursor: text;
+            -webkit-transform: translate(20px, 0);
+            -ms-transform: translate(20px, 0);
+            transform: translate(20px, 0);
+            -webkit-transition: .25s ease-out;
+            transition: .25s ease-out;
+          }
+          .input-btn {
             cursor: pointer;
-          }
-        }
-        .no-login {
-          width: 202px;
-          text-align: center;
-          margin-top: 60px;
-          margin-left: 80px;
-          img {
             width: 100%;
-          }
-          .txt {
-            font-size: 20px;
-            color: #82bee6;
-            padding-top: 20px;
-            padding-bottom: 30px;
-          }
-        }
-      }
-      .contact-way {
-        position: absolute;
-        left: 50%;
-        top: 80px;
-        margin-left: -52px;
-        -webkit-border-radius: 10px;
-        -moz-border-radius: 10px;
-        border-radius: 10px;
-        background: url("../../assets/contact_bg.jpg") center no-repeat;
-        width: 666px;
-        height: 418px;
-        text-align: center;
-        overflow: hidden;
-        .txt {
-          padding-top: 68px;
-          margin-bottom: 42px;
-          font-size: 24px;
-        }
-        .list {
-          list-style: none;
-          li {
-            display: inline-block;
-            margin: 0 17px;
-            vertical-align: top;
-            width: 150px;
-            .ico {
-              width: 116px;
-              height: 116px;
-              margin: 0 auto 18px;
-              border-radius: 50%;
-              background-color: #fff;
-              img {
-                width: 100%;
-                display: block;
-              }
-            }
-            p {
-              font-size: 14px;
-            }
-          }
-        }
-      }
-    }
-    .answers {
-      padding-bottom: 32px;
-      -webkit-border-radius: 8px;
-      -moz-border-radius: 8px;
-      border-radius: 8px;
-      box-shadow: 0 0 27px 0 rgba(0, 0, 0, 0.09);
-      background: #fff;
-      margin-top: 40px;
-      .search {
-        float: right;
-        margin-top: 20px;
-        margin-right: 40px;
-        position: relative;
-        .search-input {
-          font-size: 15px;
-          padding: 6px 45px 6px 20px;
-          height: 36px;
-          width: 300px;
-          border: 1px solid #dddee1;
-          border-radius: 4px;
-          color: #495060;
-          background-color: #fff;
-          &:focus {
-            outline: 0;
-            box-shadow: 0 0 0 2px rgba(45, 140, 240, .2);
-            border-color: #57a3f3;
-          }
-        }
-        .ico {
-          position: absolute;
-          right: 8px;
-          top: 8px;
-          width: 20px;
-          height: 20px;
-          cursor: pointer;
-          img {
-            width: 100%;
-          }
-        }
-      }
-      .answers-list {
-        padding: 16px 30px 30px;
-        margin-top: 60px;
-        li {
-          width: 100%;
-          padding-bottom: 15px;
-          margin-top: 20px;
-          .item {
-            .user-img {
-              width: 40px;
-              height: 40px;
-              -webkit-border-radius: 50%;
-              -moz-border-radius: 50%;
-              border-radius: 50%;
-              overflow: hidden;
-              display: inline-block;
-              vertical-align: top;
-              margin-right: 15px;
-              margin-top: 6px;
-              img {
-                width: 100%;
-              }
-            }
-            .txt {
-              display: inline-block;
-              vertical-align: top;
-              font-size: 15px;
-              width: 1000px;
-              text-align: justify;
-              margin-top: 6px;
-              line-height: 26px;
-            }
-          }
-          .result {
-            margin-left: 20px;
-            margin-top: 15px;
-            background-color: #f5f5f5;
-            padding: 8px 15px;
-            border-radius: 6px;
+            height: 38px;
+            text-align: center;
+            line-height: 38px;
+            font-size: 14px;
+            border-radius: 2px;
+            margin-top: 20px;
+            letter-spacing: 3px;
+            background: rgb(52, 152, 233);
+            color: #fff;
           }
         }
       }

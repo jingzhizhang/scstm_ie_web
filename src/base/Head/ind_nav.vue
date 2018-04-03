@@ -75,7 +75,7 @@
             className: 'visit'
           },
           {
-            icon: '../static/images/header/icon_serve.png',
+            icon: '../static/images/header/answer.png',
             href: '/questions/answers',
             title: '咨询问答',
             className: 'visit'

@@ -29,6 +29,9 @@
                 </div>
               </li>
             </ul>
+            <div class="data" style="margin-top: 40px">
+              <no-data v-if="!langList.data"></no-data>
+            </div>
           </div>
           <Pagination
             v-if="langList.total"

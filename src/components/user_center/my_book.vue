@@ -207,6 +207,7 @@
             float: left;
             width: 230px;
             padding-right: 10px;
+            padding-left: 10px;
             .act-title {
               font-size: 20px;
               color: #333;

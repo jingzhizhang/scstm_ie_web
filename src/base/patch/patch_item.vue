@@ -57,6 +57,9 @@
       line-height: 320px;
       text-align: center;
       overflow: hidden;
+      img{
+        width: 100%;
+      }
     }
     .m-txt {
       float: left;

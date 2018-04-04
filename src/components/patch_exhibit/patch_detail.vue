@@ -27,9 +27,13 @@
             <!--<p class="btn-book">立即预定</p>-->
           </div>
         </div>
-        <div class="movie-clips clearfix">
+        <div class="movie-clips clearfix" v-if="patchDetail.data.show_img.length">
           <p class="title">片花 / 剧照</p>
           <clips-roll v-if="patchDetail.data.show_img.length" :data="patchDetail.data.show_img"></clips-roll>
+        </div>
+        <div class="clip-con" v-if="patchDetail.data.content">
+          <p class="title">临展内容</p>
+          <div class="clip-box" v-html="patchDetail.data.content"></div>
         </div>
       </div>
     </bg>
@@ -191,6 +195,20 @@
         font-size: 25px;
         color: #333;
         margin-bottom: 20px;
+      }
+    }
+    .clip-con{
+      padding-top: 40px;
+      padding-bottom: 40px;
+      .title {
+        font-size: 25px;
+        color: #333;
+        margin-bottom: 20px;
+      }
+      .clip-box{
+        background: #fff;
+        padding: 20px;
+        border-radius: 4px;
       }
     }
   }

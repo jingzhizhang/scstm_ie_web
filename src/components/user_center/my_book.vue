@@ -63,7 +63,7 @@
           },
           {
             href: '/user_center/manage',
-            title: '账号管理',
+            title: '密码管理',
             id: ''
           },
           {

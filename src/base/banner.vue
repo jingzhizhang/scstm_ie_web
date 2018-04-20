@@ -19,6 +19,7 @@
          :style="{background: 'url('+($route.query.img ? $route.query.img : banner)+') no-repeat center'}"
          :class="{filter:isDetail==='详情'}">
     </div>
+    <div :class="{mask:isDetail==='详情'}"></div>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -131,6 +132,14 @@
           }
         }
       }
+    }
+    .mask{
+      position: absolute;
+      top: 0;
+      left: 0;
+      right:0;
+      bottom: 0;
+      background: rgba(0,0,0,.3);
     }
   }
 </style>

@@ -1,11 +1,23 @@
 <template>
   <div class="content">
-    <swiper v-if="homeData.banner.length" :banners="homeData.banner"></swiper>
+    <home-swiper v-if="homeData.banner.length" :banners="homeData.banner"></home-swiper>
     <bg>
       <div class="wrap clearfix">
         <div class="wrap-left">
           <div class="l-top wow fadeInUp" data-wow-duration="3s" data-wow-delay=".2s">
-            <img src="../assets/mkx_bg.jpg"/>
+            <!--<img src="../assets/mkx_bg.jpg"/>-->
+            <div class="swiper-list">
+              <swiper :options="mkxOption">
+
+                <swiper-slide
+                  v-for="(item,index) in homeData.banner"
+                  :key="index">
+                  <div  class="bg-img"
+                     :style="{background: 'url('+item.banner+') no-repeat center'}"></div>
+                </swiper-slide>
+
+              </swiper>
+            </div>
             <div class="news mkx-news">
               <div class="title clearfix">
                 <h2>美科新学院</h2>
@@ -32,7 +44,6 @@
             </div>
           </div>
           <div class="l-bottom wow fadeInUp" data-wow-duration="3s" data-wow-delay=".3s">
-            <img src="../assets/edu_bg.jpg"/>
             <div class="news edu-news">
               <div class="title clearfix">
                 <h2>教育活动</h2>
@@ -57,6 +68,18 @@
                   </li>
                 </ul>
               </div>
+            </div>
+            <div class="swiper-list">
+              <swiper :options="eduOption">
+
+                <swiper-slide
+                  v-for="(item,index) in homeData.banner"
+                  :key="index">
+                  <div  class="bg-img"
+                        :style="{background: 'url('+item.banner+') no-repeat center'}"></div>
+                </swiper-slide>
+
+              </swiper>
             </div>
           </div>
         </div>
@@ -148,17 +171,22 @@
 
 <script type="text/ecmascript-6">
   import {getAjax} from '@/public/js/config'
-  import Swiper from '@/base/Home/swiper'
+  import homeSwiper from '@/base/Home/swiper'
   import {Icon} from 'iview'
   import Bg from '@/base/bg'
   import vueSeamLess from 'vue-seamless-scroll'
+  import 'swiper/dist/css/swiper.css'
+  import '@/public/css/animate.min.css'
+  import {swiper, swiperSlide} from 'vue-awesome-swiper'
 
   export default {
     components: {
-      Swiper,
+      homeSwiper,
       Icon,
       Bg,
-      vueSeamLess
+      vueSeamLess,
+      swiper,
+      swiperSlide,
     },
     data() {
       return {
@@ -187,7 +215,26 @@
           },
         ],
         tabs: ['公告', '新闻'],
-        current: 0
+        current: 0,
+        mkxOption: {
+          spaceBetween: 5,
+          speed: 600,
+          effect: 'coverflow',
+          autoplay: {
+            delay: 3000,
+            disableOnInteraction: false
+          },
+          loop: true,
+        },
+        eduOption: {
+          spaceBetween: 5,
+          speed: 600,
+          autoplay: {
+            delay: 3000,
+            disableOnInteraction: false
+          },
+          loop: true,
+        }
       }
     },
     computed: {
@@ -257,6 +304,11 @@
       .wrap-left {
         float: left;
         width: 854px;
+        .swiper-list{
+          width: 459px;
+          height: 100%;
+          float: left;
+        }
         .l-top {
           width: 100%;
           height: 410px;
@@ -273,13 +325,11 @@
             }
           }
           .mkx-news {
-            position: absolute;
-            width: 362px;
-            right: 0;
-            top: 0;
-            bottom: 0;
+            width: 395px;
+            height: 100%;
             background: url("../assets/mkx_bg.png") no-repeat;
             background-size: cover;
+            float: left;
           }
         }
         .news {
@@ -312,7 +362,7 @@
                   display: inline-block;
                   vertical-align: bottom;
                   color: #fff;
-                  width: 278px;
+                  width: 340px;
                   overflow: hidden;
                   text-overflow: ellipsis;
                   white-space: nowrap;
@@ -354,13 +404,11 @@
             }
           }
           .edu-news {
-            position: absolute;
-            top: 0;
-            left: 0;
+            float: left;
+            height: 100%;
             background: url("../assets/edu_bg.png") no-repeat;
             background-size: cover;
-            bottom: 0;
-            width: 362px;
+            width: 395px;
           }
         }
       }
@@ -566,7 +614,8 @@
         position: absolute;
         width: 400px;
         top: 260px;
-        left: 60px;
+        left: 30px;
+        z-index: 100;
         img {
           width: 100%;
           height: 100%;

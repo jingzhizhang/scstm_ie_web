@@ -100,7 +100,7 @@
 <style lang="less">
   .swiper-con {
     width: 100%;
-    height: 850px;
+    height: 750px;
     position: relative;
     .swiper-icon {
       position: absolute;
@@ -140,7 +140,7 @@
   .swiper-slide {
     .bg-img {
       width: 100%;
-      height: 850px;
+      height: 100%;
       display: block;
     }
 

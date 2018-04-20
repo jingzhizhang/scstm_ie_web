@@ -107,6 +107,14 @@
           </div>
         </div>
 
+        <div class="book-box" v-if="token && mkxDetail.data.state===2">
+          <p class="title">活动预约</p>
+          <p class="s-tit">预约活动场次前，请先确保已成功预定科技馆门票</p>
+          <div class="book">
+            <no-login title="暂未开启在线预约"></no-login>
+          </div>
+        </div>
+
         <div class="movie-clips clearfix">
           <p class="title">活动内容</p>
           <div class="act-content" v-html="mkxDetail.data.content">
@@ -186,7 +194,6 @@
         getAjax(url, {
           id: this.$route.query.id
         }, (res) => {
-
           this.mkxDetail = res
         }, (err) => {
           console.log(err)
@@ -229,8 +236,7 @@
         }, (res) => {
           this.numbers = res.data
         }, (err) => {
-          console.log(err)
-          if (res.status === 401) {
+          if (err.status === 401) {
             this.token = ''
           }
         }, this)

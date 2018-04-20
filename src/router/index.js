@@ -219,7 +219,7 @@ export default new Router({
         {
           path: 'patch-detail',
           component: Patch_detail,
-          name: '临展详情',
+          name: '详情',
           meta: ['临展信息', '临时展览'],
         },
         {
@@ -337,9 +337,9 @@ export default new Router({
         },
         {
           path: 'manage',
-          name: '账号管理',
+          name: '密码管理',
           component: Manage,
-          meta: ['个人中心', '账号管理'],
+          meta: ['个人中心', '密码管理'],
         },
         {
           path: 'my_book',

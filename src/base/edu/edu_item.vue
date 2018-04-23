@@ -6,6 +6,8 @@
     <div class="m-txt">
       <h2 class="m-title">
         <router-link :to="{path:'/edu_activity/course_detail',query:{id:data.id}}">{{data.title}}</router-link>
+        <img src="../../assets/new.png" v-if="data.new===1" class="icon-status"/>
+        <img src="../../assets/hot.png" v-if="data.hot===1" class="icon-status"/>
       </h2>
       <p class="m-time">
         <Icon type="ios-calendar-outline" class="time"></Icon>
@@ -71,13 +73,21 @@
         font-size: 28px;
         color: #333;
         margin-bottom: 15px;
-        overflow: hidden;
-        text-overflow:ellipsis;
-        white-space: nowrap;
         a {
           color: #333;
+          overflow: hidden;
+          text-overflow:ellipsis;
+          white-space: nowrap;
+          max-width: 600px;
+          display: inline-block;
+          vertical-align: middle;
           &:hover {
             color: #28bbff;
+          }
+          .icon-status{
+            width: 22px;
+            display: inline-block;
+            vertical-align: middle;
           }
         }
         .mold {

@@ -6,6 +6,8 @@
     <div class="m-txt">
       <h2 class="m-title">
         <router-link :to="{path:'/mkx_school/mkx_detail',query:{id:data.id}}">{{data.title}}</router-link>
+        <img src="../../assets/new.png" v-if="data.new===1" class="icon-status"/>
+        <img src="../../assets/hot.png" v-if="data.hot===1" class="icon-status"/>
       </h2>
       <p class="m-time">
         <Icon type="ios-calendar-outline" class="time"></Icon>
@@ -76,8 +78,19 @@
         white-space: nowrap;
         a {
           color: #333;
+          overflow: hidden;
+          text-overflow:ellipsis;
+          white-space: nowrap;
+          max-width: 600px;
+          display: inline-block;
+          vertical-align: middle;
           &:hover {
             color: #28bbff;
+          }
+          .icon-status{
+            width: 22px;
+            display: inline-block;
+            vertical-align: middle;
           }
         }
         .mold {

@@ -10,7 +10,7 @@
         <nav-bar :navBar="navBar"
                  @handleClick="handleTypeClick">
         </nav-bar>
-        <consult v-if="typeId===1"></consult>
+        <consult v-if="typeId===1" :data="consult"></consult>
       </div>
     </bg>
   </div>
@@ -20,6 +20,7 @@
   import {getBannerMixin} from '@/public/js/mixin'
   import NavBar from '@/base/navBar'
   import Bg from '@/base/bg'
+  import {getAjax} from '@/public/js/config'
   import Consult from '@/base/visit_serve/consult'
 
   export default {
@@ -67,11 +68,13 @@
           }
         ],
         title: '参观服务',
-        typeId: 1
+        typeId: 1,
+        consult:''
       }
     },
     created() {
       this.getBanner()
+      this.getConsulContent()
     },
     methods: {
       /**
@@ -84,6 +87,14 @@
       handleTypeClick(typeId) {
         this.typeId = typeId
       },
+      getConsulContent(){
+        const url='api/consulcontent'
+        getAjax(url,{},(res)=>{
+          this.consult=res.data.content
+        },(err)=>{
+          console.log(err)
+        },this)
+      }
     }
   }
 </script>

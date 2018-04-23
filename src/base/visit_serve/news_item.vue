@@ -7,7 +7,7 @@
     <router-link target="_blank" :to="{path:'/visit_serve/detail',query:{id:data.id,typeId:typeId}}" class="info">
       <div class="a-title">
         <span class="info-title">{{data.title}}</span>
-        <img src="../../assets/top.png" v-if="data.up===1" class="icon-type"/>
+        <!--<img src="../../assets/top.png" v-if="data.up===1" class="icon-type"/>-->
         <img src="../../assets/hot.png" v-if="data.hot===1" class="icon-type"/>
         <img src="../../assets/new.png" v-if="data.new===1" class="icon-type"/>
       </div>
@@ -84,9 +84,10 @@
             margin-right: 5px;
             display: inline-block;
             vertical-align: middle;
+            max-width: 580px;
           }
           .icon-type {
-            width: 60px;
+            width: 22px;
             display: inline-block;
             vertical-align: middle;
             margin-top: -2px;

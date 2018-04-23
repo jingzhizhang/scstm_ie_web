@@ -10,7 +10,7 @@
               <swiper :options="mkxOption">
 
                 <swiper-slide
-                  v-for="(item,index) in homeData.banner"
+                  v-for="(item,index) in homeData.future_banners"
                   :key="index">
                   <div  class="bg-img"
                      :style="{background: 'url('+item.banner+') no-repeat center'}"></div>
@@ -20,7 +20,7 @@
             </div>
             <div class="news mkx-news">
               <div class="title clearfix">
-                <h2>美科新学院</h2>
+                <h2>美科新未来学院</h2>
                 <router-link to='/mkx_school/school_course'>
                 <span>
                   <Icon type="ios-arrow-right"></Icon>
@@ -35,7 +35,12 @@
                       <span class="month">2017.10</span>
                     </p>-->
                     <router-link target="_blank" :to="{path:'/mkx_school/mkx_detail',query:{id:item.id}}" class="info">
-                      <span class="info-title">{{item.title}}</span>
+                      <div class="a-title clearfix">
+                        <span class="info-title">{{item.title}}</span>
+                        <img src="../assets/hot.png" v-if="item.hot===1" class="icon-status"/>
+                        <img src="../assets/new.png" v-if="item.new===2" class="icon-status"/>
+                      </div>
+
                       <span class="intr">{{item.introduce}}</span>
                     </router-link>
                   </li>
@@ -62,7 +67,12 @@
                     </p>-->
                     <router-link target="_blank" :to="{path:'/edu_activity/course_detail',query:{id:item.id}}"
                                  class="info">
-                      <span class="info-title">{{item.title}}</span>
+                      <div class="a-title clearfix">
+                        <span class="info-title">{{item.title}}</span>
+                        <img src="../assets/hot.png" v-if="item.hot===1" class="icon-status"/>
+                        <img src="../assets/new.png" v-if="item.new===2" class="icon-status"/>
+                      </div>
+
                       <span class="intr">{{item.introduce}}</span>
                     </router-link>
                   </li>
@@ -73,7 +83,7 @@
               <swiper :options="eduOption">
 
                 <swiper-slide
-                  v-for="(item,index) in homeData.banner"
+                  v-for="(item,index) in homeData.educations_banners"
                   :key="index">
                   <div  class="bg-img"
                         :style="{background: 'url('+item.banner+') no-repeat center'}"></div>
@@ -113,6 +123,15 @@
                   <span class="txt">闭馆时间</span>
                 </p>
               </div>
+              <div class="notice-txt">
+                <vue-seam-less :data="homeData.switch" :class-option="optionLeft" class="seamless-warp2">
+                  <ul class="item">
+                    <li v-for="(item,index) in homeData.switch" :key="index">
+                      {{item}}
+                    </li>
+                  </ul>
+                </vue-seam-less>
+              </div>
             </div>
             <div class="new-notice" v-if="homeData.is_acc==2">
               <p class="t-title">临时公告</p>
@@ -126,7 +145,7 @@
                 </vue-seam-less>
               </div>
             </div>
-            <div class="notice">
+            <div class="notice clearfix">
               <div class="n-title clearfix">
                 <div class="tab-btn">
                   <h2 v-for="(item,index) in tabs"
@@ -163,6 +182,30 @@
         </div>
         <div class="mask-img wow fadeInUp" data-wow-duration="3s" data-wow-delay=".8s">
           <img :src="homeData.latest"/>
+        </div>
+      </div>
+      <div class="pithy clearfix wow fadeInUp" data-wow-duration="3s" data-wow-delay=".8s">
+        <div class="pithy-left clearfix">
+          <p class="title">展品精粹</p>
+          <router-link class="exhibit" to="/exhibit/succinct">
+            查看所有展品
+          </router-link>
+        </div>
+        <div class="pithy-right">
+          <swiper :options="collectOption">
+            <swiper-slide v-for="(item,index) in homeData.collection" :key="index">
+              <router-link class="lists" target="_blank" :to="{path:'/exhibit/succinct-detail',query:{id:item.id}}">
+                <img :src="item.img"/>
+                <h3 class="tit">{{item.title}}</h3>
+              </router-link>
+            </swiper-slide>
+            <div class="prev" slot="button-prev">
+              <Icon type="ios-arrow-left" class="swiper-icon"></Icon>
+            </div>
+            <div class="next" slot="button-next">
+              <Icon type="ios-arrow-right" class="swiper-icon"></Icon>
+            </div>
+          </swiper>
         </div>
       </div>
     </bg>
@@ -219,7 +262,7 @@
         mkxOption: {
           spaceBetween: 5,
           speed: 600,
-          effect: 'coverflow',
+          //effect: 'flip',
           autoplay: {
             delay: 3000,
             disableOnInteraction: false
@@ -227,13 +270,25 @@
           loop: true,
         },
         eduOption: {
-          spaceBetween: 5,
           speed: 600,
+          //effect: 'flip',
           autoplay: {
-            delay: 3000,
+            delay: 2500,
             disableOnInteraction: false
           },
           loop: true,
+        },
+        collectOption:{
+          slidesPerView: 3,
+          spaceBetween: 13,
+          loop: true,
+          slidesPerGroup: 3,
+          loopFillGroupWithBlank: true,
+          speed: 600,
+          navigation: {
+            nextEl: '.prev',
+            prevEl: '.next'
+          }
         }
       }
     },
@@ -256,6 +311,7 @@
         const url = 'api/index'
         getAjax(url, {},
           (res) => {
+            console.log(res)
             this.homeData = res.data
           }, (err) => {
             console.log(err)
@@ -277,7 +333,6 @@
       width: 1400px;
       margin: 0 auto;
       padding-top: 50px;
-      padding-bottom: 50px;
       position: relative;
       .title {
         color: #fff;
@@ -305,7 +360,7 @@
         float: left;
         width: 854px;
         .swiper-list{
-          width: 459px;
+          width: 427px;
           height: 100%;
           float: left;
         }
@@ -315,17 +370,17 @@
           position: relative;
           margin-bottom: 26px;
           overflow: hidden;
-          img {
-            width: 100%;
-            min-height: 410px;
-            transform: scale3d(1, 1, 1);
-            transition: opacity 0.35s ease 0s, transform 0.35s ease 0s;
-            &:hover {
-              transform: scale3d(1.15, 1.15, 1);
-            }
-          }
+          /*img {*/
+            /*width: 100%;*/
+            /*min-height: 410px;*/
+            /*transform: scale3d(1, 1, 1);*/
+            /*transition: opacity 0.35s ease 0s, transform 0.35s ease 0s;*/
+            /*&:hover {*/
+              /*transform: scale3d(1.15, 1.15, 1);*/
+            /*}*/
+          /*}*/
           .mkx-news {
-            width: 395px;
+            width: 427px;
             height: 100%;
             background: url("../assets/mkx_bg.png") no-repeat;
             background-size: cover;
@@ -362,17 +417,29 @@
                   display: inline-block;
                   vertical-align: bottom;
                   color: #fff;
-                  width: 340px;
+                  width: 380px;
                   overflow: hidden;
                   text-overflow: ellipsis;
                   white-space: nowrap;
-                  .info-title {
-                    font-size: 17px;
-                    display: block;
-                    margin-bottom: 5px;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
+                  .a-title{
+                    position: relative;
+                    .info-title {
+                      font-size: 17px;
+                      display: inline-block;
+                      vertical-align: middle;;
+                      margin-bottom: 5px;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      white-space: nowrap;
+                      max-width: 328px;
+                      font-weight: bold;
+                    }
+                    .icon-status{
+                      width: 22px;
+                      display: inline-block;
+                      vertical-align: middle;;
+                      margin-top: -2px;
+                    }
                   }
                   .intr {
                     font-size: 14px;
@@ -392,23 +459,23 @@
           margin-bottom: 26px;
           overflow: hidden;
           position: relative;
-          img {
-            float: right;
-            overflow: hidden;
-            width: 100%;
-            height: 410px;
-            transform: scale3d(1, 1, 1);
-            transition: opacity 0.35s ease 0s, transform 0.35s ease 0s;
-            &:hover {
-              transform: scale3d(1.15, 1.15, 1);
-            }
-          }
+          /*img {*/
+            /*float: right;*/
+            /*overflow: hidden;*/
+            /*width: 100%;*/
+            /*height: 410px;*/
+            /*transform: scale3d(1, 1, 1);*/
+            /*transition: opacity 0.35s ease 0s, transform 0.35s ease 0s;*/
+            /*&:hover {*/
+              /*transform: scale3d(1.15, 1.15, 1);*/
+            /*}*/
+          /*}*/
           .edu-news {
             float: left;
             height: 100%;
             background: url("../assets/edu_bg.png") no-repeat;
             background-size: cover;
-            width: 395px;
+            width: 427px;
           }
         }
       }
@@ -463,6 +530,7 @@
                   color: #fff;
                   margin-top: 25px;
                   margin-bottom: 15px;
+                  font-weight: bold;
                 }
                 p {
                   line-height: 22px;
@@ -486,11 +554,14 @@
             color: #fff;
             margin-bottom: 25px;
           }
+          .start-time{
+            position: relative;
+          }
           .time-group {
             .time-item {
               background: rgba(255, 255, 255, .3);
               border: 1px solid #fff;
-              padding: 9px 50px;
+              padding: 4px 50px;
               -webkit-border-radius: 4px;
               -moz-border-radius: 4px;
               border-radius: 4px;
@@ -513,6 +584,28 @@
               color: #fff;
               font-size: 40px;
               margin: 0 10px;
+            }
+          }
+          .notice-txt{
+            color: #fff;
+            display: inline-block;
+            vertical-align: middle;
+            text-align: center;
+            width: 422px;
+            position: absolute;
+            .seamless-warp2 {
+              overflow: hidden;
+              height: 40px;
+              width: 100%;
+              line-height: 40px;
+              ul.item {
+                width: 420px;
+                li {
+                  float: left;
+                  margin-right: 2px;
+                  font-size: 17px;
+                }
+              }
             }
           }
           .notice-info {
@@ -544,7 +637,7 @@
           }
           .notice {
             .n-title {
-              padding-top: 30px;
+              padding-top: 60px;
               .tab-btn {
                 float: left;
                 font-size: 24px;
@@ -601,6 +694,7 @@
                   text-overflow: ellipsis;
                   white-space: nowrap;
                   vertical-align: middle;
+                  font-weight: bold;
                 }
                 &:last-child {
                   border-bottom: none;
@@ -619,6 +713,87 @@
         img {
           width: 100%;
           height: 100%;
+        }
+      }
+    }
+    .pithy{
+      width: 1400px;
+      margin: 0 auto;
+      padding-bottom: 50px;
+      position: relative;
+      .pithy-left{
+        background: url("../assets/zpbg.png") no-repeat center center;
+        background-size: cover !important;
+        width: 250px;
+        height: 250px;
+        text-align: center;
+        float: left;
+        .title{
+          font-size: 26px;
+          color: #fff;
+          margin-top: 50px;
+          text-align: center;
+          margin-bottom: 40px;
+        }
+        .exhibit{
+          border:1px solid #fff;
+          padding: 12px 20px;
+          background: #68d5f6;
+          color: #fff;
+          font-size: 20px;
+          border-radius: 4px;
+          display: inline-block;
+          text-align: center;
+        }
+      }
+      .pithy-right{
+        position: relative;
+        float: right;
+        width: 1125px;
+        height: 250px;
+        overflow: hidden;
+        .swiper-slide{
+          height: 250px !important;
+          overflow: hidden;
+          a{
+            height: 100%;
+            display: block;
+            position: relative;
+            img{
+              height: 100%;
+            }
+            .tit{
+              position: absolute;
+              text-align: center;
+              height: 50px;
+              color: #fff;
+              font-size: 20px;
+              line-height: 50px;
+              bottom: 0;
+              background: linear-gradient(to bottom, rgba(27, 32, 41, 0) 0, rgba(27, 32, 41, 0.6) 55%, rgba(27, 32, 41, 0.6) 100%);
+              width: 100%;
+              font-weight: normal;
+            }
+          }
+        }
+        .next,.prev{
+          position: absolute;
+          top:50%;
+          margin-top: -27px;
+          z-index: 100;
+          .swiper-icon {
+            color: #fff;
+            cursor: pointer;
+            font-size: 55px;
+            text-align: center;
+            text-shadow: 0 0 10px #bab7b7;
+          }
+        }
+        .prev{
+          left: 20px;
+        }
+        .next{
+          right: 20px;
         }
       }
     }

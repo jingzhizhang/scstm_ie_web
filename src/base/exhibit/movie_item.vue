@@ -18,6 +18,10 @@
         <Icon type="ios-timer-outline" class="time"></Icon>
         {{data.length}}
       </p>
+      <p class="m-time">
+        <Icon type="ios-calendar-outline" class="time"></Icon>
+        {{data.time}}
+      </p>
       <p class="intr">
         {{data.introduce}}
       </p>

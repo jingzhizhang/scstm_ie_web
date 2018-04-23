@@ -19,18 +19,28 @@
           </div>
           <div class="art-con" v-html="content.content"></div>
         </div>
-        <div class="news-lists">
-          <div class="news-head clearfix">
-            <h2 class="news-title">热门新闻</h2>
-            <router-link to="/visit_serve/notice" class="more">更多</router-link>
-          </div>
-          <ul class="lists-con clearfix">
-            <li v-for="(item,index) in hotList.data">
-              <router-link :to="{path:'/visit_serve/detail',query:{id:item.id,typeId:1}}" class="n-title">
-                {{item.title}}
-              </router-link>
-              <span class="n-time">{{item.addtime}}</span>
-            </li>
+        <!--<div class="news-lists">-->
+          <!--<div class="news-head clearfix">-->
+            <!--<h2 class="news-title">热门新闻</h2>-->
+            <!--<router-link to="/visit_serve/notice" class="more">更多</router-link>-->
+          <!--</div>-->
+          <!--<ul class="lists-con clearfix">-->
+            <!--<li v-for="(item,index) in hotList.data">-->
+              <!--<router-link :to="{path:'/visit_serve/detail',query:{id:item.id,typeId:1}}" class="n-title">-->
+                <!--{{item.title}}-->
+              <!--</router-link>-->
+              <!--<span class="n-time">{{item.addtime}}</span>-->
+            <!--</li>-->
+          <!--</ul>-->
+        <!--</div>-->
+        <div class="now-exhibit">
+          <p class="title">正在展览</p>
+          <ul class="clearfix">
+            <side-item v-for="(item,index) in patchData.data"
+                       :key="index"
+                       :data="item"
+                       v-if="index<=1">
+            </side-item>
           </ul>
         </div>
       </div>
@@ -42,12 +52,14 @@
   import {getBannerMixin} from '@/public/js/mixin'
   import {getAjax} from '@/public/js/config'
   import Bg from '@/base/bg'
+  import SideItem from '@/base/patch/side_item'
 
   export default {
     mixins: [getBannerMixin],
     components: {
       Banner,
-      Bg
+      Bg,
+      SideItem
     },
     data() {
       return {
@@ -65,13 +77,13 @@
           },
         ],
         content: '',
-        hotList: ''
+        patchData: ''
       }
     },
     created() {
       this.getBanner()
       this.getNewsDetail()
-      this.getHotList()
+      this.getPatchData()
     },
     methods: {
       /**
@@ -97,17 +109,19 @@
       },
 
       /**
-       * 右侧热门列表
+       * 获取临时展览列表
        */
-      getHotList() {
-        const url = 'api/informlistsright'
+      getPatchData() {
+        const url = 'api/showlists'
         getAjax(url, {
-          type: 1
-        }, (res) => {
-          this.hotList = res.data
-        }, (err) => {
-          console.log(err)
-        }, this)
+            page: 1,
+            type: 1
+          },
+          (res) => {
+            this.patchData = res.data
+          }, (err) => {
+            console.log(err)
+          }, this)
       }
     },
     watch: {
@@ -155,53 +169,18 @@
         overflow: hidden;
       }
     }
-    .news-lists {
+    .now-exhibit {
       float: right;
       width: 370px;
       background: #fff;
-      -webkit-border-radius: 4px;
-      -moz-border-radius: 4px;
-      border-radius: 4px;
+      -webkit-border-radius: 2px;
+      -moz-border-radius: 2px;
+      border-radius: 2px;
+      padding: 32px 38px;
       box-shadow: 0 3px 36px 0 #EDEDED;
-      padding: 30px 20px 15px 20px;
-      .news-head {
-        margin-bottom: 5px;
-        .news-title {
-          font-size: 18px;
-          color: #333;
-          float: left;
-        }
-        .more {
-          float: right;
-          font-size: 15px;
-          color: #333;
-        }
-      }
-      .lists-con {
-        li {
-          height: 40px;
-          line-height: 40px;
-          border-bottom: 1px dashed #d8d8d8;
-          .n-title {
-            font-size: 15px;
-            color: #666;
-            width: 240px;
-            display: inline-block;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            float: left;
-          }
-          .n-time {
-            color: #cacaca;
-            float: right;
-          }
-          &:hover {
-            .n-title {
-              color: #4bc5f4;
-            }
-          }
-        }
+      .title {
+        font-size: 18px;
+        color: #333;
       }
     }
   }

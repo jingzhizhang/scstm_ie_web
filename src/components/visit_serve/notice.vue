@@ -27,15 +27,21 @@
           </Pagination>
           <no-data v-if="!noticeData.data"></no-data>
         </div>
-        <div class="now-exhibit">
-          <p class="title">正在展览</p>
-          <ul class="clearfix">
-            <side-item v-for="(item,index) in patchData.data"
-                       :key="index"
-                       :data="item"
-                       v-if="index<=1">
-            </side-item>
+        <div class="news-lists">
+          <div class="news-head clearfix">
+            <h2 class="news-title">{{typeId == 1 ? '热门新闻' : '热门公告'}}</h2>
+            <a href="/visit_serve/notice" class="more">更多</a>
+          </div>
+          <ul class="lists-con clearfix" v-if="hotList.data">
+            <li v-for="(item,index) in hotList.data">
+              <router-link :to="{path:'/visit_serve/detail',query:{id:item.id,typeId:typeId}}"
+                           class="n-title">
+                {{item.title}}
+              </router-link>
+              <span class="n-time">{{item.addtime}}</span>
+            </li>
           </ul>
+          <no-data v-if="!hotList.data"></no-data>
         </div>
       </div>
     </bg>
@@ -101,13 +107,14 @@
         clas: 1,
         noticeData: '',
         patchData: '',
-        typeId: 1
+        typeId: 1,
+        hotList:''
       }
     },
     created() {
       this.getBanner()
       this.getNoticeList()
-      this.getPatchData()
+      this.getHotList()
     },
     methods: {
       /**
@@ -126,6 +133,7 @@
       handleTypeClick(typeId) {
         this.typeId = typeId
         this.getNoticeList()
+        this.getHotList()
       },
 
       /**
@@ -144,19 +152,17 @@
       },
 
       /**
-       * 获取临时展览列表
+       * 右侧热门列表
        */
-      getPatchData() {
-        const url = 'api/showlists'
+      getHotList() {
+        const url = 'api/informlistsright'
         getAjax(url, {
-            page: 1,
-            type: 1
-          },
-          (res) => {
-            this.patchData = res.data
-          }, (err) => {
-            console.log(err)
-          }, this)
+          type: this.typeId
+        }, (res) => {
+          this.hotList = res.data
+        }, (err) => {
+          console.log(err)
+        }, this)
       }
     }
   }
@@ -185,18 +191,53 @@
           box-shadow: 0 3px 36px 0 #EDEDED;
         }
       }
-      .now-exhibit {
+      .news-lists {
         float: right;
         width: 370px;
         background: #fff;
-        -webkit-border-radius: 2px;
-        -moz-border-radius: 2px;
-        border-radius: 2px;
-        padding: 32px 38px;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
         box-shadow: 0 3px 36px 0 #EDEDED;
-        .title {
-          font-size: 18px;
-          color: #333;
+        padding: 30px 20px 15px 20px;
+        .news-head {
+          margin-bottom: 5px;
+          .news-title {
+            font-size: 18px;
+            color: #333;
+            float: left;
+          }
+          .more {
+            float: right;
+            font-size: 15px;
+            color: #333;
+          }
+        }
+        .lists-con {
+          li {
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px dashed #d8d8d8;
+            .n-title {
+              font-size: 15px;
+              color: #666;
+              width: 240px;
+              display: inline-block;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              float: left;
+            }
+            .n-time {
+              color: #cacaca;
+              float: right;
+            }
+            &:hover {
+              .n-title {
+                color: #4bc5f4;
+              }
+            }
+          }
         }
       }
     }

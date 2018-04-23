@@ -21,6 +21,10 @@
               <Icon type="ios-timer-outline" class="time"></Icon>
               {{theaterDetail.data.length}}
             </p>
+            <p class="m-time">
+              <Icon type="ios-calendar-outline" class="time"></Icon>
+              {{theaterDetail.data.time}}
+            </p>
             <p class="intr">
               {{theaterDetail.data.introduce}}
             </p>

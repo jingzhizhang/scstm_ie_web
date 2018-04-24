@@ -38,7 +38,7 @@
                       <div class="a-title clearfix">
                         <span class="info-title">{{item.title}}</span>
                         <img src="../assets/hot.png" v-if="item.hot===1" class="icon-status"/>
-                        <img src="../assets/new.png" v-if="item.new===2" class="icon-status"/>
+                        <img src="../assets/new.png" v-if="item.new===1" class="icon-status"/>
                       </div>
 
                       <span class="intr">{{item.introduce}}</span>
@@ -70,7 +70,7 @@
                       <div class="a-title clearfix">
                         <span class="info-title">{{item.title}}</span>
                         <img src="../assets/hot.png" v-if="item.hot===1" class="icon-status"/>
-                        <img src="../assets/new.png" v-if="item.new===2" class="icon-status"/>
+                        <img src="../assets/new.png" v-if="item.new===1" class="icon-status"/>
                       </div>
 
                       <span class="intr">{{item.introduce}}</span>
@@ -590,7 +590,7 @@
             display: inline-block;
             vertical-align: middle;
             text-align: center;
-            width: 422px;
+            width: 400px;
             position: absolute;
             .seamless-warp2 {
               overflow: hidden;
@@ -636,7 +636,7 @@
           }
           .notice {
             .n-title {
-              padding-top: 60px;
+              padding-top: 50px;
               .tab-btn {
                 float: left;
                 font-size: 24px;
@@ -693,7 +693,7 @@
                   text-overflow: ellipsis;
                   white-space: nowrap;
                   vertical-align: middle;
-                  font-weight: bold;
+                  font-weight: 600;
                 }
                 &:last-child {
                   border-bottom: none;
@@ -737,7 +737,7 @@
         .exhibit{
           border:1px solid #fff;
           padding: 12px 20px;
-          background: #68d5f6;
+          background: rgba(255, 255, 255, 0.3);
           color: #fff;
           font-size: 20px;
           border-radius: 4px;

@@ -41,7 +41,7 @@
           </Pagination>
         </div>
         <div class="ques">
-          <h2 class="tit">您的意见使我们进步的动力</h2>
+          <h2 class="tit">您的意见是我们进步的动力</h2>
           <div class="form-box" v-if="token">
             <Select size="large" v-model="id">
               <Option

@@ -348,7 +348,7 @@
           text-align: center;
           margin-top: 6px;
           position: relative;
-          z-index: 10;
+          z-index: 110;
         }
         h2 {
           float: left;

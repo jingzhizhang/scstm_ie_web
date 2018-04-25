@@ -1,9 +1,14 @@
 <template>
   <div class="header">
     <div class="layout header-con clearfix">
-      <p class="notice">
-
-      </p>
+      <vue-seam-less :data="topList" :class-option="optionLeft" class="notice">
+        <ul class="item clearfix">
+          <li v-for="(item,index) in topList">
+            <a v-if="item.url" target="_blank" :href="item.url">{{item.note}}</a>
+            <p v-if="!item.url">{{item.note}}</p>
+          </li>
+        </ul>
+      </vue-seam-less>
       <ul class="sign" v-if="!token">
         <li>
           <router-link to="/signIn">登录</router-link>
@@ -27,9 +32,21 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
+  import vueSeamLess from 'vue-seamless-scroll'
+
   export default {
+    props:{
+      topList:{
+        type:Array,
+        default:[]
+      }
+    },
+    components:{
+      vueSeamLess
+    },
     data() {
-      return {}
+      return {
+      }
     },
     computed: {
       user_phone() {
@@ -37,6 +54,12 @@
       },
       token(){
         return sessionStorage.getItem('token')
+      },
+      optionLeft() {
+        return {
+          direction: 2,
+          limitMoveNum: 2
+        }
       }
     },
     methods: {
@@ -59,6 +82,25 @@
         height: 40px;
         line-height: 40px;
         color: #666;
+        width: 800px;
+        overflow: hidden;
+        .item{
+          list-style: none;
+          padding: 0;
+          margin: 0 auto;
+          li{
+            float: left;
+            margin-right: 30px;
+            color: #666;
+            font-size: 12px;
+            a{
+              color: #666;
+              &:hover{
+                color: #2d8cf0;
+              }
+            }
+          }
+        }
       }
       .sign {
         float: right;

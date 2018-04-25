@@ -5,7 +5,7 @@
 
     <div class="containers" v-if="pathname!=='登录' && pathname!=='注册' && pathname!=='忘记密码'">
       <div class="head">
-        <Header @layout="handleLayout"/>
+        <Header @layout="handleLayout" :topList="topList ? topList : []"/>
         <ind-nav :logo="logo" :pathname="pathname"/>
       </div>
 
@@ -34,6 +34,7 @@
   import Loading from '@/base/loading'
   import {mapGetters} from 'vuex'
 
+
   export default {
     name: 'app',
     components: {
@@ -48,11 +49,13 @@
         logo: '',
         foot: '',
         pathname: '',
+        topList:[]
       }
     },
     created() {
       this.getLogoData()
       this.getFootInfoData()
+      this.getTopList()
     },
     computed: {
       ...mapGetters([
@@ -69,6 +72,19 @@
           (res) => {
             //console.log(res)
             this.logo = res.data.logo
+          }, (err) => {
+            console.log(err)
+          }, this)
+      },
+
+      /**
+       * 获取顶部滚动接口
+       */
+      getTopList(){
+        const url = 'api/toplist'
+        getAjax(url, {},
+          (res) => {
+            this.topList = res.data.top
           }, (err) => {
             console.log(err)
           }, this)

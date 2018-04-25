@@ -25,22 +25,21 @@
 </html>
 <script>
   window.onload = function () {
-
-    const current = /Android|webOS|iPhone|iPad|BlackBerry/i.test(navigator.userAgent)
-    if (current) {
-      window.location.href = 'http://m.scstm.com'
-    }
-
     var b_name = navigator.appName;
     var b_version = navigator.appVersion;
     var version = b_version.split(";");
     var trim_version = version[1].replace(/[ ]/g, "");
+
     if (b_name == "Microsoft Internet Explorer") {
       /*如果是IE6或者IE7*/
       if (trim_version == "MSIE9.0" || trim_version == "MSIE8.0" || trim_version == "MSIE7.0" || trim_version == "MSIE6.0") {
         //然后跳到需要连接的下载网站
         window.location.href = "http://www.scstm.com/ie.html";
       }
+    }
+
+    if (/Android|webOS|iPhone|iPad|BlackBerry/i.test(navigator.userAgent)) {
+      window.location.href = 'http://m.scstm.com'
     }
   }
 

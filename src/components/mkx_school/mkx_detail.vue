@@ -429,7 +429,6 @@
         box-shadow: 0 3px 36px 0 #EDEDED;
         padding: 30px 20px;
         color: #596781;
-        text-indent: 2em;
         background: #fff;
       }
     }

@@ -85,11 +85,13 @@
         width: 800px;
         overflow: hidden;
         .item{
+          width: 2000px;
           list-style: none;
           padding: 0;
           margin: 0 auto;
           li{
-            float: left;
+            display: inline-block;
+            vertical-align: middle;
             margin-right: 30px;
             color: #666;
             font-size: 12px;

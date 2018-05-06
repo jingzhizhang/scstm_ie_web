@@ -1,6 +1,6 @@
-export const serveUrl = 'http://www.kjg.com'
+//export const serveUrl = 'http://www.kjg.com'
 //export const serveUrl = 'http://scstm.api.pthola.cn'
-//export const serveUrl = 'http://218.6.173.219:8083'
+export const serveUrl = 'http://218.6.173.219:8083'
 
 export function getAjax(url, params, resolveBack, rejectErr, _this) {
   _this.$http.defaults.headers.common['Authorization'] = 'Bearer ' + sessionStorage.getItem('token'),

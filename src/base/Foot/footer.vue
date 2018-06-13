@@ -38,7 +38,7 @@
       </span>
     </div>
     <div class="copyright">
-      蜀ICP备：060202226号&nbsp;&nbsp;技术支持：成都匹体科技有限公司
+      蜀ICP备：060202226号&nbsp;&nbsp;技术支持：<a style="color: #fff" href="http://www.pthola.cn/" target="_blank">成都匹体科技有限公司</a>
     </div>
   </div>
 </template>

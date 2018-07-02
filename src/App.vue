@@ -84,7 +84,6 @@
         const url = 'api/toplist'
         getAjax(url, {},
           (res) => {
-          console.log(res)
             this.topList = res.data.top
           }, (err) => {
             console.log(err)

@@ -42,6 +42,7 @@
               <label class="lab">日期选择：</label>
               <div class="form-item">
                 <DatePicker type="date"
+                            :value="nowDate"
                             placeholder="请选择查询日期"
                             @on-change="handleDate"
                             style="width: 200px">
@@ -50,7 +51,7 @@
             </div>
             <div class="item-group" style="padding-bottom: 0">
               <label class="lab">选择场次：</label>
-              <ul class="numbers clearfix">
+              <ul class="numbers clearfix" v-if="numbers.length">
                 <li
                   :class="{active:current===index}"
                   :style="{cursor:item.is_stop==1?'pointer':'not-allowed'}"
@@ -60,6 +61,7 @@
                   {{item.sess}}（{{item.determine}}/{{item.qualified}}）
                 </li>
               </ul>
+              <p class="no-session" v-if="!numbers.length">暂无场次</p>
             </div>
             <div class="item-group">
               <div class="group">
@@ -74,6 +76,10 @@
                       <p>
                         <label class="lab">年龄：</label>
                         <input type="text" v-model="item.age" class="inp"/>
+                      </p>
+                      <p>
+                        <label class="lab">身份证号：</label>
+                        <input type="text" style="width: 200px" maxlength="18" v-model="item.card" class="inp"/>
                       </p>
                     </div>
                     <div class="icon-minus" @click="minusNumbers(index)">
@@ -162,18 +168,20 @@
           {
             name: '',
             age: '',
+            card:'',
             status: 1,
             index: 1
           }
         ],
         listNumber: 1,
-        token: false
+        token: false,
+        nowDate:moment().format('YYYY-MM-DD')
       }
     },
     created() {
       this.getBanner()
       this.getDetailData()
-      this.getNumbers()
+      this.handleDate(moment().format('YYYY-MM-DD'))
       this.getUserInfo()
       this._token()
     },
@@ -232,7 +240,8 @@
         const url = 'api/sess'
         getAjax(url, {
           activity_id: this.$route.query.id,
-          sesstime: this.date
+          sesstime: this.date,
+          type:1
         }, (res) => {
           this.numbers = res.data
         }, (err) => {
@@ -250,6 +259,7 @@
           {
             name: '',
             age: '',
+            card:'',
             status: 1,
             index: 1
           }
@@ -266,35 +276,59 @@
        */
       bookSumbit() {
         const details = []
-        /*if (!this.number[0].age && !this.number[0].name) {
-          this.$Message.error({
-            duration: 4,
-            content: '至少添加一人'
-          });
-          return
-        }*/
         for (let k in this.number) {
           if (this.number[k].status) {
-            details.push(
-              {
-                age: this.number[k].age,
-                name: this.number[k].name
-              }
-            )
+            if(!this.reser_id){
+              this.$Message.error({
+                duration: 4,
+                content: '请选择场次'
+              });
+              return
+            }else if(!this.number[k].name){
+              this.$Message.error({
+                duration: 4,
+                content: '姓名不能为空'
+              });
+              return
+            }else if(!this.number[k].age){
+              this.$Message.error({
+                duration: 4,
+                content: '年龄不能为空'
+              });
+              return
+            }else if(!this.number[k].card){
+              this.$Message.error({
+                duration: 4,
+                content: '身份证号不能为空'
+              });
+              return
+            }else {
+              details.push(
+                {
+                  age: this.number[k].age,
+                  name: this.number[k].name,
+                  card:this.number[k].card
+                }
+              )
+            }
           }
         }
 
+        this._bookSubmit(details)
+      },
+      _bookSubmit(details){
         const url = 'api/reser'
         getAjax(url, {
           reser_id: this.reser_id,
           details: details
         }, (res) => {
           if (res.status === 0) {
-            this.getNumbers()
+            this.handleDate(moment().format('YYYY-MM-DD'))
             this.number = [
               {
                 name: '',
                 age: '',
+                card:'',
                 status: 1,
                 index: 1
               }
@@ -458,6 +492,11 @@
             font-size: 16px;
             margin-bottom: 10px;
             display: block;
+          }
+          .no-session{
+            font-size: 20px;
+            color: #d2d2d2;
+            padding-bottom: 15px;
           }
           .numbers {
             li {

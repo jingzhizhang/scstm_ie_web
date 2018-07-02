@@ -31,6 +31,7 @@
             <!--<p class="btn-book">立即预定</p>-->
           </div>
         </div>
+        <OrderBox :details="theaterDetail ? theaterDetail : {}" typeVal="2"></OrderBox>
         <div class="movie-clips clearfix">
           <p class="title">片花 / 剧照</p>
           <clips-roll v-if="theaterDetail.data.cinema_img.length" :data="theaterDetail.data.cinema_img"></clips-roll>
@@ -46,6 +47,7 @@
   import ClipsRoll from '@/base/clips_roll.vue'
   import {getAjax} from '@/public/js/config'
   import Bg from '@/base/bg'
+  import OrderBox from '@/base/order-box'
 
   export default {
     mixins: [getBannerMixin],
@@ -53,7 +55,8 @@
       Icon,
       ClipsRoll,
       Banner,
-      Bg
+      Bg,
+      OrderBox
     },
     data() {
       return {

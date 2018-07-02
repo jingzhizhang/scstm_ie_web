@@ -1,5 +1,5 @@
 <template>
-  <div class="on-data">
+  <div class="on-data" :style="{cursor:title=='请先登录'?'pointer':'auto'}" @click="navigateTo">
     <img :src="icon"/>
     <p class="txt">{{title}}</p>
   </div>
@@ -15,6 +15,13 @@
     data() {
       return {
         icon: '../static/images/loading.png'
+      }
+    },
+    methods:{
+      navigateTo(){
+        if(this.title==='请先登录'){
+          this.$router.push('/signIn')
+        }
       }
     }
   }

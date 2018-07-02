@@ -33,6 +33,7 @@
             <!--<p class="btn-book">立即预定</p>-->
           </div>
         </div>
+        <order-box :details="courseDetail ? courseDetail : {}" typeVal="3"></order-box>
         <div class="movie-clips clearfix" v-if="courseDetail.data.content">
           <p class="title">活动内容</p>
           <div class="act-content" v-html="courseDetail.data.content">
@@ -49,13 +50,15 @@
   import {getBannerMixin} from '@/public/js/mixin'
   import {getAjax} from '@/public/js/config'
   import Bg from '@/base/bg'
+  import OrderBox from '@/base/order-box'
 
   export default {
     mixins: [getBannerMixin],
     components: {
       Icon,
       Banner,
-      Bg
+      Bg,
+      OrderBox
     },
     data() {
       return {

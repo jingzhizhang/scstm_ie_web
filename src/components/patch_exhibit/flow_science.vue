@@ -27,13 +27,14 @@
         </div>
         <div class="now-exhibit">
           <p class="title">正在展览</p>
-          <ul class="clearfix">
+          <ul v-if="patchData.data" class="clearfix">
             <side-item v-for="(item,index) in patchData.data"
                        :key="index"
                        :data="item"
                        v-if="index<=1">
             </side-item>
           </ul>
+          <no-data v-if="!patchData.data"></no-data>
         </div>
       </div>
     </bg>

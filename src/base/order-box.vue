@@ -59,7 +59,7 @@
           </p>
           <p class="add" @click="addNumbers()">
             <Icon type="ios-plus-empty"></Icon>
-            添加人数
+            添加人数（￥{{details.data.money}} / 人）
           </p>
         </div>
         <p class="book-btn" @click="bookSumbit()" style="display: inline-block; vertical-align: middle">

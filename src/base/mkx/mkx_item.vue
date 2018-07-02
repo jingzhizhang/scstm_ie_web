@@ -21,7 +21,7 @@
         {{data.introduce}}
       </p>
       <div class="keywords" v-if="data.courseclass">
-        <span v-for="(item,index) in data.courseclass" :key="index">
+        <span v-if="index <= 5" v-for="(item,index) in data.courseclass" :key="index">
           {{item}}
         </span>
       </div>
@@ -52,14 +52,14 @@
     margin-bottom: 25px;
     background: #fff;
     box-shadow: 0 3px 36px 0 #EDEDED;
-    .mkx-img{
+    .mkx-img {
       width: 450px;
       height: 320px;
       overflow: hidden;
       float: left;
       text-align: center;
       line-height: 320px;
-      img{
+      img {
         width: 100%;
       }
     }
@@ -74,12 +74,12 @@
         color: #333;
         margin-bottom: 15px;
         overflow: hidden;
-        text-overflow:ellipsis;
+        text-overflow: ellipsis;
         white-space: nowrap;
         a {
           color: #333;
           overflow: hidden;
-          text-overflow:ellipsis;
+          text-overflow: ellipsis;
           white-space: nowrap;
           max-width: 600px;
           display: inline-block;
@@ -87,7 +87,7 @@
           &:hover {
             color: #28bbff;
           }
-          .icon-status{
+          .icon-status {
             width: 22px;
             display: inline-block;
             vertical-align: middle;

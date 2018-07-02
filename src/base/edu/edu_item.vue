@@ -21,7 +21,7 @@
         {{data.introduce}}
       </p>
       <div class="keywords" v-if="data.courseclass">
-        <span v-for="(item,index) in data.courseclass" :key="index">
+        <span v-if="index <= 5" v-for="(item,index) in data.courseclass" :key="index">
           {{item}}
         </span>
       </div>
@@ -172,6 +172,7 @@
           -webkit-border-radius: 4px;
           -moz-border-radius: 4px;
           border-radius: 4px;
+          margin-bottom: 5px;
         }
       }
     }

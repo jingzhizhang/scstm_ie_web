@@ -16,7 +16,7 @@
       <div class="item">
         <p class="title">游客服务</p>
         <router-link to="/visit_serve/notice">新闻公告</router-link>
-        <a href="http://www.scstm.com/help/complan" target="_blank">反馈建议</a>
+        <router-link to="/questions/answers">反馈建议</router-link>
       </div>
       <div class="item" style="width: 250px">
         <p class="title" style="margin-bottom: 15px;">相关链接</p>

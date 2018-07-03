@@ -253,8 +253,7 @@
         }, (res) => {
           if (res.status === 0) {
             this.$Message.success('预约成功！');
-            this.nowDate = moment().format('YYYY-MM-DD')
-            this.handleDate(moment().format('YYYY-MM-DD'))
+            this.getNumbers()
             this.number = [
               {
                 name: '',

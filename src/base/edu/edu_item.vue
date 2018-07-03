@@ -21,7 +21,13 @@
         {{data.introduce}}
       </p>
       <div class="keywords" v-if="data.courseclass">
-        <span v-if="index <= 5" v-for="(item,index) in data.courseclass" :key="index">
+        <span class="spot" v-if="index <= 5" v-for="(item,index) in data.courseclass" :key="index">
+          {{item}}
+        </span>
+        <span class="omit" @mouseenter="clickToggle" @mouseleave="clickToggle" v-if="data.courseclass.length>6">...</span>
+      </div>
+      <div class="poptip" v-if="isShow">
+        <span class="spot" v-for="(item,index) in data.courseclass" :key="index">
           {{item}}
         </span>
       </div>
@@ -43,7 +49,14 @@
       Icon,
     },
     data() {
-      return {}
+      return {
+        isShow:false
+      }
+    },
+    methods:{
+      clickToggle(){
+        this.isShow = !this.isShow
+      }
     }
   }
 </script>
@@ -52,14 +65,14 @@
     margin-bottom: 25px;
     background: #fff;
     box-shadow: 0 3px 36px 0 #EDEDED;
-    .edu-img{
+    .edu-img {
       width: 450px;
       height: 320px;
       overflow: hidden;
       float: left;
       text-align: center;
       line-height: 320px;
-      img{
+      img {
         width: 100%;
       }
     }
@@ -69,6 +82,7 @@
       margin-left: 40px;
       width: 700px;
       text-align: justify;
+      position: relative;
       .m-title {
         font-size: 28px;
         color: #333;
@@ -76,7 +90,7 @@
         a {
           color: #333;
           overflow: hidden;
-          text-overflow:ellipsis;
+          text-overflow: ellipsis;
           white-space: nowrap;
           max-width: 600px;
           display: inline-block;
@@ -84,7 +98,7 @@
           &:hover {
             color: #28bbff;
           }
-          .icon-status{
+          .icon-status {
             width: 22px;
             display: inline-block;
             vertical-align: middle;
@@ -166,6 +180,14 @@
         display: inline-block;
         span {
           display: inline-block;
+          vertical-align: middle;
+        }
+        .omit{
+          font-size: 18px;
+          cursor: pointer;
+        }
+        .spot {
+          display: inline-block;
           margin-right: 10px;
           padding: 10px 20px;
           background: #f0f0f0;
@@ -173,6 +195,29 @@
           -moz-border-radius: 4px;
           border-radius: 4px;
           margin-bottom: 5px;
+        }
+      }
+      .poptip{
+        width: 100%;
+        background-color: #fff;
+        background-clip: padding-box;
+        border-radius: 4px;
+        box-shadow: 0 1px 6px rgba(0,0,0,.2);
+        white-space: nowrap;
+        position: absolute;
+        padding: 5px;
+        margin-top: 10px;
+        z-index: 12;
+        .spot {
+          float: left;
+          margin-right: 10px;
+          padding: 10px 20px;
+          background: #f0f0f0;
+          -webkit-border-radius: 4px;
+          -moz-border-radius: 4px;
+          border-radius: 4px;
+          margin-bottom: 5px;
+          color: #a3a3a3;
         }
       }
     }

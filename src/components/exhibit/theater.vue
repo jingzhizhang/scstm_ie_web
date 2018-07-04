@@ -113,7 +113,6 @@
             type: this.type
           },
           (res) => {
-            console.log(res)
             this.theaterData = res.data
           }, (err) => {
             console.log(err)

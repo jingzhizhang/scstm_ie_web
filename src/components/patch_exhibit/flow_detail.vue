@@ -42,6 +42,7 @@
                        v-if="index<=1">
             </side-item>
           </ul>
+          <no-data v-if="!patchData.data"></no-data>
         </div>
       </div>
     </bg>
@@ -53,13 +54,15 @@
   import {getAjax} from '@/public/js/config'
   import Bg from '@/base/bg'
   import SideItem from '@/base/patch/side_item'
+  import NoData from '@/base/no-data'
 
   export default {
     mixins: [getBannerMixin],
     components: {
       Banner,
       Bg,
-      SideItem
+      SideItem,
+      NoData
     },
     data() {
       return {

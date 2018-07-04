@@ -10,7 +10,7 @@
         <ul class="book-list clearfix">
           <li v-for="(item,index) in reserList" :key="index">
             <div class="act-img">
-              <img :src="item.img"/>
+              <img v-lazy="item.img"/>
               <div class="mask" v-if="type===1">
                 <div class="mask-con">
                   <p class="mask-txt">
@@ -29,6 +29,7 @@
                 <p class="number">人数{{item.count}}人</p>
               </div>
             </div>
+            <span class="type-name">{{item.type}}</span>
           </li>
         </ul>
         <no-login title="暂无预约数据" v-if="!reserList.length"></no-login>
@@ -221,6 +222,20 @@
               color: #333;
             }
           }
+        }
+        .type-name{
+          position: absolute;
+          width: 150px;
+          height: 40px;
+          border-top-right-radius: 6px;
+          border-bottom-right-radius: 6px;
+          text-align: center;
+          line-height: 40px;
+          left: 0;
+          top: 20px;
+          background-image: linear-gradient(-131deg, #0097E3 -16%, #3BD9D0 100%);
+          color: #fff;
+          font-size: 16px;
         }
       }
     }

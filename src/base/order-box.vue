@@ -37,15 +37,15 @@
                 <div class="form-box clearfix">
                   <p>
                     <label class="lab">姓名：</label>
-                    <input type="text" v-model="item.name" class="inp"/>
+                    <input type="text" v-model.trim="item.name" class="inp"/>
                   </p>
                   <p>
                     <label class="lab">年龄：</label>
-                    <input type="text" v-model="item.age" class="inp"/>
+                    <input type="number" min="1" max="200" v-model.trim="item.age" class="inp"/>
                   </p>
                   <p>
                     <label class="lab">身份证号：</label>
-                    <input type="text" style="width: 200px" maxlength="18" v-model="item.card" class="inp"/>
+                    <input type="text" style="width: 200px" v-model.trim="item.card" class="inp"/>
                   </p>
                 </div>
                 <div class="icon-minus" @click="minusNumbers(index)">
@@ -99,13 +99,13 @@
     props: {
       details: {
         type: Object,
-        default:{}
+        default: {}
       },
-      typeVal:{
-        default:1
+      typeVal: {
+        default: 1
       }
     },
-    components:{
+    components: {
       NoLogin
     },
     data() {
@@ -118,21 +118,21 @@
           {
             name: '',
             age: '',
-            card:'',
+            card: '',
             status: 1,
             index: 1
           }
         ],
         token: false,
-        nowDate:moment().format('YYYY-MM-DD')
+        nowDate: moment().format('YYYY-MM-DD')
       }
     },
-    created(){
+    created() {
       this.handleDate(moment().format('YYYY-MM-DD'))
       this.getUserInfo()
       this._token()
     },
-    methods:{
+    methods: {
       _token() {
         this.token = sessionStorage.getItem('token')
       },
@@ -171,7 +171,7 @@
         getAjax(url, {
           activity_id: this.$route.query.id,
           sesstime: this.date,
-          type:this.typeVal
+          type: this.typeVal
         }, (res) => {
           this.numbers = res.data
         }, (err) => {
@@ -184,11 +184,14 @@
        * 添加人数
        */
       addNumbers() {
+        if (!this.verifyOrderItem()) {
+          return
+        }
         this.number.push(
           {
             name: '',
             age: '',
-            card:'',
+            card: '',
             status: 1,
             index: 1
           }
@@ -205,47 +208,24 @@
        */
       bookSumbit() {
         const details = []
+        if (!this.verifyOrderItem()) {
+          return
+        }
         for (let k in this.number) {
           if (this.number[k].status) {
-            if(!this.reser_id){
-              this.$Message.error({
-                duration: 4,
-                content: '请选择场次'
-              });
-              return
-            }else if(!this.number[k].name){
-              this.$Message.error({
-                duration: 4,
-                content: '姓名不能为空'
-              });
-              return
-            }else if(!this.number[k].age){
-              this.$Message.error({
-                duration: 4,
-                content: '年龄不能为空'
-              });
-              return
-            }else if(!this.number[k].card){
-              this.$Message.error({
-                duration: 4,
-                content: '身份证号不能为空'
-              });
-              return
-            }else {
-              details.push(
-                {
-                  age: this.number[k].age,
-                  name: this.number[k].name,
-                  card:this.number[k].card
-                }
-              )
-            }
+            details.push(
+              {
+                age: this.number[k].age,
+                name: this.number[k].name,
+                card: this.number[k].card
+              }
+            )
           }
         }
 
         this._bookSubmit(details)
       },
-      _bookSubmit(details){
+      _bookSubmit(details) {
         const url = 'api/reser'
         getAjax(url, {
           reser_id: this.reser_id,
@@ -258,7 +238,7 @@
               {
                 name: '',
                 age: '',
-                card:'',
+                card: '',
                 status: 1,
                 index: 1
               }
@@ -268,12 +248,64 @@
           } else {
             this.$Message.error({
               duration: 4,
-              content: res.interpret
+              content: `第${res.data+1}条数据，${res.interpret}`
             });
           }
         }, (err) => {
           console.log(err)
         }, this)
+      },
+      //查找最后一个状态值为1
+      findLastNumber(){
+        let length = this.number.length
+        let item
+        for (let i = length - 1; i >= 0; i--) {
+          if(this.number[i].status){
+            item = this.number[i]
+            return item
+          }
+        }
+      },
+      //验证预约格式
+      verifyOrderItem() {
+        let item = this.findLastNumber()
+        if (!this.reser_id) {
+          this.$Message.error({
+            duration: 4,
+            content: '请选择场次'
+          });
+          return false
+        } else if (!item.name) {
+          this.$Message.error({
+            duration: 4,
+            content: '姓名不能为空'
+          });
+          return false
+        } else if (!item.age) {
+          this.$Message.error({
+            duration: 4,
+            content: '年龄不能为空'
+          });
+        } else if (item.age.length >= 4) {
+          this.$Message.error({
+            duration: 4,
+            content: '年龄不能超过200'
+          });
+          return false
+        } else if (!item.card) {
+          this.$Message.error({
+            duration: 4,
+            content: '身份证号不能为空'
+          });
+          return false
+        } else if (!/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/.test(item.card)) {
+          this.$Message.error({
+            duration: 4,
+            content: '身份证格式有误'
+          });
+          return false
+        }
+        return true
       }
     }
   }
@@ -307,7 +339,7 @@
           margin-bottom: 10px;
           display: block;
         }
-        .no-session{
+        .no-session {
           font-size: 20px;
           color: #d2d2d2;
           padding-bottom: 15px;

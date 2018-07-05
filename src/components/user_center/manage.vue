@@ -141,6 +141,9 @@
         if (this.password2.value === '') {
           this.password2.error = '请输入新密码'
           this.password2.isVerify = false
+        } else if (this.password2.value.length < 6) {
+          this.password2.error = '至少6位密码'
+          this.password2.isVerify = false
         } else {
           this.password2.error = ''
           this.password2.isVerify = true

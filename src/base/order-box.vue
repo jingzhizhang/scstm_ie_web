@@ -248,7 +248,7 @@
           } else {
             this.$Message.error({
               duration: 4,
-              content: `第${res.data+1}条数据，${res.interpret}`
+              content: `第${res.data + 1}条数据，${res.interpret}`
             });
           }
         }, (err) => {
@@ -256,11 +256,11 @@
         }, this)
       },
       //查找最后一个状态值为1
-      findLastNumber(){
+      findLastNumber() {
         let length = this.number.length
         let item
         for (let i = length - 1; i >= 0; i--) {
-          if(this.number[i].status){
+          if (this.number[i].status) {
             item = this.number[i]
             return item
           }
@@ -286,7 +286,7 @@
             duration: 4,
             content: '年龄不能为空'
           });
-        } else if (item.age.length >= 4) {
+        } else if (item.age > 200) {
           this.$Message.error({
             duration: 4,
             content: '年龄不能超过200'

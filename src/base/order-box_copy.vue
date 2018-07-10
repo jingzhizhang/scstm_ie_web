@@ -8,7 +8,6 @@
           <label class="lab">日期选择：</label>
           <div class="form-item">
             <DatePicker type="date"
-                        size="large"
                         :value="nowDate"
                         placeholder="请选择查询日期"
                         @on-change="handleDate"
@@ -33,35 +32,27 @@
         <div class="item-group">
           <div class="group">
             <label class="lab">添加人数：</label>
-            <Form ref="formValidate" :model="formValidate">
-              <FormItem
-                v-for="(item,index) in formValidate.items"
-                v-if="item.status"
-                :key="index">
-                <Row>
-                  <Col span="5">
-                    <FormItem :prop="'items.' + index + '.name'" label="姓名" :rules="ruleValidate.name">
-                      <Input size="large" v-model.trim="item.name" placeholder="请输入参观人姓名"></Input>
-                    </FormItem>
-                  </Col>
-                  <Col span="5">
-                    <FormItem :prop="'items.' + index + '.age'" label="年龄" :rules="ruleValidate.age">
-                      <Input size="large" v-model.trim="item.age" placeholder="请输入参观人年龄"></Input>
-                    </FormItem>
-                  </Col>
-                  <Col span="8">
-                    <FormItem :prop="'items.' + index + '.card'" label="身份证号" :rules="ruleValidate.card">
-                      <Input size="large" v-model.trim="item.card" placeholder="请输入参观人身份证号"></Input>
-                    </FormItem>
-                  </Col>
-                  <Col span="2">
-                    <div class="icon-minus" @click="minusNumbers(index)">
-                      <Icon v-if="index!==0" type="ios-minus"></Icon>
-                    </div>
-                  </Col>
-                </Row>
-              </FormItem>
-            </Form>
+            <ul class="peoples">
+              <li v-for="(item,index) in number" v-if="item.status">
+                <div class="form-box clearfix">
+                  <p>
+                    <label class="lab">姓名：</label>
+                    <input type="text" v-model.trim="item.name" class="inp"/>
+                  </p>
+                  <p>
+                    <label class="lab">年龄：</label>
+                    <input type="number" min="1" max="200" v-model.trim="item.age" class="inp"/>
+                  </p>
+                  <p>
+                    <label class="lab">身份证号：</label>
+                    <input type="text" style="width: 200px" v-model.trim="item.card" class="inp"/>
+                  </p>
+                </div>
+                <div class="icon-minus" @click="minusNumbers(index)">
+                  <Icon v-if="index!==0" type="ios-minus"></Icon>
+                </div>
+              </li>
+            </ul>
           </div>
           <p class="notice">
             <span>*</span> 请准确填写预约人年龄信息，并确认与该活动要求年龄是否符合
@@ -71,7 +62,7 @@
             添加人数（￥{{details.data.money}} / 人）
           </p>
         </div>
-        <p class="book-btn" @click="handleSubmit('formValidate')" style="display: inline-block; vertical-align: middle">
+        <p class="book-btn" @click="bookSumbit()" style="display: inline-block; vertical-align: middle">
           立即预约
         </p>
         <p class="notice" style="display: inline-block; vertical-align: middle;margin-left: 20px">
@@ -95,8 +86,6 @@
         <no-login title="暂未开启在线预约"></no-login>
       </div>
     </div>
-
-    <dialog-con></dialog-con>
   </div>
 </template>
 
@@ -104,7 +93,6 @@
   import moment from 'moment'
   import NoLogin from '@/base/no-login'
   import {getAjax} from '@/public/js/config'
-  import DialogCon from '@/base/dialog_con'
 
   export default {
     name: "order-box",
@@ -118,23 +106,10 @@
       }
     },
     components: {
-      NoLogin,
-      DialogCon
+      NoLogin
     },
     data() {
-      const validateAge = (rule, value, callback) => {
-        if (!value) {
-          return callback(new Error('请输入参观人年龄'))
-        } else if (!/^[0-9]*$/.test(value)) {
-          return callback(new Error('请输入1~200内的数字'))
-        } else if (value > 200 || value <= 0) {
-          return callback(new Error('请输入1~200内的数字'))
-        } else {
-          callback()
-        }
-      }
       return {
-        inputIndex: 1,
         date: '',
         numbers: '',   //场次
         current: -1,
@@ -149,35 +124,7 @@
           }
         ],
         token: false,
-        nowDate: moment().format('YYYY-MM-DD'),
-
-        formValidate: {
-          items: [
-            {
-              name: '',
-              age: '',
-              card: '',
-              index: 1,
-              status: 1
-            }
-          ]
-        },
-        ruleValidate: {
-          name: [
-            {required: true, message: '请输入参观人姓名', trigger: 'blur'}
-          ],
-          age: [
-            {required: true, validator: validateAge, trigger: 'blur'},
-          ],
-          card: [
-            {required: true, message: '请输入参观人身份证号', trigger: 'blur'},
-            {
-              required: true,
-              pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,
-              message: '请输入有效身份证号'
-            }
-          ]
-        }
+        nowDate: moment().format('YYYY-MM-DD')
       }
     },
     created() {
@@ -237,28 +184,24 @@
        * 添加人数
        */
       addNumbers() {
-        this.inputIndex++;
-        this.formValidate.items.push({
-          name: '',
-          age: '',
-          card: '',
-          status: 1,
-          index: this.inputIndex
-        })
+        if (!this.verifyOrderItem()) {
+          return
+        }
+        this.number.push(
+          {
+            name: '',
+            age: '',
+            card: '',
+            status: 1,
+            index: 1
+          }
+        )
       },
       /**
        * 删除
        */
       minusNumbers(index) {
-        this.formValidate.items[index].status = 0
-      },
-      handleSubmit(name) {
-        this.$refs[name].validate((valid) => {
-          if (valid) {
-            this.$layer.alert('ssss')
-            //this.bookSumbit()
-          }
-        })
+        this.number[index].status = 0
       },
       /**
        * 立即预约
@@ -269,12 +212,12 @@
           return
         }
         for (let k in this.number) {
-          if (this.formValidate.items[k].status) {
+          if (this.number[k].status) {
             details.push(
               {
-                age: this.formValidate.items[k].age,
-                name: this.formValidate.items[k].name,
-                card: this.formValidate.items[k].card
+                age: this.number[k].age,
+                name: this.number[k].name,
+                card: this.number[k].card
               }
             )
           }
@@ -291,17 +234,15 @@
           if (res.status === 0) {
             this.$Message.success('预约成功！');
             this.getNumbers()
-            this.formValidate = {
-              items: [
-                {
-                  name: '',
-                  age: '',
-                  card: '',
-                  index: 1,
-                  status: 1
-                }
-              ]
-            }
+            this.number = [
+              {
+                name: '',
+                age: '',
+                card: '',
+                status: 1,
+                index: 1
+              }
+            ]
             this.reser_id = ''
             this.current = -1
           } else {
@@ -318,6 +259,7 @@
               });
               return
             } else if (res.status === 3) {
+              console.log(1)
               this.$Message.error({
                 content: res.interpret,
               });
@@ -361,18 +303,6 @@
       -moz-border-radius: 2px;
       border-radius: 2px;
       padding: 30px;
-      .ivu-input-wrapper {
-        width: 70%;
-      }
-      .ivu-form-item-error-tip {
-        margin-left: 19%;
-      }
-      .icon-minus {
-        cursor: pointer;
-        font-size: 30px;
-        display: inline-block;
-        vertical-align: middle;
-      }
       .item-group {
         margin-bottom: 25px;
         padding-bottom: 15px;

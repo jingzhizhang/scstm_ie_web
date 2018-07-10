@@ -1,5 +1,5 @@
 <template>
-  <div class="popup">
+  <div class="popup" v-if="isShow">
     <div class="mask"></div>
     <div class="popup-center">
       <div class="popup-content">
@@ -16,7 +16,7 @@
             </div>
           </div>
           <div class="popup-btns">
-            <p class="sure" @click="confirm">{{okText}}}</p>
+            <p class="sure" @click="confirm">{{okText}}</p>
             <p class="cancel" @click="cancel">{{cancelText}}</p>
           </div>
         </div>
@@ -50,12 +50,23 @@
         default: '我的内容'
       }
     },
+    data() {
+      return {
+        isShow: false
+      }
+    },
     methods: {
       confirm() {
         this.$emit('confirm')
       },
       cancel() {
         this.$emit('cancel')
+      },
+      show() {
+        this.isShow = true
+      },
+      hide() {
+        this.isShow = false
       }
     }
   }

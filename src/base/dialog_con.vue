@@ -5,7 +5,7 @@
       <div class="popup-center">
         <div class="popup-content">
           <div class="popup-main">
-            <p class="popup-icon">
+            <p class="popup-icon" :style="{color:options.iconColor ? options.iconColor : '#4a4c5b'}">
               <Icon :type="options.icon || 'ios-minus'"></Icon>
             </p>
             <h2 class="popup-title">
@@ -39,7 +39,7 @@
     data() {
       return {
         isShow: false,
-        popups:this.options
+        popups: this.options
       }
     },
     methods: {

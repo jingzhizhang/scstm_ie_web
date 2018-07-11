@@ -293,6 +293,14 @@
           details: details
         }, (res) => {
           if (res.status === 0) {
+            this.showDialog({
+              type: '',
+              title: '温馨提示',
+              icon:'ios-checkmark',
+              iconColor:'#19be6b',
+              content: '恭喜您，预约成功！',
+              showClose: false
+            })
             this.getNumbers()
             this.formValidate = {
               items: [
@@ -353,6 +361,7 @@
           okText: options.okText || '确认',
           cancelText: options.cancelText || '取消',
           icon: options.icon || 'information-circled',
+          iconColor:options.iconColor,
           title: options.title,
           content: options.content,
           showClose: options.showClose,

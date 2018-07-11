@@ -96,7 +96,11 @@
       </div>
     </div>
 
-    <dialog-con></dialog-con>
+    <dialog-con
+      :options="options"
+      ref="dialog"
+      @confirm="confirm">
+    </dialog-con>
   </div>
 </template>
 
@@ -134,23 +138,14 @@
         }
       }
       return {
+        type: '',
         inputIndex: 1,
         date: '',
         numbers: '',   //场次
         current: -1,
         reser_id: '',  //场次id
-        number: [
-          {
-            name: '',
-            age: '',
-            card: '',
-            status: 1,
-            index: 1
-          }
-        ],
         token: false,
         nowDate: moment().format('YYYY-MM-DD'),
-
         formValidate: {
           items: [
             {
@@ -177,6 +172,14 @@
               message: '请输入有效身份证号'
             }
           ]
+        },
+        options: {
+          okText: '确认',
+          cancelText: '取消',
+          icon: 'information-circled',
+          title: '',
+          content: '',
+          showClose: true,
         }
       }
     },
@@ -252,34 +255,31 @@
       minusNumbers(index) {
         this.formValidate.items[index].status = 0
       },
-      handleSubmit(name) {
-        this.$refs[name].validate((valid) => {
-          if (valid) {
-            this.$layer.alert('ssss')
-            //this.bookSumbit()
-          }
-        })
-      },
       /**
        * 立即预约
        */
+      handleSubmit(name) {
+        if (!this.verifyOrderItem()) return
+        this.$refs[name].validate((valid) => {
+          if (valid) {
+            this.bookSumbit()
+          }
+        })
+      },
       bookSumbit() {
-        const details = []
-        if (!this.verifyOrderItem()) {
-          return
-        }
-        for (let k in this.number) {
-          if (this.formValidate.items[k].status) {
+        let details = []
+        let items = this.formValidate.items
+        for (let k in items) {
+          if (items[k].status) {
             details.push(
               {
-                age: this.formValidate.items[k].age,
-                name: this.formValidate.items[k].name,
-                card: this.formValidate.items[k].card
+                age: items[k].age,
+                name: items[k].name,
+                card: items[k].card
               }
             )
           }
         }
-
         this._bookSubmit(details)
       },
       _bookSubmit(details) {
@@ -305,22 +305,22 @@
             this.reser_id = ''
             this.current = -1
           } else {
-            if (typeof (res.data) === 'number') {
-              this.$Message.error({
-                duration: 4,
-                content: `第${res.data + 1}条数据，${res.interpret}`
-              });
-              return
-            } else if (!res.data.length) {
-              this.$Message.error({
-                duration: 4,
-                content: res.interpret
-              });
-              return
+            if (res.status === 2) {
+              if (res.data[0]) {
+                this.showDialog({
+                  type: '',
+                  title: '温馨提示',
+                  content: `第${res.data + 1}条数据，${res.interpret}`,
+                  showClose: false
+                })
+                return
+              } else {
+                this.type = ''
+                this.showDialog({type: '', title: '温馨提示', content: res.interpret, showClose: false})
+                return
+              }
             } else if (res.status === 3) {
-              this.$Message.error({
-                content: res.interpret,
-              });
+              this.showDialog({type: 'href', title: '温馨提示', content: res.interpret, showClose: true})
             }
           }
         }, (err) => {
@@ -330,13 +330,31 @@
       //验证预约格式
       verifyOrderItem() {
         if (!this.reser_id) {
-          this.$Message.error({
-            duration: 4,
-            content: '请选择场次'
-          });
+          this.showDialog({type: '', title: '温馨提示', content: '请选择场次后进行预约', showClose: false})
           return false
         }
         return true
+      },
+      confirm() {
+        if (this.type === 'href') {
+          this.$router.push({
+            path: '/user_center/setting',
+            query: {backUrl: this.$route.fullPath}
+          })
+        }
+        this.$refs.dialog.hide()
+      },
+      showDialog(options) {
+        this.type = options.type
+        this.options = {
+          okText: options.okText || '确认',
+          cancelText: options.cancelText || '取消',
+          icon: options.icon || 'information-circled',
+          title: options.title,
+          content: options.content,
+          showClose: options.showClose,
+        }
+        this.$refs.dialog.show()
       }
     }
   }

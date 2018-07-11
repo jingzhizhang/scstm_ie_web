@@ -1,58 +1,45 @@
 <template>
-  <div class="popup" v-if="isShow">
-    <div class="mask"></div>
-    <div class="popup-center">
-      <div class="popup-content">
-        <div class="popup-main">
-          <p class="popup-icon">
-            <Icon :type="icon"></Icon>
-          </p>
-          <h2 class="popup-title">
-            <p class="popup-title-def">{{title}}</p>
-          </h2>
-          <div class="popup-txt">
-            <div class="popup-txt-def">
-              <p>{{content}}</p>
+  <transition name="model-scale">
+    <div class="popup" v-if="isShow">
+      <div class="mask" @click="(options.maskClosable === undefined ? true : options.maskClosable) ? hide() : ''"></div>
+      <div class="popup-center">
+        <div class="popup-content">
+          <div class="popup-main">
+            <p class="popup-icon">
+              <Icon :type="options.icon || 'ios-minus'"></Icon>
+            </p>
+            <h2 class="popup-title">
+              <p class="popup-title-def">{{options.title || ''}}</p>
+            </h2>
+            <div class="popup-txt">
+              <div class="popup-txt-def">
+                <p>{{options.content || ''}}</p>
+              </div>
             </div>
-          </div>
-          <div class="popup-btns">
-            <p class="sure" @click="confirm">{{okText}}</p>
-            <p class="cancel" @click="cancel">{{cancelText}}</p>
+            <div class="popup-btns">
+              <p class="sure" @click="confirm">{{options.okText || '确认'}}</p>
+              <p class="cancel" v-if="options.showClose" @click="cancel">{{options.cancelText || '取消'}}</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
   export default {
     name: "dialog_con",
     props: {
-      okText: {
-        type: String,
-        default: '确认'
+      options: {
+        type: Object,
+        default: {}
       },
-      cancelText: {
-        type: String,
-        default: '取消'
-      },
-      icon: {
-        type: String,
-        default: 'ios-minus'
-      },
-      title: {
-        type: String,
-        default: '我的标题'
-      },
-      content: {
-        type: String,
-        default: '我的内容'
-      }
     },
     data() {
       return {
-        isShow: false
+        isShow: false,
+        popups:this.options
       }
     },
     methods: {
@@ -61,6 +48,7 @@
       },
       cancel() {
         this.$emit('cancel')
+        this.hide()
       },
       show() {
         this.isShow = true
@@ -73,6 +61,15 @@
 </script>
 
 <style lang="less">
+  .model-scale-enter-active, .model-scale-leave-active {
+    transition: all .4s;
+  }
+
+  .model-scale-enter, .model-scale-leave-to {
+    transform: scale(2);
+    opacity: 0;
+  }
+
   .popup {
     position: fixed;
     left: 0;
@@ -96,6 +93,7 @@
       position: absolute;
       width: 100%;
       height: 100%;
+
       .popup-content {
         transform: translate(-50%, -50%);
         top: -50%;
@@ -125,7 +123,7 @@
           font-size: 16px;
           line-height: 1;
           .popup-title-def {
-            margin: 30px 16px 0;
+            margin: 24px 16px 0;
             white-space: nowrap;
           }
         }
@@ -148,9 +146,11 @@
           width: 100%;
           font-size: 0;
           border-top: 1px solid #ebebeb;
+          display: flex;
+          display: -webkit-flex;
+          flex-flow: row nowrap;
           p {
-            width: 50%;
-            float: left;
+            width: 100%;
             display: inline-block;
             padding: 17px 10px;
             margin: 0;

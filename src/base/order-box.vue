@@ -12,7 +12,7 @@
                         :value="nowDate"
                         placeholder="请选择查询日期"
                         @on-change="handleDate"
-                        style="width: 200px">
+                        style="width: 238px">
             </DatePicker>
           </div>
         </div>
@@ -32,7 +32,7 @@
         </div>
         <div class="item-group">
           <div class="group">
-            <label class="lab">添加人数：</label>
+            <label class="lab">活动参与人（最多三位）：</label>
             <Form ref="formValidate" :model="formValidate">
               <FormItem
                 v-for="(item,index) in formValidate.items"
@@ -68,7 +68,7 @@
           </p>
           <p class="add" @click="addNumbers()">
             <Icon type="ios-plus-empty"></Icon>
-            添加人数（￥{{details.data.money}} / 人）
+            活动参与人（￥{{details.data.money}} / 人）
           </p>
         </div>
         <p class="book-btn" @click="handleSubmit('formValidate')" style="display: inline-block; vertical-align: middle">
@@ -167,8 +167,7 @@
           card: [
             {required: true, message: '请输入参观人身份证号', trigger: 'blur'},
             {
-              required: true,
-              pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,
+              pattern: /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/,
               message: '请输入有效身份证号'
             }
           ]
@@ -241,13 +240,18 @@
        */
       addNumbers() {
         this.inputIndex++;
-        this.formValidate.items.push({
-          name: '',
-          age: '',
-          card: '',
-          status: 1,
-          index: this.inputIndex
-        })
+        let arr = this.formValidate.items.filter(item => item.status)
+        if(arr.length < 3 ){
+          this.formValidate.items.push({
+            name: '',
+            age: '',
+            card: '',
+            status: 1,
+            index: this.inputIndex
+          })
+        }else {
+          this.showDialog({type: '', title: '温馨提示', content: '最多只能添加三位活动参与人', showClose: false})
+        }
       },
       /**
        * 删除
@@ -289,7 +293,6 @@
           details: details
         }, (res) => {
           if (res.status === 0) {
-            this.$Message.success('预约成功！');
             this.getNumbers()
             this.formValidate = {
               items: [
@@ -339,7 +342,7 @@
         if (this.type === 'href') {
           this.$router.push({
             path: '/user_center/setting',
-            query: {backUrl: this.$route.fullPath}
+            query: {callback: this.$route.fullPath}
           })
         }
         this.$refs.dialog.hide()

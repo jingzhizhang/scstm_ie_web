@@ -17,10 +17,13 @@
         icon: '../static/images/loading.png'
       }
     },
-    methods:{
-      navigateTo(){
-        if(this.title==='请先登录'){
-          this.$router.push('/signIn')
+    methods: {
+      navigateTo() {
+        if (this.title === '请先登录') {
+          this.$router.push({
+            path: '/signIn',
+            query: {callback: this.$route.fullPath}
+          })
         }
       }
     }

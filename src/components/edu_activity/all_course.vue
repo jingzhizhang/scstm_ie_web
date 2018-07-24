@@ -15,9 +15,9 @@
         </div>
         <div class="lists">
           <edu-item v-if="courseList.data"
-                      v-for="(item,index) in courseList.data"
-                      :key="index"
-                      :data="item">
+                    v-for="(item,index) in courseList.data"
+                    :key="index"
+                    :data="item">
           </edu-item>
         </div>
         <Pagination v-if="courseList.total"
@@ -74,6 +74,7 @@
         actId: [],    //活动类型id
         floorId: [],  //楼层筛选id
         statusId: '',  //活动状态id
+        state: '',
         total: 100,
         page: 1,
         courseList: '',
@@ -127,7 +128,8 @@
             page: this.page,
             clas_p: this.crowdId,
             clas_h: this.actId,
-            floor: this.floorId
+            floor: this.floorId,
+            state: this.state, //是否需要预约
           },
           res => {
             this.courseList = res.data
@@ -179,9 +181,14 @@
       handleStatus(id) {
         this.statusId = id
         this.page = 1
-        if (id[0] === 2) { //需预约清空数据（暂无预约功能）
-          this.courseList = ''
-        } else {
+        if (id[0] === 2) { //需预约
+          this.state = 1
+          this.getCourseList()
+        } else if(id[0] === 1){
+          this.state = 2
+          this.getCourseList()
+        }else {
+          this.state = ''
           this.getCourseList()
         }
       },
